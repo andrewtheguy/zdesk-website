@@ -1,10 +1,9 @@
 // Flattens prerendered `<route>/index.html` files into sibling `<route>.html`
-// files so Cloudflare Pages serves clean URLs WITHOUT a trailing slash.
+// files so GitHub Pages serves clean URLs WITHOUT a trailing slash.
 //
-// Cloudflare Pages derives trailing-slash canonicalization from the asset
-// layout: `about/index.html` makes `/about` redirect to `/about/`, while
-// `about.html` makes `/about/` redirect to `/about`. We prerender the latter
-// shape here to match the canonical/og:url/sitemap URLs (no trailing slash).
+// GitHub Pages serves `about.html` at `/about`, while `about/index.html` makes
+// `/about` redirect to `/about/`. We prerender the former shape here to match
+// the canonical/og:url/sitemap URLs (no trailing slash).
 //
 // Run as part of `npm run build` (after `react-router build`).
 

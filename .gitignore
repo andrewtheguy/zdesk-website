@@ -25,5 +25,3 @@ build
 *.sln
 *.sw?
 
-# wrangler pages dev
-.wrangler

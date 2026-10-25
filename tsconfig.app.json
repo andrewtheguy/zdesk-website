@@ -29,5 +29,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "functions", ".react-router/types/**/*"]
+  "include": ["src", ".react-router/types/**/*"]
 }
