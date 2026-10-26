@@ -63,23 +63,26 @@ start zdesk-windows-x86_64.msi`,
 
 export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 816, height: 686 };
 
-// A demo with sound has a caption file per locale beside its video, `<video>.<locale>.vtt`,
-// describing the sound.
+// Each demo's poster is a frame of it beside the video, `<video>.jpg`. A demo with sound has a
+// caption file per locale beside its video, `<video>.<locale>.vtt`, describing the sound.
+// `width` and `height` are the recording's, and `seconds` its length.
 export interface Demo {
   id: string;
   video: string;
-  portrait?: boolean;
+  width: number;
+  height: number;
+  seconds: number;
   captions?: boolean;
 }
 
 export const demos: Demo[] = [
-  { id: "windows-to-mac-one-display", video: "windows-to-mac-one-display.mp4", captions: true },
-  { id: "windows-to-mac-two-displays", video: "windows-to-mac-two-displays.mp4" },
-  { id: "ios-to-windows", video: "ios-to-windows.mp4", portrait: true },
-  { id: "ios-to-mac", video: "ios-to-mac.mp4", portrait: true },
-  { id: "ipad-to-windows", video: "ipad-to-windows.mp4" },
-  { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4", captions: true },
-  { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", captions: true },
+  { id: "windows-to-mac-one-display", video: "windows-to-mac-one-display.mp4", width: 1920, height: 1080, seconds: 98, captions: true },
+  { id: "windows-to-mac-two-displays", video: "windows-to-mac-two-displays.mp4", width: 3840, height: 1080, seconds: 103 },
+  { id: "ios-to-windows", video: "ios-to-windows.mp4", width: 1180, height: 2556, seconds: 117 },
+  { id: "ios-to-mac", video: "ios-to-mac.mp4", width: 1180, height: 2556, seconds: 151 },
+  { id: "ipad-to-windows", video: "ipad-to-windows.mp4", width: 2266, height: 1488, seconds: 93 },
+  { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 99, captions: true },
+  { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 85, captions: true },
 ];
 
 export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | "code";
@@ -111,6 +114,8 @@ export interface Content {
   demoTitle: string;
   demoDescription: string;
   demoIntro: string;
+  // Marks a demo recorded with the remote's sound.
+  demoSound: string;
   demos: Record<string, { title: string; caption?: string }>;
 }
 
@@ -235,6 +240,7 @@ export const content: Record<Locale, Content> = {
       "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows and to a Mac, an iPad to Windows at Retina/HiDPI density, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
     demoIntro:
       "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
+    demoSound: "With sound",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → Mac with one remote virtual display" },
       "windows-to-mac-two-displays": {
@@ -371,6 +377,7 @@ export const content: Record<Locale, Content> = {
     demoDescription:
       "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows 和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
     demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
+    demoSound: "有声音",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 带一个远程虚拟显示器的 Mac" },
       "windows-to-mac-two-displays": {
@@ -502,6 +509,7 @@ export const content: Record<Locale, Content> = {
     demoDescription:
       "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows 和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
     demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
+    demoSound: "有聲音",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 有一個遠端虛擬顯示器的 Mac" },
       "windows-to-mac-two-displays": {
