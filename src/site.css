@@ -163,3 +163,18 @@ footer p { margin: 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
   .pages { order: 3; width: 100%; }
   .pages a { padding: .45rem 0; }
 }
+
+/* Quick start: one install per platform, as tabs */
+.install { margin: 0 0 1.5rem; }
+.install-tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--line); margin-bottom: .75rem; }
+.install-tabs button {
+  font: inherit; color: var(--muted); background: none; cursor: pointer;
+  padding: .5rem 1rem; min-height: 2.75rem; margin-bottom: -1px;
+  border: 1px solid transparent; border-bottom: 2px solid transparent; border-radius: 6px 6px 0 0;
+}
+.install-tabs button:hover { color: var(--fg); }
+.install-tabs button[aria-selected="true"] { color: var(--fg); font-weight: 600; border-bottom-color: var(--accent); }
+.install-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.install pre { margin-bottom: .6rem; }
+.install-note { color: var(--muted); font-size: .9rem; margin: 0; }
+.install-note code { font-size: .85em; }

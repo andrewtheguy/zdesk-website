@@ -1,5 +1,6 @@
+import InstallTabs from "./InstallTabs";
 import Shell from "./Shell";
-import { HERO_VIDEO, INSTALL_COMMAND, RELEASE, content, pagePath, type FeatureIcon, type Locale } from "./content";
+import { HERO_VIDEO, RELEASE, content, pagePath, type FeatureIcon, type Locale } from "./content";
 
 // Strokes on a 24-unit grid, drawn in the accent colour.
 const ICONS: Record<FeatureIcon, React.ReactNode> = {
@@ -92,9 +93,7 @@ export default function Home({ locale }: { locale: Locale }) {
 
         <h2 className="section" id="quick-start">{c.quickStartHeading}</h2>
         <p>{c.quickStart}</p>
-        <pre>
-          <code>{INSTALL_COMMAND}</code>
-        </pre>
+        <InstallTabs notes={c.installNotes} />
         <p>{c.docs}</p>
       </main>
     </Shell>

@@ -26,8 +26,30 @@ const REPO = "https://github.com/andrewtheguy/zdesk";
 export const RELEASE = `${REPO}/releases/latest`;
 const LICENSE = `${REPO}/blob/main/LICENSE`;
 
-export const INSTALL_COMMAND = `curl -fsSLO ${RELEASE}/download/zdesk-linux-amd64.deb
-sudo apt install ./zdesk-linux-amd64.deb`;
+export type Platform = "linux" | "macos" | "windows";
+
+// The quick start's install, one per platform: docs/install.md in the zdesk repo gives
+// the same downloads, installed from the command line.
+export const installs: { id: Platform; label: string; command: string }[] = [
+  {
+    id: "linux",
+    label: "Linux",
+    command: `curl -fsSLO ${RELEASE}/download/zdesk-linux-amd64.deb
+sudo apt install ./zdesk-linux-amd64.deb`,
+  },
+  {
+    id: "macos",
+    label: "macOS",
+    command: `curl -fsSLO ${RELEASE}/download/zdesk-macos-arm64.pkg
+open zdesk-macos-arm64.pkg`,
+  },
+  {
+    id: "windows",
+    label: "Windows",
+    command: `Invoke-WebRequest ${RELEASE}/download/zdesk-windows-x86_64.msi -OutFile zdesk-windows-x86_64.msi
+start zdesk-windows-x86_64.msi`,
+  },
+];
 
 export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 816, height: 686 };
 
@@ -66,6 +88,7 @@ export interface Content {
   diagram: string;
   quickStartHeading: string;
   quickStart: ReactNode;
+  installNotes: Record<Platform, ReactNode>;
   docs: ReactNode;
   footer: ReactNode;
   demoTitle: string;
@@ -152,8 +175,19 @@ export const content: Record<Locale, Content> = {
     diagram: "browser ── HTTPS or localhost ── zDesk ── RDP / VNC ── your desktops",
     quickStartHeading: "Quick start",
     quickStart: (
-      <>Install the package for your platform from the <a href={RELEASE}>latest release</a>. On Debian 13 or Ubuntu 24.04 and later:</>
+      <>Install the package for your platform from the <a href={RELEASE}>latest release</a>:</>
     ),
+    installNotes: {
+      linux: (
+        <>On Debian 13 or Ubuntu 24.04 and later. On an arm64 host, use <code>zdesk-linux-arm64.deb</code>; the release also has an <code>.rpm</code> for <code>dnf</code>.</>
+      ),
+      macos: (
+        <>On a Mac with Apple silicon; <code>open</code> starts Installer with the package. The package is unsigned, so fetch it with <code>curl</code> as shown rather than in a browser, which quarantines the download.</>
+      ),
+      windows: (
+        <>On Windows x86-64, from PowerShell; <code>start</code> opens the install wizard, which asks for administrator rights. The package is unsigned, so SmartScreen asks before it runs.</>
+      ),
+    },
     docs: (
       <><a href={en.install}>Installing zDesk</a> covers every platform, and <a href={en.guide}>Using zDesk</a> the browser client and setting up Windows, Mac, wlshare and VNC targets.</>
     ),
@@ -254,8 +288,19 @@ export const content: Record<Locale, Content> = {
     diagram: "浏览器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
     quickStartHeading: "快速开始",
     quickStart: (
-      <>从<a href={RELEASE}>最新发布</a>安装适合你平台的软件包。在 Debian 13 或 Ubuntu 24.04 及更高版本上：</>
+      <>从<a href={RELEASE}>最新发布</a>安装适合你平台的软件包：</>
     ),
+    installNotes: {
+      linux: (
+        <>适用于 Debian 13 或 Ubuntu 24.04 及更高版本。在 arm64 主机上请使用 <code>zdesk-linux-arm64.deb</code>；发布中也提供供 <code>dnf</code> 使用的 <code>.rpm</code>。</>
+      ),
+      macos: (
+        <>适用于 Apple 芯片的 Mac；<code>open</code> 会用“安装器”打开该软件包。该软件包未签名，因此请如上用 <code>curl</code> 下载，而不要用浏览器下载，浏览器下载的文件会被隔离。</>
+      ),
+      windows: (
+        <>适用于 Windows x86-64，在 PowerShell 中执行；<code>start</code> 会打开安装向导，向导会请求管理员权限。该软件包未签名，因此 SmartScreen 会在运行前询问。</>
+      ),
+    },
     docs: (
       <><a href={zhCN.install}>安装 zDesk</a> 涵盖所有平台；<a href={zhCN.guide}>使用 zDesk</a> 介绍浏览器客户端，以及如何设置 Windows、Mac、wlshare 和 VNC 目标。</>
     ),
@@ -351,8 +396,19 @@ export const content: Record<Locale, Content> = {
     diagram: "瀏覽器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
     quickStartHeading: "快速入門",
     quickStart: (
-      <>從<a href={RELEASE}>最新發行版</a>安裝適合你平台的套件。在 Debian 13 或 Ubuntu 24.04 及更新版本上：</>
+      <>從<a href={RELEASE}>最新發行版</a>安裝適合你平台的套件：</>
     ),
+    installNotes: {
+      linux: (
+        <>適用於 Debian 13 或 Ubuntu 24.04 及更新版本。在 arm64 主機上請改用 <code>zdesk-linux-arm64.deb</code>；發行版中也提供給 <code>dnf</code> 使用的 <code>.rpm</code>。</>
+      ),
+      macos: (
+        <>適用於搭載 Apple 晶片的 Mac；<code>open</code> 會以「安裝程式」開啟此套件。此套件未經簽署，因此請如上用 <code>curl</code> 下載，不要透過瀏覽器下載，瀏覽器下載的檔案會被隔離。</>
+      ),
+      windows: (
+        <>適用於 Windows x86-64，在 PowerShell 中執行；<code>start</code> 會開啟安裝精靈，精靈會要求系統管理員權限。此套件未經簽署，因此 SmartScreen 會在執行前詢問。</>
+      ),
+    },
     docs: (
       <><a href={zhTW.install}>安裝 zDesk</a> 涵蓋所有平台；<a href={zhTW.guide}>使用 zDesk</a> 說明瀏覽器用戶端，以及如何設定 Windows、Mac、wlshare 和 VNC 目標。</>
     ),
