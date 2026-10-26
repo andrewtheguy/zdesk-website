@@ -245,6 +245,8 @@ footer p { margin: 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .install-note { color: var(--muted); font-size: .9rem; margin: 0; }
 .install-note + pre { margin-top: .6rem; }
 .install-then { margin: 1.25rem 0 .6rem; }
+.install-mode { font-size: 1.1rem; margin: 1.75rem 0 0; }
+.install-mode + .install-then { margin-top: .5rem; }
 kbd {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .85em;
   padding: .05rem .35rem; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; background: var(--bg);

@@ -1,5 +1,5 @@
 import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { installs, type Platform } from "./content";
+import { SERVED_CONFIG, installs, type Platform } from "./content";
 
 export default function InstallTabs({
   notes,
@@ -7,8 +7,8 @@ export default function InstallTabs({
   tui,
 }: {
   notes: Record<Platform, ReactNode>;
-  serve: { intro: ReactNode; edit: ReactNode; secrets: ReactNode; steps: ReactNode };
-  tui: { intro: ReactNode; desktop: ReactNode; steps: ReactNode };
+  serve: { heading: ReactNode; intro: ReactNode; edit: ReactNode; secrets: ReactNode; example: ReactNode; steps: ReactNode };
+  tui: { heading: ReactNode; intro: ReactNode; desktop: ReactNode; steps: ReactNode };
 }) {
   const [selected, setSelected] = useState<Platform>(installs[0].id);
   const tabs = useRef<Partial<Record<Platform, HTMLButtonElement | null>>>({});
@@ -59,6 +59,7 @@ export default function InstallTabs({
           <p className="install-note">{notes[p.id]}</p>
           {p.configure && (
             <>
+              <h3 className="install-mode">{serve.heading}</h3>
               <p className="install-then">{serve.intro}</p>
               <pre>
                 <code>{p.configure}</code>
@@ -69,11 +70,16 @@ export default function InstallTabs({
               </pre>
               <p className="install-note">{serve.secrets}</p>
               <pre>
+                <code>{SERVED_CONFIG}</code>
+              </pre>
+              <p className="install-note">{serve.example}</p>
+              <pre>
                 <code>zdesk serve</code>
               </pre>
               <p className="install-note">{serve.steps}</p>
             </>
           )}
+          <h3 className="install-mode">{tui.heading}</h3>
           <p className="install-then">{p.configure ? tui.desktop : tui.intro}</p>
           <pre>
             <code>zdesk tui</code>

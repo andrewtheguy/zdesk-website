@@ -61,6 +61,45 @@ start zdesk-windows-x86_64.msi`,
   },
 ];
 
+// The served gateway's config once the quick start has been followed, without the example's
+// comments: one target for each of Windows, a Mac and wlshare. `zdesk check-config` takes it
+// with the elided values filled in.
+export const SERVED_CONFIG = `[server]
+site_passwd = "admin:$2b$12$…"
+master_password_file = "master-password"
+
+[master]
+salt = "…"
+check = "…"
+
+[passwords]
+windows = "$ZD;1;AES-256-GCM;…"
+mac = "$ZD;1;AES-256-GCM;…"
+linux = "$ZD;1;AES-256-GCM;…"
+
+[[targets]]
+name = "windows"
+protocol = "rdp"
+host = "192.0.2.10"
+username = "Administrator"
+password_ref = "windows"
+
+[[targets]]
+name = "mac"
+protocol = "vnc"
+subtype = "ard"
+host = "192.0.2.11"
+username = "me"
+password_ref = "mac"
+
+[[targets]]
+name = "linux"
+protocol = "vnc"
+subtype = "wlshare"
+host = "192.0.2.12"
+username = "me"
+password_ref = "linux"`;
+
 export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 816, height: 686 };
 
 // Each demo's poster is a frame of it beside the video, `<video>.jpg`. A demo with sound has a
@@ -107,8 +146,8 @@ export interface Content {
   noCompat: ReactNode;
   quickStart: ReactNode;
   installNotes: Record<Platform, ReactNode>;
-  serve: { intro: ReactNode; edit: ReactNode; secrets: ReactNode; steps: ReactNode };
-  tui: { intro: ReactNode; desktop: ReactNode; steps: ReactNode };
+  serve: { heading: ReactNode; intro: ReactNode; edit: ReactNode; secrets: ReactNode; example: ReactNode; steps: ReactNode };
+  tui: { heading: ReactNode; intro: ReactNode; desktop: ReactNode; steps: ReactNode };
   docs: ReactNode;
   footer: ReactNode;
   demoTitle: string;
@@ -200,7 +239,7 @@ export const content: Record<Locale, Content> = {
       <><strong>No backward compatibility.</strong> A release may change or remove a configuration key, the protocol or a feature, with nothing that reads the old form. Install a specific version and stay on it until you choose to upgrade; before you do, check your config against the <code>zdesk.example.toml</code> the new release ships.</>
     ),
     quickStart: (
-      <>Pick a version from the <a href={RELEASES}>releases</a> and put its number in place of <code>0.0.x</code>:</>
+      <>zDesk runs either as a <strong>served gateway</strong>, <code>zdesk serve</code>, from a config you write, or under the <strong>control plane</strong>, <code>zdesk tui</code>, a terminal interface that runs gateways on the machine you use, each with its own config. The Linux tab shows both, and the macOS and Windows tabs the control plane. Pick a version from the <a href={RELEASES}>releases</a> and put its number in place of <code>0.0.x</code>:</>
     ),
     installNotes: {
       linux: (
@@ -214,19 +253,26 @@ export const content: Record<Locale, Content> = {
       ),
     },
     serve: {
+      heading: <>Served gateway: <code>zdesk serve</code></>,
       intro: "Once it is installed, create the config as the account that will run the gateway, generate a web login and open the config to edit:",
       edit: (
         <>Paste the generated <code>admin:$2b$...</code> value into <code>[server].site_passwd</code>, set <code>master_password_file = "master-password"</code> under <code>[server]</code>, and replace the example <code>[[targets]]</code> entry with the remote desktop to reach. Its password is kept encrypted under a master password (see <a href={`${en.guide}#target-passwords`}>Target passwords</a>):</>
       ),
       secrets: (
-        <><code>password master create</code> asks for a new master password, writes it to that file, readable by you alone, and prints a <code>[master]</code> block for the config; <code>password encrypt</code> prints the value to add under <code>[passwords]</code>, by the name the target's <code>password_ref</code> gives. Then start the gateway:</>
+        <><code>password master create</code> asks for a new master password, writes it to that file, readable by you alone, and prints a <code>[master]</code> block for the config; <code>password encrypt</code> prints the value to add under <code>[passwords]</code>, by the name the target's <code>password_ref</code> gives, so run it once for each target. Without the example's comments, the finished config reads like this, here with a Windows, a Mac and a wlshare target:</>
+      ),
+      example: (
+        <>For a Mac in High Performance mode, set <code>subtype = "ard-high-performance"</code>; <a href={en.guide}>Using zDesk</a> covers setting up each kind of target. Then start the gateway:</>
       ),
       steps: (
         <>It listens on loopback, at <code>http://localhost:52380</code>. The page needs a secure context, so from another machine reach it through an SSH tunnel to that port or a TLS-terminating reverse proxy; see <a href={`${en.guide}#the-client`}>The client</a>.</>
       ),
     },
     tui: {
-      intro: "Once it is installed, open a new terminal and start the control plane, which runs gateways on this machine, each with its own config:",
+      heading: <>Control plane: <code>zdesk tui</code></>,
+      intro: (
+        <>A served gateway runs here too, set up as <a href={`${en.install}#first-configuration`}>First configuration</a> in Installing zDesk has it. For the control plane, open a new terminal once it is installed and start it; it runs gateways on this machine, each with its own config:</>
+      ),
       desktop: "On a Linux desktop, with a browser and a keychain (GNOME Keyring or KWallet) on the same machine, the control plane can run gateways instead, each with its own config:",
       steps: (
         <>It listens on loopback only, at <code>http://zdesk.localhost:52380</code>. Press <kbd>n</kbd> to create an instance, <kbd>e</kbd> to add a target to its config, <kbd>p</kbd> to encrypt the target's password, <kbd>s</kbd> to start the instance and <kbd>o</kbd> to open it in the browser. <a href={`${en.guide}#local-instances`}>Local instances</a> lists every key.</>
@@ -341,7 +387,7 @@ export const content: Record<Locale, Content> = {
       <><strong>不保证向后兼容。</strong>任何版本都可能更改或移除某个配置项、协议或某项功能，且不再读取旧的写法。请安装一个指定版本，并一直使用它，直到你决定升级；升级前，请对照新版本附带的 <code>zdesk.example.toml</code> 检查你的配置。</>
     ),
     quickStart: (
-      <>从<a href={RELEASES}>发布列表</a>中选一个版本，用它的版本号替换 <code>0.0.x</code>：</>
+      <>zDesk 有两种运行方式：作为<strong>独立网关</strong>（<code>zdesk serve</code>）运行，读取你自己编写的配置；或在<strong>控制面</strong>（<code>zdesk tui</code>）下运行，这是一个终端界面，在你使用的机器上运行网关，每个网关都有自己的配置。Linux 标签页介绍了这两种方式，macOS 和 Windows 标签页介绍控制面。从<a href={RELEASES}>发布列表</a>中选一个版本，用它的版本号替换 <code>0.0.x</code>：</>
     ),
     installNotes: {
       linux: (
@@ -355,19 +401,26 @@ export const content: Record<Locale, Content> = {
       ),
     },
     serve: {
+      heading: <>独立网关：<code>zdesk serve</code></>,
       intro: "安装完成后，以将要运行网关的账户创建配置，生成网页登录凭据，然后打开配置进行编辑：",
       edit: (
         <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下设置 <code>master_password_file = "master-password"</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面。其密码用主密码加密保存（见<a href={`${zhCN.guide}#目标密码`}>目标密码</a>）：</>
       ),
       secrets: (
-        <><code>password master create</code> 询问新的主密码，把它写入该文件（只有你能读取），并输出配置所需的 <code>[master]</code> 块；<code>password encrypt</code> 输出要添加到 <code>[passwords]</code> 下的值，键名为目标的 <code>password_ref</code>。然后启动网关：</>
+        <><code>password master create</code> 询问新的主密码，把它写入该文件（只有你能读取），并输出配置所需的 <code>[master]</code> 块；<code>password encrypt</code> 输出要添加到 <code>[passwords]</code> 下的值，键名为目标的 <code>password_ref</code>，因此每个目标都要运行一次。去掉示例中的注释后，完成的配置如下，这里有一个 Windows 目标、一个 Mac 目标和一个 wlshare 目标：</>
+      ),
+      example: (
+        <>对于高性能模式的 Mac，请设置 <code>subtype = "ard-high-performance"</code>；<a href={zhCN.guide}>使用 zDesk</a> 介绍了如何设置每一种目标。然后启动网关：</>
       ),
       steps: (
         <>它监听回环地址，位于 <code>http://localhost:52380</code>。该页面需要安全上下文，因此从其他机器访问时，请通过到该端口的 SSH 隧道或终止 TLS 的反向代理；详见<a href={`${zhCN.guide}#客户端`}>客户端</a>。</>
       ),
     },
     tui: {
-      intro: "安装完成后，打开一个新的终端，启动控制面。它在本机运行网关，每个网关都有自己的配置：",
+      heading: <>控制面：<code>zdesk tui</code></>,
+      intro: (
+        <>这里也可以运行独立网关，按照“安装 zDesk”中的<a href={`${zhCN.install}#首次配置`}>首次配置</a>进行设置。若使用控制面，请在安装完成后打开一个新的终端并启动它；它在本机运行网关，每个网关都有自己的配置：</>
+      ),
       desktop: "在 Linux 桌面上，浏览器和密钥环（GNOME Keyring 或 KWallet）都在本机，也可以改用控制面来运行网关，每个网关都有自己的配置：",
       steps: (
         <>它只监听回环地址，位于 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 创建实例，按 <kbd>e</kbd> 在其配置中添加目标，按 <kbd>p</kbd> 加密目标的密码，按 <kbd>s</kbd> 启动实例，按 <kbd>o</kbd> 在浏览器中打开它。<a href={`${zhCN.guide}#本地实例`}>本地实例</a>列出了所有按键。</>
@@ -476,7 +529,7 @@ export const content: Record<Locale, Content> = {
       <><strong>不保證回溯相容。</strong>任何版本都可能變更或移除某個設定項、協定或某項功能，且不再讀取舊的寫法。請安裝一個指定的版本，並持續使用它，直到你決定升級為止；升級前，請對照新版本隨附的 <code>zdesk.example.toml</code> 檢查你的設定。</>
     ),
     quickStart: (
-      <>從<a href={RELEASES}>發行版清單</a>中挑選一個版本，以它的版本號碼取代 <code>0.0.x</code>：</>
+      <>zDesk 有兩種執行方式：作為<strong>獨立閘道</strong>（<code>zdesk serve</code>）執行，讀取你自己撰寫的設定；或在<strong>控制平面</strong>（<code>zdesk tui</code>）下執行，這是一個終端機介面，在你使用的電腦上執行閘道，每個閘道都有自己的設定。Linux 分頁介紹了這兩種方式，macOS 和 Windows 分頁介紹控制平面。從<a href={RELEASES}>發行版清單</a>中挑選一個版本，以它的版本號碼取代 <code>0.0.x</code>：</>
     ),
     installNotes: {
       linux: (
@@ -490,19 +543,26 @@ export const content: Record<Locale, Content> = {
       ),
     },
     serve: {
+      heading: <>獨立閘道：<code>zdesk serve</code></>,
       intro: "安裝完成後，以將要執行閘道的帳戶建立設定，產生網頁登入憑證，然後開啟設定進行編輯：",
       edit: (
         <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下設定 <code>master_password_file = "master-password"</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面。其密碼會用主密碼加密儲存（請見<a href={`${zhTW.guide}#目標密碼`}>目標密碼</a>）：</>
       ),
       secrets: (
-        <><code>password master create</code> 詢問新的主密碼，把它寫入該檔案（只有你能讀取），並輸出設定所需的 <code>[master]</code> 區塊；<code>password encrypt</code> 輸出要加到 <code>[passwords]</code> 下的值，鍵名為目標的 <code>password_ref</code>。然後啟動閘道：</>
+        <><code>password master create</code> 詢問新的主密碼，把它寫入該檔案（只有你能讀取），並輸出設定所需的 <code>[master]</code> 區塊；<code>password encrypt</code> 輸出要加到 <code>[passwords]</code> 下的值，鍵名為目標的 <code>password_ref</code>，因此每個目標都要執行一次。拿掉範例中的註解後，完成的設定如下，這裡有一個 Windows 目標、一個 Mac 目標和一個 wlshare 目標：</>
+      ),
+      example: (
+        <>若是高效能模式的 Mac，請設定 <code>subtype = "ard-high-performance"</code>；<a href={zhTW.guide}>使用 zDesk</a> 說明了如何設定每一種目標。然後啟動閘道：</>
       ),
       steps: (
         <>它監聽回送位址，位於 <code>http://localhost:52380</code>。此網頁需要安全環境，因此從其他電腦存取時，請透過連到該連接埠的 SSH 通道或終止 TLS 的反向代理伺服器；詳見<a href={`${zhTW.guide}#用戶端`}>用戶端</a>。</>
       ),
     },
     tui: {
-      intro: "安裝完成後，開啟一個新的終端機，啟動控制平面。它在本機執行閘道，每個閘道都有自己的設定：",
+      heading: <>控制平面：<code>zdesk tui</code></>,
+      intro: (
+        <>這裡也可以執行獨立閘道，依照「安裝 zDesk」中的<a href={`${zhTW.install}#首次設定`}>首次設定</a>進行設定。若使用控制平面，請在安裝完成後開啟一個新的終端機並啟動它；它在本機執行閘道，每個閘道都有自己的設定：</>
+      ),
       desktop: "在 Linux 桌面上，瀏覽器和金鑰圈（GNOME Keyring 或 KWallet）都在本機，也可以改用控制平面來執行閘道，每個閘道都有自己的設定：",
       steps: (
         <>它只監聽回送位址，位於 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 建立執行個體，按 <kbd>e</kbd> 在其設定中新增目標，按 <kbd>p</kbd> 加密目標的密碼，按 <kbd>s</kbd> 啟動執行個體，按 <kbd>o</kbd> 在瀏覽器中開啟它。<a href={`${zhTW.guide}#本機執行個體`}>本機執行個體</a>列出了所有按鍵。</>
