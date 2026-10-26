@@ -204,9 +204,9 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "globe",
-        title: "Your desktops from any browser",
+        title: "Your desktops from anywhere",
         body: (
-          <>Chrome, Edge or Safari on a desktop, Chrome on Android, and Safari on an iPhone or iPad, with no client to install. On a phone or tablet, fingers act as a trackpad, with pinch zoom and a soft keyboard.</>
+          <>The client is the web page the gateway serves, so your desktops are not tied to one device or place: wherever a browser can reach the gateway, you have your machines. Chrome, Edge or Safari on a desktop, Chrome on Android, and Safari on an iPhone or iPad, with no client to install. On a phone or tablet, fingers act as a trackpad, with pinch zoom and a soft keyboard.</>
         ),
       },
       {
@@ -354,9 +354,9 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "globe",
-        title: "在任何浏览器中访问你的桌面",
+        title: "随时随地访问你的桌面",
         body: (
-          <>桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。</>
+          <>客户端就是网关提供的网页，因此你的桌面不局限于某一台设备或某个地点：只要浏览器能访问网关，就能使用你的机器。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。</>
         ),
       },
       {
@@ -496,9 +496,9 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "globe",
-        title: "在任何瀏覽器中存取你的桌面",
+        title: "隨時隨地存取你的桌面",
         body: (
-          <>桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。</>
+          <>用戶端就是閘道提供的網頁，因此你的桌面不侷限於某一台裝置或某個地點：只要瀏覽器能連到閘道，就能使用你的電腦。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。</>
         ),
       },
       {
