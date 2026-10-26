@@ -3,10 +3,12 @@ import { installs, type Platform } from "./content";
 
 export default function InstallTabs({
   notes,
+  serve,
   tui,
 }: {
   notes: Record<Platform, ReactNode>;
-  tui: { intro: ReactNode; steps: ReactNode };
+  serve: { intro: ReactNode; edit: ReactNode; steps: ReactNode };
+  tui: { intro: ReactNode; desktop: ReactNode; steps: ReactNode };
 }) {
   const [selected, setSelected] = useState<Platform>(installs[0].id);
   const tabs = useRef<Partial<Record<Platform, HTMLButtonElement | null>>>({});
@@ -55,13 +57,26 @@ export default function InstallTabs({
             <code>{p.command}</code>
           </pre>
           <p className="install-note">{notes[p.id]}</p>
+          {p.configure && (
+            <>
+              <p className="install-then">{serve.intro}</p>
+              <pre>
+                <code>{p.configure}</code>
+              </pre>
+              <p className="install-note">{serve.edit}</p>
+              <pre>
+                <code>zdesk serve</code>
+              </pre>
+              <p className="install-note">{serve.steps}</p>
+            </>
+          )}
+          <p className="install-then">{p.configure ? tui.desktop : tui.intro}</p>
+          <pre>
+            <code>zdesk tui</code>
+          </pre>
+          <p className="install-note">{tui.steps}</p>
         </div>
       ))}
-      <p className="install-then">{tui.intro}</p>
-      <pre>
-        <code>zdesk tui</code>
-      </pre>
-      <p className="install-note">{tui.steps}</p>
     </div>
   );
 }

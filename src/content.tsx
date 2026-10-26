@@ -32,13 +32,20 @@ export type Platform = "linux" | "macos" | "windows";
 
 // The quick start's install, one per platform: docs/install.md in the zdesk repo gives
 // the same downloads, installed from the command line.
-// Below the panels, every platform goes on to the local control plane, `zdesk tui`.
-export const installs: { id: Platform; label: string; command: string }[] = [
+// macOS and Windows go on to the local control plane, `zdesk tui`. A platform with
+// `configure`, Linux, goes first to a gateway served from its own config, as docs/install.md's
+// First configuration has it, since the control plane needs a desktop's browser and keychain.
+export const installs: { id: Platform; label: string; command: string; configure?: string }[] = [
   {
     id: "linux",
     label: "Linux",
     command: `curl -fsSLO ${PINNED}/zdesk-linux-amd64.deb
 sudo apt install ./zdesk-linux-amd64.deb`,
+    configure: `sudo install -d -m 700 -o "$(id -un)" -g "$(id -gn)" /etc/zdesk /var/lib/zdesk
+sudo install -m 600 -o "$(id -un)" -g "$(id -gn)" \\
+  /usr/share/doc/zdesk/zdesk.example.toml /etc/zdesk/zdesk.toml
+zdesk gen-passwd admin
+\${EDITOR:-vi} /etc/zdesk/zdesk.toml`,
   },
   {
     id: "macos",
@@ -96,7 +103,8 @@ export interface Content {
   noCompat: ReactNode;
   quickStart: ReactNode;
   installNotes: Record<Platform, ReactNode>;
-  tui: { intro: ReactNode; steps: ReactNode };
+  serve: { intro: ReactNode; edit: ReactNode; steps: ReactNode };
+  tui: { intro: ReactNode; desktop: ReactNode; steps: ReactNode };
   docs: ReactNode;
   footer: ReactNode;
   demoTitle: string;
@@ -199,8 +207,18 @@ export const content: Record<Locale, Content> = {
         <>On Windows x86-64, from PowerShell; <code>start</code> opens the install wizard, which asks for administrator rights. The package is unsigned, so SmartScreen asks before it runs.</>
       ),
     },
+    serve: {
+      intro: "Once it is installed, create the config as the account that will run the gateway, generate a web login and open the config to edit:",
+      edit: (
+        <>Paste the generated <code>admin:$2b$...</code> value into <code>[server].site_passwd</code> and replace the example <code>[[targets]]</code> entry with the remote desktop to reach; its password is kept encrypted, as <a href={`${en.install}#first-configuration`}>First configuration</a> describes. Then start the gateway:</>
+      ),
+      steps: (
+        <>It listens on loopback, at <code>http://localhost:52380</code>. The page needs a secure context, so from another machine reach it through an SSH tunnel to that port or a TLS-terminating reverse proxy; see <a href={`${en.guide}#the-client`}>The client</a>.</>
+      ),
+    },
     tui: {
       intro: "Once it is installed, open a new terminal and start the control plane, which runs gateways on this machine, each with its own config:",
+      desktop: "On a Linux desktop, with a browser and a keychain (GNOME Keyring or KWallet) on the same machine, the control plane can run gateways instead, each with its own config:",
       steps: (
         <>It listens on loopback only, at <code>http://zdesk.localhost:52380</code>. Press <kbd>n</kbd> to create an instance, <kbd>e</kbd> to add a target to its config, <kbd>p</kbd> to encrypt the target's password, <kbd>s</kbd> to start the instance and <kbd>o</kbd> to open it in the browser. <a href={`${en.guide}#local-instances`}>Local instances</a> lists every key.</>
       ),
@@ -321,8 +339,18 @@ export const content: Record<Locale, Content> = {
         <>适用于 Windows x86-64，在 PowerShell 中执行；<code>start</code> 会打开安装向导，向导会请求管理员权限。该软件包未签名，因此 SmartScreen 会在运行前询问。</>
       ),
     },
+    serve: {
+      intro: "安装完成后，以将要运行网关的账户创建配置，生成网页登录凭据，然后打开配置进行编辑：",
+      edit: (
+        <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面；其密码以加密形式保存，详见<a href={`${zhCN.install}#首次配置`}>首次配置</a>。然后启动网关：</>
+      ),
+      steps: (
+        <>它监听回环地址，位于 <code>http://localhost:52380</code>。该页面需要安全上下文，因此从其他机器访问时，请通过到该端口的 SSH 隧道或终止 TLS 的反向代理；详见<a href={`${zhCN.guide}#客户端`}>客户端</a>。</>
+      ),
+    },
     tui: {
       intro: "安装完成后，打开一个新的终端，启动控制面。它在本机运行网关，每个网关都有自己的配置：",
+      desktop: "在 Linux 桌面上，浏览器和密钥环（GNOME Keyring 或 KWallet）都在本机，也可以改用控制面来运行网关，每个网关都有自己的配置：",
       steps: (
         <>它只监听回环地址，位于 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 创建实例，按 <kbd>e</kbd> 在其配置中添加目标，按 <kbd>p</kbd> 加密目标的密码，按 <kbd>s</kbd> 启动实例，按 <kbd>o</kbd> 在浏览器中打开它。<a href={`${zhCN.guide}#本地实例`}>本地实例</a>列出了所有按键。</>
       ),
@@ -438,8 +466,18 @@ export const content: Record<Locale, Content> = {
         <>適用於 Windows x86-64，在 PowerShell 中執行；<code>start</code> 會開啟安裝精靈，精靈會要求系統管理員權限。此套件未經簽署，因此 SmartScreen 會在執行前詢問。</>
       ),
     },
+    serve: {
+      intro: "安裝完成後，以將要執行閘道的帳戶建立設定，產生網頁登入憑證，然後開啟設定進行編輯：",
+      edit: (
+        <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面；其密碼以加密形式儲存，詳見<a href={`${zhTW.install}#首次設定`}>首次設定</a>。然後啟動閘道：</>
+      ),
+      steps: (
+        <>它監聽回送位址，位於 <code>http://localhost:52380</code>。此網頁需要安全環境，因此從其他電腦存取時，請透過連到該連接埠的 SSH 通道或終止 TLS 的反向代理伺服器；詳見<a href={`${zhTW.guide}#用戶端`}>用戶端</a>。</>
+      ),
+    },
     tui: {
       intro: "安裝完成後，開啟一個新的終端機，啟動控制平面。它在本機執行閘道，每個閘道都有自己的設定：",
+      desktop: "在 Linux 桌面上，瀏覽器和金鑰圈（GNOME Keyring 或 KWallet）都在本機，也可以改用控制平面來執行閘道，每個閘道都有自己的設定：",
       steps: (
         <>它只監聽回送位址，位於 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 建立執行個體，按 <kbd>e</kbd> 在其設定中新增目標，按 <kbd>p</kbd> 加密目標的密碼，按 <kbd>s</kbd> 啟動執行個體，按 <kbd>o</kbd> 在瀏覽器中開啟它。<a href={`${zhTW.guide}#本機執行個體`}>本機執行個體</a>列出了所有按鍵。</>
       ),

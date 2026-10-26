@@ -112,7 +112,7 @@ export default function Home({ locale }: { locale: Locale }) {
         <h2 className="section" id="quick-start">{c.quickStartHeading}</h2>
         <p className="warning">{c.noCompat}</p>
         <p>{c.quickStart}</p>
-        <InstallTabs notes={c.installNotes} tui={c.tui} />
+        <InstallTabs notes={c.installNotes} serve={c.serve} tui={c.tui} />
         <p>{c.docs}</p>
       </main>
     </Shell>
