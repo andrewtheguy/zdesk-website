@@ -66,6 +66,7 @@ export default function Home({ locale }: { locale: Locale }) {
           <figure className="hero-video">
             <video
               autoPlay
+              controls
               muted
               loop
               playsInline
