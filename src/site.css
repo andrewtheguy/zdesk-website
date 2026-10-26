@@ -13,6 +13,7 @@
   --icon-bg: #e3edfb;
   --warn: #9a6700;
   --warn-bg: #fff8c5;
+  --code-bg: rgba(175, 184, 193, .25);
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -31,6 +32,7 @@
     --icon-bg: #132a47;
     --warn: #d29922;
     --warn-bg: #272115;
+    --code-bg: rgba(110, 118, 129, .4);
   }
 }
 * { box-sizing: border-box; }
@@ -46,6 +48,13 @@ p { margin: 0 0 1rem; }
 ul { padding-left: 1.25rem; margin: 0 0 1rem; }
 li { margin: .25rem 0; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+/* Inline code: a tinted chip in the text colour, so it stands out from muted prose too */
+:not(pre) > code {
+  font-size: .9em; color: var(--fg); background: var(--code-bg);
+  padding: .1em .35em; border-radius: 4px; overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+a > code { color: inherit; }
 pre {
   background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
   padding: .75rem 1rem; overflow-x: auto; font-size: .9rem; margin: 0 0 1.5rem;
@@ -234,7 +243,6 @@ footer p { margin: 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .install-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .install pre { margin-bottom: .6rem; }
 .install-note { color: var(--muted); font-size: .9rem; margin: 0; }
-.install-note code { font-size: .85em; }
 .install-note + pre { margin-top: .6rem; }
 .install-then { margin: 1.25rem 0 .6rem; }
 kbd {
