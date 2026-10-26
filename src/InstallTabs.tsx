@@ -12,7 +12,13 @@ function detectPlatform(): Platform {
 
 const noSubscription = () => () => {};
 
-export default function InstallTabs({ notes }: { notes: Record<Platform, ReactNode> }) {
+export default function InstallTabs({
+  notes,
+  tui,
+}: {
+  notes: Record<Platform, ReactNode>;
+  tui: { intro: ReactNode; steps: ReactNode };
+}) {
   const detected = useSyncExternalStore(noSubscription, detectPlatform, (): Platform => "linux");
   const [chosen, setChosen] = useState<Platform>();
   const selected = chosen ?? detected;
@@ -62,6 +68,15 @@ export default function InstallTabs({ notes }: { notes: Record<Platform, ReactNo
             <code>{p.command}</code>
           </pre>
           <p className="install-note">{notes[p.id]}</p>
+          {p.tui && (
+            <>
+              <p className="install-then">{tui.intro}</p>
+              <pre>
+                <code>zdesk tui</code>
+              </pre>
+              <p className="install-note">{tui.steps}</p>
+            </>
+          )}
         </div>
       ))}
     </div>

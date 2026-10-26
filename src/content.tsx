@@ -4,9 +4,9 @@ export type Locale = "en" | "zh-CN" | "zh-TW";
 export type Page = "home" | "demo";
 
 // A locale's pages live under its prefix: `/` and `/demo` for English,
-// `/zh-CN/` and `/zh-CN/demo` for the others.
-export const locales: { id: Locale; prefix: string; label: string }[] = [
-  { id: "en", prefix: "", label: "English" },
+// `/zh-CN/` and `/zh-CN/demo` for the others. `short` names the language on a phone's top bar.
+export const locales: { id: Locale; prefix: string; label: string; short?: string }[] = [
+  { id: "en", prefix: "", label: "English", short: "EN" },
   { id: "zh-CN", prefix: "/zh-CN", label: "简体中文" },
   { id: "zh-TW", prefix: "/zh-TW", label: "繁體中文" },
 ];
@@ -23,31 +23,36 @@ export function localeForPath(pathname: string): Locale {
 }
 
 const REPO = "https://github.com/andrewtheguy/zdesk";
-export const RELEASE = `${REPO}/releases/latest`;
+const RELEASES = `${REPO}/releases`;
+// The quick start installs a version the reader picks, 0.0.x standing for it.
+const PINNED = `${RELEASES}/download/v0.0.x`;
 const LICENSE = `${REPO}/blob/main/LICENSE`;
 
 export type Platform = "linux" | "macos" | "windows";
 
 // The quick start's install, one per platform: docs/install.md in the zdesk repo gives
 // the same downloads, installed from the command line.
-export const installs: { id: Platform; label: string; command: string }[] = [
+// On macOS and Windows the panel goes on to the local control plane, `zdesk tui`.
+export const installs: { id: Platform; label: string; command: string; tui?: boolean }[] = [
   {
     id: "linux",
     label: "Linux",
-    command: `curl -fsSLO ${RELEASE}/download/zdesk-linux-amd64.deb
+    command: `curl -fsSLO ${PINNED}/zdesk-linux-amd64.deb
 sudo apt install ./zdesk-linux-amd64.deb`,
   },
   {
     id: "macos",
     label: "macOS",
-    command: `curl -fsSLO ${RELEASE}/download/zdesk-macos-arm64.pkg
+    command: `curl -fsSLO ${PINNED}/zdesk-macos-arm64.pkg
 open zdesk-macos-arm64.pkg`,
+    tui: true,
   },
   {
     id: "windows",
     label: "Windows",
-    command: `Invoke-WebRequest ${RELEASE}/download/zdesk-windows-x86_64.msi -OutFile zdesk-windows-x86_64.msi
+    command: `Invoke-WebRequest ${PINNED}/zdesk-windows-x86_64.msi -OutFile zdesk-windows-x86_64.msi
 start zdesk-windows-x86_64.msi`,
+    tui: true,
   },
 ];
 
@@ -77,7 +82,7 @@ export interface Content {
   language: (current: string) => string;
   tagline: string;
   intro: string;
-  download: string;
+  getStarted: string;
   watchDemos: string;
   source: { label: string; href: string };
   rolling: string;
@@ -87,8 +92,10 @@ export interface Content {
   how: string;
   diagram: string;
   quickStartHeading: string;
+  noCompat: ReactNode;
   quickStart: ReactNode;
   installNotes: Record<Platform, ReactNode>;
+  tui: { intro: ReactNode; steps: ReactNode };
   docs: ReactNode;
   footer: ReactNode;
   demoTitle: string;
@@ -121,7 +128,7 @@ export const content: Record<Locale, Content> = {
       "Remote desktop in a browser, for Windows' and macOS's own remote desktop servers, and for Linux through wlshare.",
     intro:
       "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops, and Windows and macOS need nothing installed on the host either.",
-    download: "Download the latest release",
+    getStarted: "Get started",
     watchDemos: "Watch the demos",
     source: { label: "Source code", href: REPO },
     rolling: "zDesk is on a rolling release: the latest release is the current one.",
@@ -174,8 +181,11 @@ export const content: Record<Locale, Content> = {
     how: "The gateway serves one web page that shows the desktop, and speaks RDP or VNC to your machines.",
     diagram: "browser ── HTTPS or localhost ── zDesk ── RDP / VNC ── your desktops",
     quickStartHeading: "Quick start",
+    noCompat: (
+      <><strong>No backward compatibility.</strong> A release may change or remove a configuration key, the protocol or a feature, with nothing that reads the old form. Install a specific version and stay on it until you choose to upgrade; before you do, check your config against the <code>zdesk.example.toml</code> the new release ships.</>
+    ),
     quickStart: (
-      <>Install the package for your platform from the <a href={RELEASE}>latest release</a>:</>
+      <>Pick a version from the <a href={RELEASES}>releases</a> and put its number in place of <code>0.0.x</code>:</>
     ),
     installNotes: {
       linux: (
@@ -186,6 +196,12 @@ export const content: Record<Locale, Content> = {
       ),
       windows: (
         <>On Windows x86-64, from PowerShell; <code>start</code> opens the install wizard, which asks for administrator rights. The package is unsigned, so SmartScreen asks before it runs.</>
+      ),
+    },
+    tui: {
+      intro: "Once it is installed, open a new terminal and start the control plane, which runs gateways on this machine, each with its own config:",
+      steps: (
+        <>It listens on loopback only, at <code>http://zdesk.localhost:52380</code>. Press <kbd>n</kbd> to create an instance, <kbd>e</kbd> to add a target to its config, <kbd>p</kbd> to encrypt the target's password, <kbd>s</kbd> to start the instance and <kbd>o</kbd> to open it in the browser. <a href={`${en.guide}#local-instances`}>Local instances</a> lists every key.</>
       ),
     },
     docs: (
@@ -236,7 +252,7 @@ export const content: Record<Locale, Content> = {
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
     intro:
       "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面；Windows 和 macOS 主机也无需安装任何软件。",
-    download: "下载最新发布",
+    getStarted: "开始使用",
     watchDemos: "观看演示",
     source: { label: "源代码", href: zhCN.readme },
     rolling: "zDesk 采用滚动发布：最新发布就是当前版本。",
@@ -287,8 +303,11 @@ export const content: Record<Locale, Content> = {
     how: "网关提供一个显示桌面的网页，并通过 RDP 或 VNC 连接你的机器。",
     diagram: "浏览器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
     quickStartHeading: "快速开始",
+    noCompat: (
+      <><strong>不保证向后兼容。</strong>任何版本都可能更改或移除某个配置项、协议或某项功能，且不再读取旧的写法。请安装一个指定版本，并一直使用它，直到你决定升级；升级前，请对照新版本附带的 <code>zdesk.example.toml</code> 检查你的配置。</>
+    ),
     quickStart: (
-      <>从<a href={RELEASE}>最新发布</a>安装适合你平台的软件包：</>
+      <>从<a href={RELEASES}>发布列表</a>中选一个版本，用它的版本号替换 <code>0.0.x</code>：</>
     ),
     installNotes: {
       linux: (
@@ -299,6 +318,12 @@ export const content: Record<Locale, Content> = {
       ),
       windows: (
         <>适用于 Windows x86-64，在 PowerShell 中执行；<code>start</code> 会打开安装向导，向导会请求管理员权限。该软件包未签名，因此 SmartScreen 会在运行前询问。</>
+      ),
+    },
+    tui: {
+      intro: "安装完成后，打开一个新的终端，启动控制面。它在本机运行网关，每个网关都有自己的配置：",
+      steps: (
+        <>它只监听回环地址，位于 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 创建实例，按 <kbd>e</kbd> 在其配置中添加目标，按 <kbd>p</kbd> 加密目标的密码，按 <kbd>s</kbd> 启动实例，按 <kbd>o</kbd> 在浏览器中打开它。<a href={`${zhCN.guide}#本地实例`}>本地实例</a>列出了所有按键。</>
       ),
     },
     docs: (
@@ -344,7 +369,7 @@ export const content: Record<Locale, Content> = {
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",
     intro:
       "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面；Windows 和 macOS 主機也不需要安裝任何軟體。",
-    download: "下載最新發行版",
+    getStarted: "開始使用",
     watchDemos: "觀看示範",
     source: { label: "原始碼", href: zhTW.readme },
     rolling: "zDesk 採用滾動發行：最新發行版就是目前的版本。",
@@ -395,8 +420,11 @@ export const content: Record<Locale, Content> = {
     how: "閘道提供一個顯示桌面的網頁，並透過 RDP 或 VNC 連線到你的電腦。",
     diagram: "瀏覽器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
     quickStartHeading: "快速入門",
+    noCompat: (
+      <><strong>不保證回溯相容。</strong>任何版本都可能變更或移除某個設定項、協定或某項功能，且不再讀取舊的寫法。請安裝一個指定的版本，並持續使用它，直到你決定升級為止；升級前，請對照新版本隨附的 <code>zdesk.example.toml</code> 檢查你的設定。</>
+    ),
     quickStart: (
-      <>從<a href={RELEASE}>最新發行版</a>安裝適合你平台的套件：</>
+      <>從<a href={RELEASES}>發行版清單</a>中挑選一個版本，以它的版本號碼取代 <code>0.0.x</code>：</>
     ),
     installNotes: {
       linux: (
@@ -407,6 +435,12 @@ export const content: Record<Locale, Content> = {
       ),
       windows: (
         <>適用於 Windows x86-64，在 PowerShell 中執行；<code>start</code> 會開啟安裝精靈，精靈會要求系統管理員權限。此套件未經簽署，因此 SmartScreen 會在執行前詢問。</>
+      ),
+    },
+    tui: {
+      intro: "安裝完成後，開啟一個新的終端機，啟動控制平面。它在本機執行閘道，每個閘道都有自己的設定：",
+      steps: (
+        <>它只監聽回送位址，位於 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 建立執行個體，按 <kbd>e</kbd> 在其設定中新增目標，按 <kbd>p</kbd> 加密目標的密碼，按 <kbd>s</kbd> 啟動執行個體，按 <kbd>o</kbd> 在瀏覽器中開啟它。<a href={`${zhTW.guide}#本機執行個體`}>本機執行個體</a>列出了所有按鍵。</>
       ),
     },
     docs: (
