@@ -107,7 +107,7 @@ export interface Content {
   noCompat: ReactNode;
   quickStart: ReactNode;
   installNotes: Record<Platform, ReactNode>;
-  serve: { intro: ReactNode; edit: ReactNode; steps: ReactNode };
+  serve: { intro: ReactNode; edit: ReactNode; secrets: ReactNode; steps: ReactNode };
   tui: { intro: ReactNode; desktop: ReactNode; steps: ReactNode };
   docs: ReactNode;
   footer: ReactNode;
@@ -216,7 +216,10 @@ export const content: Record<Locale, Content> = {
     serve: {
       intro: "Once it is installed, create the config as the account that will run the gateway, generate a web login and open the config to edit:",
       edit: (
-        <>Paste the generated <code>admin:$2b$...</code> value into <code>[server].site_passwd</code> and replace the example <code>[[targets]]</code> entry with the remote desktop to reach; its password is kept encrypted, as <a href={`${en.install}#first-configuration`}>First configuration</a> describes. Then start the gateway:</>
+        <>Paste the generated <code>admin:$2b$...</code> value into <code>[server].site_passwd</code>, set <code>master_password_file = "master-password"</code> under <code>[server]</code>, and replace the example <code>[[targets]]</code> entry with the remote desktop to reach. Its password is kept encrypted under a master password (see <a href={`${en.guide}#target-passwords`}>Target passwords</a>):</>
+      ),
+      secrets: (
+        <><code>password master create</code> asks for a new master password, writes it to that file, readable by you alone, and prints a <code>[master]</code> block for the config; <code>password encrypt</code> prints the value to add under <code>[passwords]</code>, by the name the target's <code>password_ref</code> gives. Then start the gateway:</>
       ),
       steps: (
         <>It listens on loopback, at <code>http://localhost:52380</code>. The page needs a secure context, so from another machine reach it through an SSH tunnel to that port or a TLS-terminating reverse proxy; see <a href={`${en.guide}#the-client`}>The client</a>.</>
@@ -354,7 +357,10 @@ export const content: Record<Locale, Content> = {
     serve: {
       intro: "安装完成后，以将要运行网关的账户创建配置，生成网页登录凭据，然后打开配置进行编辑：",
       edit: (
-        <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面；其密码以加密形式保存，详见<a href={`${zhCN.install}#首次配置`}>首次配置</a>。然后启动网关：</>
+        <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下设置 <code>master_password_file = "master-password"</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面。其密码用主密码加密保存（见<a href={`${zhCN.guide}#目标密码`}>目标密码</a>）：</>
+      ),
+      secrets: (
+        <><code>password master create</code> 询问新的主密码，把它写入该文件（只有你能读取），并输出配置所需的 <code>[master]</code> 块；<code>password encrypt</code> 输出要添加到 <code>[passwords]</code> 下的值，键名为目标的 <code>password_ref</code>。然后启动网关：</>
       ),
       steps: (
         <>它监听回环地址，位于 <code>http://localhost:52380</code>。该页面需要安全上下文，因此从其他机器访问时，请通过到该端口的 SSH 隧道或终止 TLS 的反向代理；详见<a href={`${zhCN.guide}#客户端`}>客户端</a>。</>
@@ -486,7 +492,10 @@ export const content: Record<Locale, Content> = {
     serve: {
       intro: "安裝完成後，以將要執行閘道的帳戶建立設定，產生網頁登入憑證，然後開啟設定進行編輯：",
       edit: (
-        <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面；其密碼以加密形式儲存，詳見<a href={`${zhTW.install}#首次設定`}>首次設定</a>。然後啟動閘道：</>
+        <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下設定 <code>master_password_file = "master-password"</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面。其密碼會用主密碼加密儲存（請見<a href={`${zhTW.guide}#目標密碼`}>目標密碼</a>）：</>
+      ),
+      secrets: (
+        <><code>password master create</code> 詢問新的主密碼，把它寫入該檔案（只有你能讀取），並輸出設定所需的 <code>[master]</code> 區塊；<code>password encrypt</code> 輸出要加到 <code>[passwords]</code> 下的值，鍵名為目標的 <code>password_ref</code>。然後啟動閘道：</>
       ),
       steps: (
         <>它監聽回送位址，位於 <code>http://localhost:52380</code>。此網頁需要安全環境，因此從其他電腦存取時，請透過連到該連接埠的 SSH 通道或終止 TLS 的反向代理伺服器；詳見<a href={`${zhTW.guide}#用戶端`}>用戶端</a>。</>

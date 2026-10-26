@@ -7,7 +7,7 @@ export default function InstallTabs({
   tui,
 }: {
   notes: Record<Platform, ReactNode>;
-  serve: { intro: ReactNode; edit: ReactNode; steps: ReactNode };
+  serve: { intro: ReactNode; edit: ReactNode; secrets: ReactNode; steps: ReactNode };
   tui: { intro: ReactNode; desktop: ReactNode; steps: ReactNode };
 }) {
   const [selected, setSelected] = useState<Platform>(installs[0].id);
@@ -64,6 +64,10 @@ export default function InstallTabs({
                 <code>{p.configure}</code>
               </pre>
               <p className="install-note">{serve.edit}</p>
+              <pre>
+                <code>{"zdesk password master create\nzdesk password encrypt"}</code>
+              </pre>
+              <p className="install-note">{serve.secrets}</p>
               <pre>
                 <code>zdesk serve</code>
               </pre>
