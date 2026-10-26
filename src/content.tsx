@@ -77,6 +77,7 @@ export const demos: Demo[] = [
   { id: "windows-to-mac-two-displays", video: "windows-to-mac-two-displays.mp4" },
   { id: "ios-to-windows", video: "ios-to-windows.mp4", portrait: true },
   { id: "ios-to-mac", video: "ios-to-mac.mp4", portrait: true },
+  { id: "ipad-to-windows", video: "ipad-to-windows.mp4" },
   { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4", captions: true },
   { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", captions: true },
 ];
@@ -231,7 +232,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "Demo",
     demoDescription:
-      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows and to a Mac, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
+      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows and to a Mac, an iPad to Windows at Retina/HiDPI density, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
     demoIntro:
       "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
     demos: {
@@ -250,6 +251,11 @@ export const content: Record<Locale, Content> = {
         title: "iOS → Mac",
         caption:
           "Safari on iOS connected to a Mac's High Performance Screen Sharing, scrolling horizontally, with the network throughput meter shown.",
+      },
+      "ipad-to-windows": {
+        title: "iPad → Windows at Retina/HiDPI density",
+        caption:
+          "Safari on an iPad connected to Windows' own Remote Desktop at the iPad's Retina/HiDPI density, typing on the soft keyboard with its function, navigation and sticky modifier keys.",
       },
       "mac-to-windows": {
         title: "Mac → Windows at Retina/HiDPI density with audio",
@@ -363,7 +369,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "演示",
     demoDescription:
-      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows 和 Mac，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
+      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows 和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
     demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 带一个远程虚拟显示器的 Mac" },
@@ -378,6 +384,10 @@ export const content: Record<Locale, Content> = {
       "ios-to-mac": {
         title: "iOS → Mac",
         caption: "iOS 上的 Safari 连接 Mac 的高性能模式屏幕共享，支持水平滚动，并显示网络吞吐量指示。",
+      },
+      "ipad-to-windows": {
+        title: "iPad → Windows，Retina/HiDPI 密度",
+        caption: "iPad 上的 Safari 以 iPad 的 Retina/HiDPI 密度连接 Windows 自带的远程桌面，用带功能键、导航键和粘滞修饰键的软键盘输入。",
       },
       "mac-to-windows": {
         title: "Mac → Windows，Retina/HiDPI 密度并带声音",
@@ -490,7 +500,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "示範",
     demoDescription:
-      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows 和 Mac，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
+      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows 和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
     demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 有一個遠端虛擬顯示器的 Mac" },
@@ -505,6 +515,10 @@ export const content: Record<Locale, Content> = {
       "ios-to-mac": {
         title: "iOS → Mac",
         caption: "iOS 上的 Safari 連線到 Mac 的高效能模式螢幕共享，支援水平捲動，並顯示網路傳輸量指示。",
+      },
+      "ipad-to-windows": {
+        title: "iPad → Windows，Retina/HiDPI 密度",
+        caption: "iPad 上的 Safari 以 iPad 的 Retina/HiDPI 密度連線到 Windows 內建的遠端桌面，用有功能鍵、導覽鍵和相黏輔助按鍵的螢幕鍵盤輸入。",
       },
       "mac-to-windows": {
         title: "Mac → Windows，Retina/HiDPI 密度並帶聲音",
