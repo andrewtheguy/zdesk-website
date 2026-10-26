@@ -205,7 +205,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={en.install}>Installing zDesk</a> covers every platform, and <a href={en.guide}>Using zDesk</a> the browser client and setting up Windows, Mac, wlshare and VNC targets.</>
+      <>For the full details, see the <a href={REPO}>source code on GitHub</a>: <a href={en.install}>Installing zDesk</a> covers every platform, and <a href={en.guide}>Using zDesk</a> the browser client and setting up Windows, Mac, wlshare and VNC targets.</>
     ),
     footer: (
       <>zDesk is under the <a href={LICENSE}>MIT licence</a>. It is released on a rolling basis, still settling its direction, and keeps no backward compatibility between releases; see the <a href={`${REPO}#readme`}>README</a>.</>
@@ -327,7 +327,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={zhCN.install}>安装 zDesk</a> 涵盖所有平台；<a href={zhCN.guide}>使用 zDesk</a> 介绍浏览器客户端，以及如何设置 Windows、Mac、wlshare 和 VNC 目标。</>
+      <>完整细节请查看 GitHub 上的<a href={zhCN.readme}>源代码</a>：<a href={zhCN.install}>安装 zDesk</a> 涵盖所有平台；<a href={zhCN.guide}>使用 zDesk</a> 介绍浏览器客户端，以及如何设置 Windows、Mac、wlshare 和 VNC 目标。</>
     ),
     footer: (
       <>zDesk 采用 <a href={LICENSE}>MIT 许可证</a>，以滚动方式发布，方向仍在调整中，版本之间不保证向后兼容；详见 <a href={zhCN.readme}>README</a>。</>
@@ -444,7 +444,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={zhTW.install}>安裝 zDesk</a> 涵蓋所有平台；<a href={zhTW.guide}>使用 zDesk</a> 說明瀏覽器用戶端，以及如何設定 Windows、Mac、wlshare 和 VNC 目標。</>
+      <>完整細節請參閱 GitHub 上的<a href={zhTW.readme}>原始碼</a>：<a href={zhTW.install}>安裝 zDesk</a> 涵蓋所有平台；<a href={zhTW.guide}>使用 zDesk</a> 說明瀏覽器用戶端，以及如何設定 Windows、Mac、wlshare 和 VNC 目標。</>
     ),
     footer: (
       <>zDesk 採用 <a href={LICENSE}>MIT 授權條款</a>，以滾動方式發行，方向仍在調整中，版本之間不保證回溯相容；詳見 <a href={zhTW.readme}>README</a>。</>
