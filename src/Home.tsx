@@ -30,10 +30,14 @@ const ICONS: Record<FeatureIcon, React.ReactNode> = {
 
 export default function Home({ locale }: { locale: Locale }) {
   const c = content[locale];
-  // The hero plays itself unless the visitor asks for reduced motion; its controls pause it.
+  // The hero plays itself from the prerendered page, with no controls over it, as Guacamole's
+  // does. A visitor who asks for reduced motion has it paused, with controls to play it.
   const video = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) void video.current?.play().catch(() => {});
+    const v = video.current;
+    if (!v || !matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    v.pause();
+    v.controls = true;
   }, []);
   return (
     <Shell locale={locale} page="home">
@@ -72,7 +76,7 @@ export default function Home({ locale }: { locale: Locale }) {
           <figure className="hero-video">
             <video
               ref={video}
-              controls
+              autoPlay
               muted
               loop
               playsInline
