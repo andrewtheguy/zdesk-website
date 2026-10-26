@@ -69,7 +69,8 @@ export default function Shell({ locale, page, children }: { locale: Locale; page
   return (
     <>
       <header className="topbar">
-        <div className="topbar-inner">
+        {/* Navigation only: keep the brand, page links and language names out of search snippets. */}
+        <div className="topbar-inner" data-nosnippet>
           <a className="brand" href={pagePath(locale, "home")}>
             <img src="/logo.svg" alt="" width="28" height="28" />
             zDesk
