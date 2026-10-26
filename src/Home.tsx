@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import InstallTabs from "./InstallTabs";
 import Shell from "./Shell";
 import { HERO_VIDEO, content, pagePath, type FeatureIcon, type Locale } from "./content";
@@ -29,6 +30,12 @@ const ICONS: Record<FeatureIcon, React.ReactNode> = {
 
 export default function Home({ locale }: { locale: Locale }) {
   const c = content[locale];
+  // The prerendered hero has no controls, since iOS lays its controls over the whole clip as it
+  // starts. A mouse gets them on hover once the page loads, and a touch screen when it is tapped.
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (video.current && matchMedia("(hover: hover)").matches) video.current.controls = true;
+  }, []);
   return (
     <Shell locale={locale} page="home">
       <section className="hero">
@@ -65,8 +72,11 @@ export default function Home({ locale }: { locale: Locale }) {
           </div>
           <figure className="hero-video">
             <video
+              ref={video}
+              onClick={(e) => {
+                e.currentTarget.controls = true;
+              }}
               autoPlay
-              controls
               muted
               loop
               playsInline
