@@ -47,7 +47,7 @@ export default function Home({ locale }: { locale: Locale }) {
                 </a>
               </li>
               <li>
-                <a href={pagePath(locale, "demo")}>{c.watchDemos}</a>
+                <a href={pagePath(locale, "demo")}>{c.seeInAction}</a>
               </li>
               <li>
                 <a className="external" href={c.source.href}>

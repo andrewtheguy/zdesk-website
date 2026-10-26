@@ -104,6 +104,7 @@ pre {
   max-width: 72rem; margin: 0 auto; padding: 3rem 16px;
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.5rem; align-items: center;
 }
+.hero-text { container-type: inline-size; }
 .hero-text > :last-child { margin-bottom: 0; }
 h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 .75rem; letter-spacing: -.01em; }
 .hero h1 { display: flex; align-items: center; gap: .6rem; font-size: 2.75rem; }
@@ -121,6 +122,11 @@ h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 .75rem; letter-spacing: 
 .links .github { width: 1.1em; height: 1.1em; fill: currentColor; margin-right: .1rem; }
 .links a.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
 .rolling { color: var(--muted); font-size: .9rem; }
+/* The buttons stack once the text column cannot hold them in a row */
+@container (max-width: 32rem) {
+  .links { flex-direction: column; }
+  .links a, .links a.external { display: flex; justify-content: center; }
+}
 .hero-video { margin: 0; }
 .hero-video video {
   display: block; width: 100%; height: auto; border-radius: 10px;
@@ -162,7 +168,7 @@ footer p { margin: 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
   .hero h1 { font-size: 2.25rem; }
   .features { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
 }
-/* Phones: one row, closer together, English named short and the menu without its chevron */
+/* Phones: the top bar one row, closer together, English named short and the menu without its chevron */
 @media (max-width: 36rem) {
   .topbar-inner { gap: 0 1rem; }
   .pages { gap: 1rem; }

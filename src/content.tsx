@@ -83,7 +83,7 @@ export interface Content {
   tagline: string;
   intro: string;
   getStarted: string;
-  watchDemos: string;
+  seeInAction: string;
   source: { label: string; href: string };
   rolling: string;
   heroVideo: string;
@@ -128,9 +128,9 @@ export const content: Record<Locale, Content> = {
       "Remote desktop in a browser, for Windows' and macOS's own remote desktop servers, and for Linux through wlshare.",
     intro:
       "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops, and Windows and macOS need nothing installed on the host either.",
-    getStarted: "Get started",
-    watchDemos: "Watch the demos",
-    source: { label: "Source code", href: REPO },
+    getStarted: "Get Started",
+    seeInAction: "See It in Action",
+    source: { label: "Source Code", href: REPO },
     rolling: "zDesk is on a rolling release: the latest release is the current one.",
     heroVideo: "A Mac's Screen Sharing in a Chrome tab on Windows.",
     features: [
@@ -253,7 +253,7 @@ export const content: Record<Locale, Content> = {
     intro:
       "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面；Windows 和 macOS 主机也无需安装任何软件。",
     getStarted: "开始使用",
-    watchDemos: "观看演示",
+    seeInAction: "观看实际效果",
     source: { label: "源代码", href: zhCN.readme },
     rolling: "zDesk 采用滚动发布：最新发布就是当前版本。",
     heroVideo: "Windows 上 Chrome 标签页中的 Mac 屏幕共享。",
@@ -370,7 +370,7 @@ export const content: Record<Locale, Content> = {
     intro:
       "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面；Windows 和 macOS 主機也不需要安裝任何軟體。",
     getStarted: "開始使用",
-    watchDemos: "觀看示範",
+    seeInAction: "觀看實際效果",
     source: { label: "原始碼", href: zhTW.readme },
     rolling: "zDesk 採用滾動發行：最新發行版就是目前的版本。",
     heroVideo: "在 Windows 的 Chrome 分頁中顯示 Mac 的螢幕共享。",
