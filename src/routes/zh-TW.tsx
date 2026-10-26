@@ -1,7 +1,7 @@
 import Home from "../Home";
-import { localeMeta } from "../meta";
+import { pageMeta } from "../meta";
 
-export const meta = () => localeMeta("zh-TW");
+export const meta = () => pageMeta("zh-TW", "home");
 
 export default function Page() {
   return <Home locale="zh-TW" />;

@@ -1,24 +1,35 @@
 import type { ReactNode } from "react";
 
 export type Locale = "en" | "zh-CN" | "zh-TW";
+export type Page = "home" | "demo";
 
-export const locales: { id: Locale; path: string; label: string }[] = [
-  { id: "en", path: "/", label: "English" },
-  { id: "zh-CN", path: "/zh-CN", label: "简体中文" },
-  { id: "zh-TW", path: "/zh-TW", label: "繁體中文" },
+// A locale's pages live under its prefix: `/` and `/demo` for English,
+// `/zh-CN/` and `/zh-CN/demo` for the others.
+export const locales: { id: Locale; prefix: string; label: string }[] = [
+  { id: "en", prefix: "", label: "English" },
+  { id: "zh-CN", prefix: "/zh-CN", label: "简体中文" },
+  { id: "zh-TW", prefix: "/zh-TW", label: "繁體中文" },
 ];
 
+export function pagePath(locale: Locale, page: Page) {
+  const { prefix } = locales.find((l) => l.id === locale)!;
+  return page === "home" ? `${prefix}/` : `${prefix}/demo`;
+}
+
 export function localeForPath(pathname: string): Locale {
-  const path = pathname.replace(/\/$/, "") || "/";
-  return locales.find((l) => l.path === path)?.id ?? "en";
+  return (
+    locales.find((l) => l.prefix && (pathname === l.prefix || pathname.startsWith(`${l.prefix}/`)))?.id ?? "en"
+  );
 }
 
 const REPO = "https://github.com/andrewtheguy/zdesk";
-const RELEASE = `${REPO}/releases/latest`;
+export const RELEASE = `${REPO}/releases/latest`;
 const LICENSE = `${REPO}/blob/main/LICENSE`;
 
 export const INSTALL_COMMAND = `curl -fsSLO ${RELEASE}/download/zdesk-linux-amd64.deb
 sudo apt install ./zdesk-linux-amd64.deb`;
+
+export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 816, height: 686 };
 
 export interface Demo {
   id: string;
@@ -35,21 +46,30 @@ export const demos: Demo[] = [
   { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4" },
 ];
 
+export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | "code";
+
 export interface Content {
   description: string;
+  nav: Record<Page, string>;
   tagline: string;
-  links: { label: string; href: string; primary?: boolean }[];
   intro: string;
-  targets: ReactNode[];
-  hosts: string;
+  download: string;
+  watchDemos: string;
+  source: string;
+  rolling: string;
+  heroVideo: string;
+  features: { icon: FeatureIcon; title: string; body: ReactNode }[];
+  howHeading: string;
+  how: string;
   diagram: string;
-  display: string;
-  demoHeading: string;
-  demos: Record<string, { title: string; caption?: string }>;
   quickStartHeading: string;
   quickStart: ReactNode;
   docs: ReactNode;
   footer: ReactNode;
+  demoTitle: string;
+  demoDescription: string;
+  demoIntro: string;
+  demos: Record<string, { title: string; caption?: string }>;
 }
 
 function docs(locale: Locale) {
@@ -70,27 +90,78 @@ export const content: Record<Locale, Content> = {
   en: {
     description:
       "Remote desktop in a browser, for Windows' own Remote Desktop, macOS's built-in Screen Sharing, and Linux through wlshare, our own VNC server for wlroots compositors.",
+    nav: { home: "Home", demo: "Demo" },
     tagline:
       "Remote desktop in a browser, for Windows' and macOS's own remote desktop servers, and for Linux through wlshare.",
-    links: [
-      { label: "Download the latest release", href: RELEASE, primary: true },
-      { label: "Source on GitHub", href: REPO },
-      { label: "Using zDesk", href: en.guide },
-      { label: "Installing zDesk", href: en.install },
+    intro:
+      "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops, and Windows and macOS need nothing installed on the host either.",
+    download: "Download the latest release",
+    watchDemos: "Watch the demos",
+    source: REPO,
+    rolling: "zDesk is on a rolling release: the latest release is the current one.",
+    heroVideo: "A Mac's Screen Sharing in a Chrome tab on Windows.",
+    features: [
+      {
+        icon: "monitor",
+        title: "Built for Windows' and macOS's own servers",
+        body: (
+          <>Windows 10 and 11's own <strong>Remote Desktop</strong>, over RDP with its modern graphics pipeline, and macOS's built-in <strong>Screen Sharing</strong> in both its Standard and High Performance modes. The host needs only its own sharing switched on.</>
+        ),
+      },
+      {
+        icon: "terminal",
+        title: "Linux through wlshare",
+        body: (
+          <><a href={en.wlshare}>wlshare</a> is our own VNC server for wlroots compositors, and it gives zDesk what plain VNC lacks: screen density, sound and a choice of outputs. Other RDP and VNC servers connect through each protocol's baseline.</>
+        ),
+      },
+      {
+        icon: "globe",
+        title: "Your desktops from any browser",
+        body: (
+          <>Chrome, Edge or Safari on a desktop, Chrome on Android, and Safari on an iPhone or iPad, with no client to install. On a phone or tablet, fingers act as a trackpad, with pinch zoom and a soft keyboard.</>
+        ),
+      },
+      {
+        icon: "sharp",
+        title: "Sharp at its true size",
+        body: (
+          <>The remote desktop follows the browser window at its screen density, so a Retina or HiDPI display shows it sharp and at its true size, with a second display in a tab of its own.</>
+        ),
+      },
+      {
+        icon: "play",
+        title: "The remote's own picture, decoded in the browser",
+        body: (
+          <>Where the host provides its own picture, it is passed through untouched and decoded in the browser, with the remote's sound and the clipboard in both directions.</>
+        ),
+      },
+      {
+        icon: "code",
+        title: "A small, open-source gateway",
+        body: (
+          <>One Rust binary serving one session at a time. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
+        ),
+      },
     ],
-    intro: "zDesk is a small gateway you run next to your machines. It connects to:",
-    targets: [
-      <><strong>Windows 10 and 11's own Remote Desktop</strong>, over RDP with its modern graphics pipeline.</>,
-      <><strong>macOS's built-in Screen Sharing</strong>, in both of its modes: Standard and High Performance.</>,
-      <><strong>Linux</strong>, through <a href={en.wlshare}>wlshare</a>, our own VNC server for wlroots compositors.</>,
-      <>Other RDP and VNC servers, through each protocol's baseline.</>,
-    ],
-    hosts:
-      "Windows and macOS need nothing installed on the host, only their own sharing switched on. The gateway serves one web page that shows the desktop, so anything with a browser, on Windows, macOS, Linux, iOS or Android, reaches every one of them with no client to install either.",
+    howHeading: "How it works",
+    how: "The gateway serves one web page that shows the desktop, and speaks RDP or VNC to your machines.",
     diagram: "browser ── HTTPS or localhost ── zDesk ── RDP / VNC ── your desktops",
-    display:
-      "The display follows the browser window at its screen density, so a Retina or HiDPI display is sharp and shown at its true size. The remote's own picture is decoded in the browser where the host provides one, with sound, clipboard, two displays in two tabs, and a touch-screen interface for phones and tablets.",
-    demoHeading: "Demo",
+    quickStartHeading: "Quick start",
+    quickStart: (
+      <>Install the package for your platform from the <a href={RELEASE}>latest release</a>. On Debian 13 or Ubuntu 24.04 and later:</>
+    ),
+    docs: (
+      <><a href={en.install}>Installing zDesk</a> covers every platform, and <a href={en.guide}>Using zDesk</a> the browser client and setting up Windows, Mac, wlshare and VNC targets.</>
+    ),
+    footer: (
+      <>zDesk is under the <a href={LICENSE}>MIT licence</a>. It is released on a rolling basis, still settling its direction, and keeps no backward compatibility between releases; see the <a href={`${REPO}#readme`}>README</a>.</>
+    ),
+    demoTitle: "Demo",
+    demoDescription:
+      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows and to a Mac, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
+    demoIntro:
+      "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → Mac with one remote virtual display" },
       "windows-to-mac-two-displays": {
@@ -119,40 +190,78 @@ export const content: Record<Locale, Content> = {
           "wlshare on Sway shown at the Mac's Retina/HiDPI density, with the remote's sound, and the remote desktop resizing to follow the browser into and out of immersive full screen.",
       },
     },
-    quickStartHeading: "Quick start",
-    quickStart: (
-      <>Install the package for your platform from the <a href={RELEASE}>latest release</a>. On Debian 13 or Ubuntu 24.04 and later:</>
-    ),
-    docs: (
-      <><a href={en.install}>Installing zDesk</a> covers every platform, and <a href={en.guide}>Using zDesk</a> the browser client and setting up Windows, Mac, wlshare and VNC targets.</>
-    ),
-    footer: (
-      <>zDesk is under the <a href={LICENSE}>MIT licence</a>. zDesk is still settling its direction and keeps no backward compatibility between releases; see the <a href={`${REPO}#readme`}>README</a>.</>
-    ),
   },
   "zh-CN": {
     description:
       "在浏览器中使用远程桌面，连接 Windows 自带的远程桌面、macOS 内置的屏幕共享，以及 Linux 上的 wlshare，这是我们自己为 wlroots 合成器编写的 VNC 服务器。",
+    nav: { home: "首页", demo: "演示" },
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
-    links: [
-      { label: "下载最新发布", href: RELEASE, primary: true },
-      { label: "GitHub 上的源代码", href: zhCN.readme },
-      { label: "使用 zDesk", href: zhCN.guide },
-      { label: "安装 zDesk", href: zhCN.install },
+    intro:
+      "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面；Windows 和 macOS 主机也无需安装任何软件。",
+    download: "下载最新发布",
+    watchDemos: "观看演示",
+    source: zhCN.readme,
+    rolling: "zDesk 采用滚动发布：最新发布就是当前版本。",
+    heroVideo: "Windows 上 Chrome 标签页中的 Mac 屏幕共享。",
+    features: [
+      {
+        icon: "monitor",
+        title: "为 Windows 和 macOS 自带的服务器打造",
+        body: (
+          <>Windows 10 和 11 自带的<strong>远程桌面</strong>，通过 RDP 及其现代图形管道；以及 macOS 内置的<strong>屏幕共享</strong>，标准和高性能两种模式都支持。主机只需打开系统自带的共享功能。</>
+        ),
+      },
+      {
+        icon: "terminal",
+        title: "通过 wlshare 连接 Linux",
+        body: (
+          <><a href={zhCN.wlshare}>wlshare</a> 是我们自己为 wlroots 合成器编写的 VNC 服务器，它为 zDesk 补上了普通 VNC 所缺少的功能：屏幕密度、声音和输出选择。其他 RDP 和 VNC 服务器通过各协议的基础功能连接。</>
+        ),
+      },
+      {
+        icon: "globe",
+        title: "在任何浏览器中访问你的桌面",
+        body: (
+          <>桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。</>
+        ),
+      },
+      {
+        icon: "sharp",
+        title: "按真实尺寸清晰显示",
+        body: (
+          <>远程桌面以浏览器窗口的屏幕密度跟随窗口大小，因此在 Retina 或 HiDPI 显示器上清晰且按真实尺寸显示；第二个显示器可在单独的标签页中显示。</>
+        ),
+      },
+      {
+        icon: "play",
+        title: "远程自身的画面，在浏览器中解码",
+        body: <>主机提供自身画面时，画面原样传递并在浏览器中解码，同时带有远程的声音和双向剪贴板。</>,
+      },
+      {
+        icon: "code",
+        title: "小巧、开源的网关",
+        body: (
+          <>一个 Rust 二进制文件，一次服务一个会话。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
+        ),
+      },
     ],
-    intro: "zDesk 是一个小型网关，运行在你的机器旁边。它可以连接：",
-    targets: [
-      <><strong>Windows 10 和 11 自带的远程桌面</strong>，通过 RDP 及其现代图形管道。</>,
-      <><strong>macOS 内置的屏幕共享</strong>，两种模式都支持：标准（Standard）和高性能（High Performance）。</>,
-      <><strong>Linux</strong>，通过 <a href={zhCN.wlshare}>wlshare</a>，这是我们自己为 wlroots 合成器编写的 VNC 服务器。</>,
-      <>其他 RDP 和 VNC 服务器，通过各协议的基础功能。</>,
-    ],
-    hosts:
-      "Windows 和 macOS 主机无需安装任何软件，只需打开系统自带的共享功能。网关提供一个显示桌面的网页，因此任何有浏览器的设备，无论是 Windows、macOS、Linux、iOS 还是 Android，同样无需安装客户端即可访问上述所有桌面。",
+    howHeading: "工作原理",
+    how: "网关提供一个显示桌面的网页，并通过 RDP 或 VNC 连接你的机器。",
     diagram: "浏览器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
-    display:
-      "显示器会以浏览器窗口的屏幕密度跟随窗口大小，因此在 Retina 或 HiDPI 显示器上清晰且按真实尺寸显示。主机提供自身画面时，直接在浏览器中解码；并带有声音、剪贴板、分两个标签页显示的两个显示器，以及面向手机和平板的触屏界面。",
-    demoHeading: "演示",
+    quickStartHeading: "快速开始",
+    quickStart: (
+      <>从<a href={RELEASE}>最新发布</a>安装适合你平台的软件包。在 Debian 13 或 Ubuntu 24.04 及更高版本上：</>
+    ),
+    docs: (
+      <><a href={zhCN.install}>安装 zDesk</a> 涵盖所有平台；<a href={zhCN.guide}>使用 zDesk</a> 介绍浏览器客户端，以及如何设置 Windows、Mac、wlshare 和 VNC 目标。</>
+    ),
+    footer: (
+      <>zDesk 采用 <a href={LICENSE}>MIT 许可证</a>，以滚动方式发布，方向仍在调整中，版本之间不保证向后兼容；详见 <a href={zhCN.readme}>README</a>。</>
+    ),
+    demoTitle: "演示",
+    demoDescription:
+      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows 和 Mac，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
+    demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 带一个远程虚拟显示器的 Mac" },
       "windows-to-mac-two-displays": {
@@ -177,40 +286,78 @@ export const content: Record<Locale, Content> = {
           "以 Mac 的 Retina/HiDPI 密度显示 Sway 上的 wlshare，带远程的声音，进入和退出沉浸式全屏时远程桌面会随浏览器调整大小。",
       },
     },
-    quickStartHeading: "快速开始",
-    quickStart: (
-      <>从<a href={RELEASE}>最新发布</a>安装适合你平台的软件包。在 Debian 13 或 Ubuntu 24.04 及更高版本上：</>
-    ),
-    docs: (
-      <><a href={zhCN.install}>安装 zDesk</a> 涵盖所有平台；<a href={zhCN.guide}>使用 zDesk</a> 介绍浏览器客户端，以及如何设置 Windows、Mac、wlshare 和 VNC 目标。</>
-    ),
-    footer: (
-      <>zDesk 采用 <a href={LICENSE}>MIT 许可证</a>。zDesk 的方向仍在调整中，版本之间不保证向后兼容；详见 <a href={zhCN.readme}>README</a>。</>
-    ),
   },
   "zh-TW": {
     description:
       "在瀏覽器中使用遠端桌面，連線 Windows 內建的遠端桌面、macOS 內建的螢幕共享，以及 Linux 上的 wlshare，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。",
+    nav: { home: "首頁", demo: "示範" },
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",
-    links: [
-      { label: "下載最新發行版", href: RELEASE, primary: true },
-      { label: "GitHub 上的原始碼", href: zhTW.readme },
-      { label: "使用 zDesk", href: zhTW.guide },
-      { label: "安裝 zDesk", href: zhTW.install },
+    intro:
+      "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面；Windows 和 macOS 主機也不需要安裝任何軟體。",
+    download: "下載最新發行版",
+    watchDemos: "觀看示範",
+    source: zhTW.readme,
+    rolling: "zDesk 採用滾動發行：最新發行版就是目前的版本。",
+    heroVideo: "在 Windows 的 Chrome 分頁中顯示 Mac 的螢幕共享。",
+    features: [
+      {
+        icon: "monitor",
+        title: "為 Windows 和 macOS 內建的伺服器打造",
+        body: (
+          <>Windows 10 和 11 內建的<strong>遠端桌面</strong>，透過 RDP 及其新式圖形管線；以及 macOS 內建的<strong>螢幕共享</strong>，標準和高效能兩種模式都支援。主機只要開啟系統內建的共享功能即可。</>
+        ),
+      },
+      {
+        icon: "terminal",
+        title: "透過 wlshare 連線 Linux",
+        body: (
+          <><a href={zhTW.wlshare}>wlshare</a> 是我們自己為 wlroots 合成器撰寫的 VNC 伺服器，為 zDesk 補足一般 VNC 缺少的功能：螢幕密度、聲音和輸出選擇。其他 RDP 和 VNC 伺服器透過各協定的基本功能連線。</>
+        ),
+      },
+      {
+        icon: "globe",
+        title: "在任何瀏覽器中存取你的桌面",
+        body: (
+          <>桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。</>
+        ),
+      },
+      {
+        icon: "sharp",
+        title: "以真實尺寸清晰顯示",
+        body: (
+          <>遠端桌面以瀏覽器視窗的螢幕密度跟隨視窗大小，因此在 Retina 或 HiDPI 顯示器上清晰且以真實尺寸顯示；第二個顯示器可在獨立的分頁中顯示。</>
+        ),
+      },
+      {
+        icon: "play",
+        title: "遠端自身的畫面，在瀏覽器中解碼",
+        body: <>主機提供自身畫面時，畫面原封不動地傳遞並在瀏覽器中解碼，同時帶有遠端的聲音和雙向剪貼簿。</>,
+      },
+      {
+        icon: "code",
+        title: "小巧、開放原始碼的閘道",
+        body: (
+          <>一個 Rust 執行檔，一次服務一個工作階段。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
+        ),
+      },
     ],
-    intro: "zDesk 是一個小型閘道，執行在你的電腦旁邊。它可以連線到：",
-    targets: [
-      <><strong>Windows 10 和 11 內建的遠端桌面</strong>，透過 RDP 及其新式圖形管線。</>,
-      <><strong>macOS 內建的螢幕共享</strong>，兩種模式都支援：標準（Standard）和高效能（High Performance）。</>,
-      <><strong>Linux</strong>，透過 <a href={zhTW.wlshare}>wlshare</a>，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。</>,
-      <>其他 RDP 和 VNC 伺服器，透過各協定的基本功能。</>,
-    ],
-    hosts:
-      "Windows 和 macOS 主機不需要安裝任何軟體，只要開啟系統內建的共享功能即可。閘道提供一個顯示桌面的網頁，因此任何有瀏覽器的裝置，無論是 Windows、macOS、Linux、iOS 還是 Android，同樣不需要安裝用戶端就能存取上述所有桌面。",
+    howHeading: "運作方式",
+    how: "閘道提供一個顯示桌面的網頁，並透過 RDP 或 VNC 連線到你的電腦。",
     diagram: "瀏覽器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
-    display:
-      "顯示器會以瀏覽器視窗的螢幕密度跟隨視窗大小，因此在 Retina 或 HiDPI 顯示器上清晰且以真實尺寸顯示。主機提供自身畫面時，直接在瀏覽器中解碼；並帶有聲音、剪貼簿、分兩個分頁顯示的兩個顯示器，以及為手機和平板設計的觸控介面。",
-    demoHeading: "示範",
+    quickStartHeading: "快速入門",
+    quickStart: (
+      <>從<a href={RELEASE}>最新發行版</a>安裝適合你平台的套件。在 Debian 13 或 Ubuntu 24.04 及更新版本上：</>
+    ),
+    docs: (
+      <><a href={zhTW.install}>安裝 zDesk</a> 涵蓋所有平台；<a href={zhTW.guide}>使用 zDesk</a> 說明瀏覽器用戶端，以及如何設定 Windows、Mac、wlshare 和 VNC 目標。</>
+    ),
+    footer: (
+      <>zDesk 採用 <a href={LICENSE}>MIT 授權條款</a>，以滾動方式發行，方向仍在調整中，版本之間不保證回溯相容；詳見 <a href={zhTW.readme}>README</a>。</>
+    ),
+    demoTitle: "示範",
+    demoDescription:
+      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows 和 Mac，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
+    demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 有一個遠端虛擬顯示器的 Mac" },
       "windows-to-mac-two-displays": {
@@ -235,16 +382,5 @@ export const content: Record<Locale, Content> = {
           "以 Mac 的 Retina/HiDPI 密度顯示 Sway 上的 wlshare，帶有遠端的聲音，進入和離開沉浸式全螢幕時，遠端桌面會隨瀏覽器調整大小。",
       },
     },
-    quickStartHeading: "快速入門",
-    quickStart: (
-      <>從<a href={RELEASE}>最新發行版</a>安裝適合你平台的套件。在 Debian 13 或 Ubuntu 24.04 及更新版本上：</>
-    ),
-    docs: (
-      <><a href={zhTW.install}>安裝 zDesk</a> 涵蓋所有平台；<a href={zhTW.guide}>使用 zDesk</a> 說明瀏覽器用戶端，以及如何設定 Windows、Mac、wlshare 和 VNC 目標。</>
-    ),
-    footer: (
-      <>zDesk 採用 <a href={LICENSE}>MIT 授權條款</a>。zDesk 的方向仍在調整中，版本之間不保證回溯相容；詳見 <a href={zhTW.readme}>README</a>。</>
-    ),
   },
 };
-

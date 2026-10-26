@@ -1,25 +1,23 @@
 import { SITE_URL } from "../site.config.mjs";
-import { content, locales, type Locale } from "./content";
+import { content, locales, pagePath, type Locale, type Page } from "./content";
 
-const TITLE = "zDesk";
+const SITE_NAME = "zDesk";
 
-function url(path: string) {
-  return path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`;
-}
-
-// Each locale names itself as canonical and lists every locale as an alternate.
-export function localeMeta(locale: Locale) {
-  const { description } = content[locale];
-  const self = url(locales.find((l) => l.id === locale)!.path);
+// Each page names itself as canonical and lists its every locale as an alternate.
+export function pageMeta(locale: Locale, page: Page) {
+  const c = content[locale];
+  const title = page === "home" ? SITE_NAME : `${c.demoTitle} · ${SITE_NAME}`;
+  const description = page === "home" ? c.description : c.demoDescription;
+  const self = `${SITE_URL}${pagePath(locale, page)}`;
   return [
-    { title: TITLE },
+    { title },
     { name: "description", content: description },
-    { property: "og:site_name", content: TITLE },
+    { property: "og:site_name", content: SITE_NAME },
     { property: "og:type", content: "website" },
-    { property: "og:title", content: TITLE },
+    { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:url", content: self },
     { tagName: "link", rel: "canonical", href: self },
-    ...locales.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: l.id, href: url(l.path) })),
+    ...locales.map((l) => ({ tagName: "link", rel: "alternate", hrefLang: l.id, href: `${SITE_URL}${pagePath(l.id, page)}` })),
   ];
 }
