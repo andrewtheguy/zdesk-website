@@ -51,11 +51,13 @@ export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | 
 export interface Content {
   description: string;
   nav: Record<Page, string>;
+  // The language menu's accessible name, given the current language's name.
+  language: (current: string) => string;
   tagline: string;
   intro: string;
   download: string;
   watchDemos: string;
-  source: string;
+  source: { label: string; href: string };
   rolling: string;
   heroVideo: string;
   features: { icon: FeatureIcon; title: string; body: ReactNode }[];
@@ -91,13 +93,14 @@ export const content: Record<Locale, Content> = {
     description:
       "Remote desktop in a browser, for Windows' own Remote Desktop, macOS's built-in Screen Sharing, and Linux through wlshare, our own VNC server for wlroots compositors.",
     nav: { home: "Home", demo: "Demo" },
+    language: (current) => `Language: ${current}`,
     tagline:
       "Remote desktop in a browser, for Windows' and macOS's own remote desktop servers, and for Linux through wlshare.",
     intro:
       "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops, and Windows and macOS need nothing installed on the host either.",
     download: "Download the latest release",
     watchDemos: "Watch the demos",
-    source: REPO,
+    source: { label: "Source code", href: REPO },
     rolling: "zDesk is on a rolling release: the latest release is the current one.",
     heroVideo: "A Mac's Screen Sharing in a Chrome tab on Windows.",
     features: [
@@ -195,12 +198,13 @@ export const content: Record<Locale, Content> = {
     description:
       "在浏览器中使用远程桌面，连接 Windows 自带的远程桌面、macOS 内置的屏幕共享，以及 Linux 上的 wlshare，这是我们自己为 wlroots 合成器编写的 VNC 服务器。",
     nav: { home: "首页", demo: "演示" },
+    language: (current) => `语言：${current}`,
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
     intro:
       "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面；Windows 和 macOS 主机也无需安装任何软件。",
     download: "下载最新发布",
     watchDemos: "观看演示",
-    source: zhCN.readme,
+    source: { label: "源代码", href: zhCN.readme },
     rolling: "zDesk 采用滚动发布：最新发布就是当前版本。",
     heroVideo: "Windows 上 Chrome 标签页中的 Mac 屏幕共享。",
     features: [
@@ -291,12 +295,13 @@ export const content: Record<Locale, Content> = {
     description:
       "在瀏覽器中使用遠端桌面，連線 Windows 內建的遠端桌面、macOS 內建的螢幕共享，以及 Linux 上的 wlshare，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。",
     nav: { home: "首頁", demo: "示範" },
+    language: (current) => `語言：${current}`,
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",
     intro:
       "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面；Windows 和 macOS 主機也不需要安裝任何軟體。",
     download: "下載最新發行版",
     watchDemos: "觀看示範",
-    source: zhTW.readme,
+    source: { label: "原始碼", href: zhTW.readme },
     rolling: "zDesk 採用滾動發行：最新發行版就是目前的版本。",
     heroVideo: "在 Windows 的 Chrome 分頁中顯示 Mac 的螢幕共享。",
     features: [
