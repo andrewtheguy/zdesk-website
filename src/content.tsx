@@ -32,8 +32,8 @@ export type Platform = "linux" | "macos" | "windows";
 
 // The quick start's install, one per platform: docs/install.md in the zdesk repo gives
 // the same downloads, installed from the command line.
-// On macOS and Windows the panel goes on to the local control plane, `zdesk tui`.
-export const installs: { id: Platform; label: string; command: string; tui?: boolean }[] = [
+// Below the panels, every platform goes on to the local control plane, `zdesk tui`.
+export const installs: { id: Platform; label: string; command: string }[] = [
   {
     id: "linux",
     label: "Linux",
@@ -45,32 +45,33 @@ sudo apt install ./zdesk-linux-amd64.deb`,
     label: "macOS",
     command: `curl -fsSLO ${PINNED}/zdesk-macos-arm64.pkg
 open zdesk-macos-arm64.pkg`,
-    tui: true,
   },
   {
     id: "windows",
     label: "Windows",
     command: `Invoke-WebRequest ${PINNED}/zdesk-windows-x86_64.msi -OutFile zdesk-windows-x86_64.msi
 start zdesk-windows-x86_64.msi`,
-    tui: true,
   },
 ];
 
 export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 816, height: 686 };
 
+// A demo with sound has a caption file per locale beside its video, `<video>.<locale>.vtt`,
+// describing the sound.
 export interface Demo {
   id: string;
   video: string;
   portrait?: boolean;
+  captions?: boolean;
 }
 
 export const demos: Demo[] = [
-  { id: "windows-to-mac-one-display", video: "windows-to-mac-one-display.mp4" },
+  { id: "windows-to-mac-one-display", video: "windows-to-mac-one-display.mp4", captions: true },
   { id: "windows-to-mac-two-displays", video: "windows-to-mac-two-displays.mp4" },
   { id: "ios-to-windows", video: "ios-to-windows.mp4", portrait: true },
   { id: "ios-to-mac", video: "ios-to-mac.mp4", portrait: true },
-  { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4" },
-  { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4" },
+  { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4", captions: true },
+  { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", captions: true },
 ];
 
 export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | "code";
@@ -159,7 +160,7 @@ export const content: Record<Locale, Content> = {
         icon: "sharp",
         title: "Sharp at its true size",
         body: (
-          <>The remote desktop follows the browser window at its screen density, so a Retina or HiDPI display shows it sharp and at its true size, with a second display in a tab of its own.</>
+          <>Windows, a High Performance Mac and wlshare follow the browser window at its screen density, so a Retina or HiDPI display shows them sharp and at their true size, with a second display (beta) in a tab of its own. A Standard Mac shows its displays at the density it reports, and plain VNC at 1x and the server's own size.</>
         ),
       },
       {
@@ -283,7 +284,7 @@ export const content: Record<Locale, Content> = {
         icon: "sharp",
         title: "按真实尺寸清晰显示",
         body: (
-          <>远程桌面以浏览器窗口的屏幕密度跟随窗口大小，因此在 Retina 或 HiDPI 显示器上清晰且按真实尺寸显示；第二个显示器可在单独的标签页中显示。</>
+          <>Windows、高性能模式的 Mac 和 wlshare 以浏览器窗口的屏幕密度跟随窗口大小，因此在 Retina 或 HiDPI 显示器上清晰且按真实尺寸显示；第二个显示器（测试版）可在单独的标签页中显示。标准模式的 Mac 按其报告的密度显示其显示器，普通 VNC 则以 1x 和服务器自身的尺寸显示。</>
         ),
       },
       {
@@ -400,7 +401,7 @@ export const content: Record<Locale, Content> = {
         icon: "sharp",
         title: "以真實尺寸清晰顯示",
         body: (
-          <>遠端桌面以瀏覽器視窗的螢幕密度跟隨視窗大小，因此在 Retina 或 HiDPI 顯示器上清晰且以真實尺寸顯示；第二個顯示器可在獨立的分頁中顯示。</>
+          <>Windows、高效能模式的 Mac 和 wlshare 以瀏覽器視窗的螢幕密度跟隨視窗大小，因此在 Retina 或 HiDPI 顯示器上清晰且以真實尺寸顯示；第二個顯示器（Beta 版）可在獨立的分頁中顯示。標準模式的 Mac 以其回報的密度顯示其顯示器，一般 VNC 則以 1x 和伺服器本身的尺寸顯示。</>
         ),
       },
       {

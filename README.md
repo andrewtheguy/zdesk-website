@@ -7,7 +7,7 @@ React Router app, built with Vite and prerendered to static pages, served by Git
 Pages.
 
 - `src/content.tsx`: the text of the home and demo pages for each locale, and their videos.
-- `public/videos/`: the home page's video and its poster, and the demo videos.
+- `public/videos/`: the home page's video and its poster, and the demo videos with caption files for their sound.
 - `site.config.mjs`: the site's URL and routes, for prerendering and the sitemap.
 
 ```bash

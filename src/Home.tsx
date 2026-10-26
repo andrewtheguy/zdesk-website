@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import InstallTabs from "./InstallTabs";
 import Shell from "./Shell";
 import { HERO_VIDEO, content, pagePath, type FeatureIcon, type Locale } from "./content";
@@ -29,6 +30,11 @@ const ICONS: Record<FeatureIcon, React.ReactNode> = {
 
 export default function Home({ locale }: { locale: Locale }) {
   const c = content[locale];
+  // The hero plays itself unless the visitor asks for reduced motion; its controls pause it.
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) void video.current?.play().catch(() => {});
+  }, []);
   return (
     <Shell locale={locale} page="home">
       <section className="hero">
@@ -65,7 +71,8 @@ export default function Home({ locale }: { locale: Locale }) {
           </div>
           <figure className="hero-video">
             <video
-              autoPlay
+              ref={video}
+              controls
               muted
               loop
               playsInline

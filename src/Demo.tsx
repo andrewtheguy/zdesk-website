@@ -1,8 +1,9 @@
 import Shell from "./Shell";
-import { content, demos, type Locale } from "./content";
+import { content, demos, locales, type Locale } from "./content";
 
 export default function Demo({ locale }: { locale: Locale }) {
   const c = content[locale];
+  const language = locales.find((l) => l.id === locale)!.label;
   return (
     <Shell locale={locale} page="demo">
       <main>
@@ -27,7 +28,17 @@ export default function Demo({ locale }: { locale: Locale }) {
                 preload="metadata"
                 playsInline
                 src={`/videos/${demo.video}`}
-              />
+              >
+                {demo.captions && (
+                  <track
+                    kind="captions"
+                    src={`/videos/${demo.video.replace(/\.mp4$/, `.${locale}.vtt`)}`}
+                    srcLang={locale}
+                    label={language}
+                    default
+                  />
+                )}
+              </video>
             </section>
           );
         })}

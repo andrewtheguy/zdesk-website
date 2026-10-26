@@ -1,16 +1,5 @@
-import { useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
+import { useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { installs, type Platform } from "./content";
-
-// The visitor's own platform, once hydrated; the prerendered page shows Linux.
-function detectPlatform(): Platform {
-  const nav = navigator as Navigator & { userAgentData?: { platform: string } };
-  const platform = nav.userAgentData?.platform ?? navigator.userAgent;
-  if (/mac|iphone|ipad/i.test(platform)) return "macos";
-  if (/win/i.test(platform)) return "windows";
-  return "linux";
-}
-
-const noSubscription = () => () => {};
 
 export default function InstallTabs({
   notes,
@@ -19,9 +8,7 @@ export default function InstallTabs({
   notes: Record<Platform, ReactNode>;
   tui: { intro: ReactNode; steps: ReactNode };
 }) {
-  const detected = useSyncExternalStore(noSubscription, detectPlatform, (): Platform => "linux");
-  const [chosen, setChosen] = useState<Platform>();
-  const selected = chosen ?? detected;
+  const [selected, setSelected] = useState<Platform>(installs[0].id);
   const tabs = useRef<Partial<Record<Platform, HTMLButtonElement | null>>>({});
 
   // Arrow keys, Home and End move between tabs, as the ARIA tabs pattern has it.
@@ -31,7 +18,7 @@ export default function InstallTabs({
     if (next === undefined) return;
     e.preventDefault();
     const id = installs[(next + installs.length) % installs.length].id;
-    setChosen(id);
+    setSelected(id);
     tabs.current[id]?.focus();
   };
 
@@ -50,7 +37,7 @@ export default function InstallTabs({
             aria-controls={`install-${p.id}`}
             aria-selected={p.id === selected}
             tabIndex={p.id === selected ? 0 : -1}
-            onClick={() => setChosen(p.id)}
+            onClick={() => setSelected(p.id)}
           >
             {p.label}
           </button>
@@ -68,17 +55,13 @@ export default function InstallTabs({
             <code>{p.command}</code>
           </pre>
           <p className="install-note">{notes[p.id]}</p>
-          {p.tui && (
-            <>
-              <p className="install-then">{tui.intro}</p>
-              <pre>
-                <code>zdesk tui</code>
-              </pre>
-              <p className="install-note">{tui.steps}</p>
-            </>
-          )}
         </div>
       ))}
+      <p className="install-then">{tui.intro}</p>
+      <pre>
+        <code>zdesk tui</code>
+      </pre>
+      <p className="install-note">{tui.steps}</p>
     </div>
   );
 }
