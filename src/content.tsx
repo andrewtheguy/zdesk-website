@@ -124,7 +124,7 @@ export const demos: Demo[] = [
   { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 85, captions: true },
 ];
 
-export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | "code" | "user";
+export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | "code";
 
 export interface Content {
   description: string;
@@ -227,14 +227,7 @@ export const content: Record<Locale, Content> = {
         icon: "code",
         title: "A small, open-source gateway",
         body: (
-          <>One Rust binary serving one session at a time. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
-        ),
-      },
-      {
-        icon: "user",
-        title: "No elevated permission needed",
-        body: (
-          <>The gateway runs as an ordinary user account, with no root or administrator rights, and keeps its config and state in directories only that account can read. Installing the package is the one step that asks for administrator rights.</>
+          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
         ),
       },
     ],
@@ -382,14 +375,7 @@ export const content: Record<Locale, Content> = {
         icon: "code",
         title: "小巧、开源的网关",
         body: (
-          <>一个 Rust 二进制文件，一次服务一个会话。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
-        ),
-      },
-      {
-        icon: "user",
-        title: "网关无需提升权限",
-        body: (
-          <>网关以普通用户账户运行，无需 root 或管理员权限，其配置和状态保存在只有该账户能读取的目录中。只有安装软件包这一步需要管理员权限。</>
+          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
         ),
       },
     ],
@@ -531,14 +517,7 @@ export const content: Record<Locale, Content> = {
         icon: "code",
         title: "小巧、開放原始碼的閘道",
         body: (
-          <>一個 Rust 執行檔，一次服務一個工作階段。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
-        ),
-      },
-      {
-        icon: "user",
-        title: "閘道不需要提高權限",
-        body: (
-          <>閘道以一般使用者帳戶執行，不需要 root 或系統管理員權限，其設定和狀態存放在只有該帳戶能讀取的目錄中。只有安裝套件這個步驟需要系統管理員權限。</>
+          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
         ),
       },
     ],

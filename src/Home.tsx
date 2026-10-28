@@ -26,12 +26,6 @@ const ICONS: Record<FeatureIcon, React.ReactNode> = {
     </>
   ),
   code: <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />,
-  user: (
-    <>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21a8 8 0 0 1 16 0" />
-    </>
-  ),
 };
 
 export default function Home({ locale }: { locale: Locale }) {
