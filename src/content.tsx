@@ -192,7 +192,7 @@ export const content: Record<Locale, Content> = {
         icon: "monitor",
         title: "Built for Windows' and macOS's own servers",
         body: (
-          <>Windows 10 and 11's own <strong>Remote Desktop</strong>, over RDP with its modern graphics pipeline, and macOS's built-in <strong>Screen Sharing</strong> in both its Standard and High Performance modes. The host needs only its own sharing switched on.</>
+          <>Windows 10 and 11's own <strong>Remote Desktop</strong>, over RDP with its modern graphics pipeline, and macOS's built-in <strong>Screen Sharing</strong> in both its Standard and High Performance modes. The host needs no agent or other software installed, only its own sharing switched on.</>
         ),
       },
       {
@@ -342,7 +342,7 @@ export const content: Record<Locale, Content> = {
         icon: "monitor",
         title: "为 Windows 和 macOS 自带的服务器打造",
         body: (
-          <>Windows 10 和 11 自带的<strong>远程桌面</strong>，通过 RDP 及其现代图形管道；以及 macOS 内置的<strong>屏幕共享</strong>，标准和高性能两种模式都支持。主机只需打开系统自带的共享功能。</>
+          <>Windows 10 和 11 自带的<strong>远程桌面</strong>，通过 RDP 及其现代图形管道；以及 macOS 内置的<strong>屏幕共享</strong>，标准和高性能两种模式都支持。主机无需安装代理程序或其他软件，只需打开系统自带的共享功能。</>
         ),
       },
       {
@@ -484,7 +484,7 @@ export const content: Record<Locale, Content> = {
         icon: "monitor",
         title: "為 Windows 和 macOS 內建的伺服器打造",
         body: (
-          <>Windows 10 和 11 內建的<strong>遠端桌面</strong>，透過 RDP 及其新式圖形管線；以及 macOS 內建的<strong>螢幕共享</strong>，標準和高效能兩種模式都支援。主機只要開啟系統內建的共享功能即可。</>
+          <>Windows 10 和 11 內建的<strong>遠端桌面</strong>，透過 RDP 及其新式圖形管線；以及 macOS 內建的<strong>螢幕共享</strong>，標準和高效能兩種模式都支援。主機不需要安裝代理程式或其他軟體，只要開啟系統內建的共享功能即可。</>
         ),
       },
       {
