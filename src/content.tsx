@@ -138,7 +138,8 @@ export interface Content {
   source: { label: string; href: string };
   rolling: string;
   heroVideo: string;
-  features: { icon: FeatureIcon; title: string; body: ReactNode }[];
+  // A note goes to the footer as note-<icon>, which the body marks with a link to it.
+  features: { icon: FeatureIcon; title: string; body: ReactNode; note?: ReactNode }[];
   howHeading: string;
   how: string;
   diagram: string;
@@ -206,7 +207,10 @@ export const content: Record<Locale, Content> = {
         icon: "code",
         title: "A small, unprivileged gateway",
         body: (
-          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
+          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights.<sup><a href="#note-code">*</a></sup> With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
+        ),
+        note: (
+          <>* The <a href="#quick-start">quick start</a> asks for administrator rights once, to install the package and create its directories. For a gateway that never needs them, compile the zdesk binary from source or unpack it from a release package yourself, keep its config in a directory your account owns, and run it on an unprivileged port, such as the default 52380.</>
         ),
       },
       {
@@ -356,7 +360,10 @@ export const content: Record<Locale, Content> = {
         icon: "code",
         title: "小巧、无需特权的网关",
         body: (
-          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
+          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限<sup><a href="#note-code">*</a></sup>。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
+        ),
+        note: (
+          <>* <a href="#quick-start">快速开始</a>中的安装需要一次管理员权限，用于安装软件包并创建其目录。若要完全无需特权，请自行从源代码编译 zdesk 二进制文件，或从发布的软件包中解出，将配置放在你的账户拥有的目录中，并在非特权端口（例如默认的 52380）上运行。</>
         ),
       },
       {
@@ -498,7 +505,10 @@ export const content: Record<Locale, Content> = {
         icon: "code",
         title: "小巧、不需特殊權限的閘道",
         body: (
-          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
+          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限<sup><a href="#note-code">*</a></sup>。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
+        ),
+        note: (
+          <>* <a href="#quick-start">快速入門</a>中的安裝需要一次系統管理員權限，用來安裝套件並建立其目錄。若要完全不需特殊權限，請自行從原始碼編譯 zdesk 執行檔，或從發行的套件中取出，將設定放在你的帳戶擁有的目錄中，並在非特殊權限的連接埠（例如預設的 52380）上執行。</>
         ),
       },
       {

@@ -37,7 +37,18 @@ export default function Home({ locale }: { locale: Locale }) {
     if (video.current && matchMedia("(hover: hover)").matches) video.current.controls = true;
   }, []);
   return (
-    <Shell locale={locale} page="home">
+    <Shell
+      locale={locale}
+      page="home"
+      footnotes={c.features.map(
+        (f) =>
+          f.note && (
+            <p className="footnote" id={`note-${f.icon}`} key={f.icon}>
+              {f.note}
+            </p>
+          ),
+      )}
+    >
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-text">
