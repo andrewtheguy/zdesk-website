@@ -64,7 +64,17 @@ function LanguageMenu({ locale, page, label }: { locale: Locale; page: Page; lab
   );
 }
 
-export default function Shell({ locale, page, children }: { locale: Locale; page: Page; children: ReactNode }) {
+export default function Shell({
+  locale,
+  page,
+  footnotes,
+  children,
+}: {
+  locale: Locale;
+  page: Page;
+  footnotes?: ReactNode;
+  children: ReactNode;
+}) {
   const c = content[locale];
   return (
     <>
@@ -87,6 +97,7 @@ export default function Shell({ locale, page, children }: { locale: Locale; page
       </header>
       {children}
       <footer>
+        {footnotes}
         <p>{c.footer}</p>
       </footer>
     </>

@@ -131,6 +131,8 @@ export interface Content {
   nav: Record<Page, string>;
   // The language menu's accessible name, given the current language's name.
   language: (current: string) => string;
+  // The home page's title, after the site name.
+  homeTitle: string;
   tagline: string;
   intro: string;
   getStarted: string;
@@ -138,7 +140,8 @@ export interface Content {
   source: { label: string; href: string };
   rolling: string;
   heroVideo: string;
-  features: { icon: FeatureIcon; title: string; body: ReactNode }[];
+  // A note goes to the footer as note-<icon>, which the body marks with a link to it.
+  features: { icon: FeatureIcon; title: string; body: ReactNode; note?: ReactNode }[];
   howHeading: string;
   how: string;
   diagram: string;
@@ -155,6 +158,8 @@ export interface Content {
   demoIntro: string;
   // Marks a demo recorded with the remote's sound.
   demoSound: string;
+  // What the demos show, then where to go from them.
+  demoNext: { text: string; compatibility: { label: string; href: string } };
   demos: Record<string, { title: string; caption?: string }>;
 }
 
@@ -178,10 +183,11 @@ export const content: Record<Locale, Content> = {
       "Remote desktop in a browser, for Windows' own Remote Desktop, macOS's built-in Screen Sharing, and Linux through wlshare, our own VNC server for wlroots compositors.",
     nav: { home: "Home", demo: "Demo" },
     language: (current) => `Language: ${current}`,
+    homeTitle: "Remote desktop in a browser",
     tagline:
       "Remote desktop in a browser, for Windows' and macOS's own remote desktop servers, and for Linux through wlshare.",
     intro:
-      "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops.",
+      "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops. It is self-hosted and single-user, with one active session at a time, and supplies no relay: you reach it on localhost, through an SSH tunnel or behind an HTTPS reverse proxy of your own.",
     getStarted: "Get Started",
     seeInAction: "See It in Action",
     source: { label: "Source Code", href: REPO },
@@ -192,7 +198,7 @@ export const content: Record<Locale, Content> = {
         icon: "monitor",
         title: "Built for Windows' and macOS's own servers",
         body: (
-          <>Windows 10 and 11's own <strong>Remote Desktop</strong>, over RDP with its modern graphics pipeline, and macOS's built-in <strong>Screen Sharing</strong> in both its Standard and High Performance modes. The host needs no agent or other software installed, only its own sharing switched on.</>
+          <>Windows 10 and 11's own <strong>Remote Desktop</strong> (Home editions cannot host it), over RDP with its modern graphics pipeline, and macOS's built-in <strong>Screen Sharing</strong> in both its Standard and High Performance modes. The host needs no agent or other software installed, only its own sharing switched on.</>
         ),
       },
       {
@@ -204,16 +210,19 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "code",
-        title: "A small, unprivileged gateway",
+        title: "A lightweight, unprivileged gateway",
         body: (
-          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
+          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights.<sup><a href="#note-code">*</a></sup> With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
+        ),
+        note: (
+          <>* The <a href="#quick-start">quick start</a> asks for administrator rights once, to install the package and create its directories. For a gateway that never needs them, compile the zdesk binary from source or unpack it from a release package yourself, keep its config in a directory your account owns, and run it on an unprivileged port, such as the default 52380.</>
         ),
       },
       {
         icon: "globe",
         title: "Your desktops from anywhere",
         body: (
-          <>The client is the web page the gateway serves, so your desktops are not tied to one device or place: wherever a browser can reach the gateway, you have your machines. Chrome, Edge or Safari on a desktop, Chrome on Android, and Safari on an iPhone or iPad, with no client to install. On a phone or tablet, fingers act as a trackpad, with pinch zoom and a soft keyboard.</>
+          <>The client is the web page the gateway serves, so your desktops are not tied to one device or place: wherever a browser can reach the gateway, you have your machines. Chrome, Edge or Safari on a desktop, Chrome on Android, and Safari on an iPhone or iPad, with no client to install. On a phone or tablet, fingers act as a trackpad, with pinch zoom and a soft keyboard. Which pictures and sound a browser decodes depends on its WebCodecs support; see <a href={`${en.guide}#the-client`}>The client</a>.</>
         ),
       },
       {
@@ -227,7 +236,7 @@ export const content: Record<Locale, Content> = {
         icon: "play",
         title: "The remote's own picture, decoded in the browser",
         body: (
-          <>Where the host provides its own picture, it is passed through untouched and decoded in the browser, with the remote's sound and the clipboard in both directions.</>
+          <>Where the host provides its own picture, it is passed through untouched and decoded in the browser, with the clipboard in both directions and, from Windows, a High Performance Mac and wlshare, the remote's sound.</>
         ),
       },
     ],
@@ -290,6 +299,10 @@ export const content: Record<Locale, Content> = {
     demoIntro:
       "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
     demoSound: "With sound",
+    demoNext: {
+      text: "Each recording is a live zDesk session in a browser, with no client installed on the device it was recorded from.",
+      compatibility: { label: "Compatibility Details", href: `${REPO}#server-and-browser-support` },
+    },
     demos: {
       "windows-to-mac-one-display": { title: "Windows → Mac with one remote virtual display" },
       "windows-to-mac-two-displays": {
@@ -329,9 +342,10 @@ export const content: Record<Locale, Content> = {
       "在浏览器中使用远程桌面，连接 Windows 自带的远程桌面、macOS 内置的屏幕共享，以及 Linux 上的 wlshare，这是我们自己为 wlroots 合成器编写的 VNC 服务器。",
     nav: { home: "首页", demo: "演示" },
     language: (current) => `语言：${current}`,
+    homeTitle: "浏览器中的远程桌面",
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
     intro:
-      "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面。",
+      "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面。它由你自行托管，供单个用户使用，一次只有一个活动会话，也不提供中继：你需要通过 localhost、SSH 隧道或你自己的 HTTPS 反向代理来访问它。",
     getStarted: "开始使用",
     seeInAction: "观看实际效果",
     source: { label: "源代码", href: zhCN.readme },
@@ -342,7 +356,7 @@ export const content: Record<Locale, Content> = {
         icon: "monitor",
         title: "为 Windows 和 macOS 自带的服务器打造",
         body: (
-          <>Windows 10 和 11 自带的<strong>远程桌面</strong>，通过 RDP 及其现代图形管道；以及 macOS 内置的<strong>屏幕共享</strong>，标准和高性能两种模式都支持。主机无需安装代理程序或其他软件，只需打开系统自带的共享功能。</>
+          <>Windows 10 和 11 自带的<strong>远程桌面</strong>（家庭版不能作为主机），通过 RDP 及其现代图形管道；以及 macOS 内置的<strong>屏幕共享</strong>，标准和高性能两种模式都支持。主机无需安装代理程序或其他软件，只需打开系统自带的共享功能。</>
         ),
       },
       {
@@ -354,16 +368,19 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "code",
-        title: "小巧、无需特权的网关",
+        title: "轻量、无需特权的网关",
         body: (
-          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
+          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限<sup><a href="#note-code">*</a></sup>。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
+        ),
+        note: (
+          <>* <a href="#quick-start">快速开始</a>中的安装需要一次管理员权限，用于安装软件包并创建其目录。若要完全无需特权，请自行从源代码编译 zdesk 二进制文件，或从发布的软件包中解出，将配置放在你的账户拥有的目录中，并在非特权端口（例如默认的 52380）上运行。</>
         ),
       },
       {
         icon: "globe",
         title: "随时随地访问你的桌面",
         body: (
-          <>客户端就是网关提供的网页，因此你的桌面不局限于某一台设备或某个地点：只要浏览器能访问网关，就能使用你的机器。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。</>
+          <>客户端就是网关提供的网页，因此你的桌面不局限于某一台设备或某个地点：只要浏览器能访问网关，就能使用你的机器。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。浏览器能解码哪些画面和声音取决于它对 WebCodecs 的支持，见<a href={`${zhCN.guide}#客户端`}>客户端</a>。</>
         ),
       },
       {
@@ -376,7 +393,7 @@ export const content: Record<Locale, Content> = {
       {
         icon: "play",
         title: "远程自身的画面，在浏览器中解码",
-        body: <>主机提供自身画面时，画面原样传递并在浏览器中解码，同时带有远程的声音和双向剪贴板。</>,
+        body: <>主机提供自身画面时，画面原样传递并在浏览器中解码，同时支持双向剪贴板；Windows、高性能模式的 Mac 和 wlshare 还会传来远程的声音。</>,
       },
     ],
     howHeading: "工作原理",
@@ -437,6 +454,10 @@ export const content: Record<Locale, Content> = {
       "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows 和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
     demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
     demoSound: "有声音",
+    demoNext: {
+      text: "每段录像都是在浏览器中进行的真实 zDesk 会话，录制所用的设备上没有安装任何客户端。",
+      compatibility: { label: "兼容性详情", href: `${zhCN.readme}#服务器和浏览器支持` },
+    },
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 带一个远程虚拟显示器的 Mac" },
       "windows-to-mac-two-displays": {
@@ -471,9 +492,10 @@ export const content: Record<Locale, Content> = {
       "在瀏覽器中使用遠端桌面，連線 Windows 內建的遠端桌面、macOS 內建的螢幕共享，以及 Linux 上的 wlshare，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。",
     nav: { home: "首頁", demo: "示範" },
     language: (current) => `語言：${current}`,
+    homeTitle: "瀏覽器中的遠端桌面",
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",
     intro:
-      "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面。",
+      "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面。它由你自行架設，供單一使用者使用，一次只有一個進行中的工作階段，也不提供中繼：你需要透過 localhost、SSH 通道或你自己的 HTTPS 反向代理伺服器來連線。",
     getStarted: "開始使用",
     seeInAction: "觀看實際效果",
     source: { label: "原始碼", href: zhTW.readme },
@@ -484,7 +506,7 @@ export const content: Record<Locale, Content> = {
         icon: "monitor",
         title: "為 Windows 和 macOS 內建的伺服器打造",
         body: (
-          <>Windows 10 和 11 內建的<strong>遠端桌面</strong>，透過 RDP 及其新式圖形管線；以及 macOS 內建的<strong>螢幕共享</strong>，標準和高效能兩種模式都支援。主機不需要安裝代理程式或其他軟體，只要開啟系統內建的共享功能即可。</>
+          <>Windows 10 和 11 內建的<strong>遠端桌面</strong>（家用版無法作為主機），透過 RDP 及其新式圖形管線；以及 macOS 內建的<strong>螢幕共享</strong>，標準和高效能兩種模式都支援。主機不需要安裝代理程式或其他軟體，只要開啟系統內建的共享功能即可。</>
         ),
       },
       {
@@ -496,16 +518,19 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "code",
-        title: "小巧、不需特殊權限的閘道",
+        title: "輕量、不需特殊權限的閘道",
         body: (
-          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
+          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限<sup><a href="#note-code">*</a></sup>。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
+        ),
+        note: (
+          <>* <a href="#quick-start">快速入門</a>中的安裝需要一次系統管理員權限，用來安裝套件並建立其目錄。若要完全不需特殊權限，請自行從原始碼編譯 zdesk 執行檔，或從發行的套件中取出，將設定放在你的帳戶擁有的目錄中，並在非特殊權限的連接埠（例如預設的 52380）上執行。</>
         ),
       },
       {
         icon: "globe",
         title: "隨時隨地存取你的桌面",
         body: (
-          <>用戶端就是閘道提供的網頁，因此你的桌面不侷限於某一台裝置或某個地點：只要瀏覽器能連到閘道，就能使用你的電腦。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。</>
+          <>用戶端就是閘道提供的網頁，因此你的桌面不侷限於某一台裝置或某個地點：只要瀏覽器能連到閘道，就能使用你的電腦。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。瀏覽器能解碼哪些畫面和聲音，取決於它對 WebCodecs 的支援，請見<a href={`${zhTW.guide}#用戶端`}>用戶端</a>。</>
         ),
       },
       {
@@ -518,7 +543,7 @@ export const content: Record<Locale, Content> = {
       {
         icon: "play",
         title: "遠端自身的畫面，在瀏覽器中解碼",
-        body: <>主機提供自身畫面時，畫面原封不動地傳遞並在瀏覽器中解碼，同時帶有遠端的聲音和雙向剪貼簿。</>,
+        body: <>主機提供自身畫面時，畫面原封不動地傳遞並在瀏覽器中解碼，同時支援雙向剪貼簿；Windows、高效能模式的 Mac 和 wlshare 還會傳來遠端的聲音。</>,
       },
     ],
     howHeading: "運作方式",
@@ -579,6 +604,10 @@ export const content: Record<Locale, Content> = {
       "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows 和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
     demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
     demoSound: "有聲音",
+    demoNext: {
+      text: "每段錄影都是在瀏覽器中進行的真實 zDesk 工作階段，錄製所用的裝置上沒有安裝任何用戶端。",
+      compatibility: { label: "相容性詳細資訊", href: `${zhTW.readme}#伺服器與瀏覽器支援` },
+    },
     demos: {
       "windows-to-mac-one-display": { title: "Windows → 有一個遠端虛擬顯示器的 Mac" },
       "windows-to-mac-two-displays": {

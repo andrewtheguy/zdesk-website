@@ -1,6 +1,6 @@
 import { useEffect, type CSSProperties } from "react";
 import Shell from "./Shell";
-import { content, demos, locales, type Demo as DemoVideo, type Locale } from "./content";
+import { content, demos, locales, pagePath, type Demo as DemoVideo, type Locale } from "./content";
 
 const poster = (demo: DemoVideo) => `/videos/${demo.video.replace(/\.mp4$/, ".jpg")}`;
 const portrait = (demo: DemoVideo) => demo.height > demo.width;
@@ -106,6 +106,24 @@ export default function Demo({ locale }: { locale: Locale }) {
             })}
           </div>
         ))}
+        <section className="demo-next">
+          <p>{c.demoNext.text}</p>
+          <ul className="links">
+            <li>
+              <a className="primary" href={`${pagePath(locale, "home")}#quick-start`}>
+                {c.getStarted}
+              </a>
+            </li>
+            <li>
+              <a className="external" href={c.demoNext.compatibility.href}>
+                {c.demoNext.compatibility.label}
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </section>
       </main>
     </Shell>
   );

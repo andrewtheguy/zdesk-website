@@ -151,6 +151,7 @@ main.wide { max-width: 72rem; }
 .feature { display: flex; gap: 1rem; align-items: flex-start; }
 .feature h2 { font-size: 1.15rem; margin: .35rem 0 .4rem; }
 .feature p { color: var(--muted); margin: 0; }
+.feature sup { line-height: 0; }
 .icon {
   flex: none; width: 3rem; height: 3rem; padding: .7rem; border-radius: 50%;
   background: var(--icon-bg); stroke: var(--accent); fill: none;
@@ -189,6 +190,8 @@ h2.section, .demo h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom:
 .sound svg { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .demo-index .sound { margin-top: auto; }
 .demo-row.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 2.5rem; }
+.demo-next { margin-top: 3rem; }
+.demo-next p { margin: 0; }
 .demo { display: flex; flex-direction: column; margin: 0 0 3rem; scroll-margin-top: 1rem; }
 .demo h2 { font-size: 1.35rem; margin-bottom: .35rem; }
 .demo p { color: var(--muted); margin: 0 0 .75rem; max-width: 48rem; }
@@ -202,7 +205,9 @@ h2.section, .demo h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom:
 }
 
 footer { max-width: 72rem; margin: 0 auto; padding: 0 16px 3rem; color: var(--muted); font-size: .9rem; }
-footer p { margin: 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+footer p { margin: 0; }
+footer > :first-child { padding-top: 1.5rem; border-top: 1px solid var(--line); }
+footer .footnote { margin-bottom: .75rem; }
 
 @media (max-width: 52rem) {
   .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 2rem 16px; }
