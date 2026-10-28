@@ -203,6 +203,13 @@ export const content: Record<Locale, Content> = {
         ),
       },
       {
+        icon: "code",
+        title: "A small, unprivileged gateway",
+        body: (
+          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
+        ),
+      },
+      {
         icon: "globe",
         title: "Your desktops from anywhere",
         body: (
@@ -221,13 +228,6 @@ export const content: Record<Locale, Content> = {
         title: "The remote's own picture, decoded in the browser",
         body: (
           <>Where the host provides its own picture, it is passed through untouched and decoded in the browser, with the remote's sound and the clipboard in both directions.</>
-        ),
-      },
-      {
-        icon: "code",
-        title: "A small, open-source gateway",
-        body: (
-          <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights. With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
         ),
       },
     ],
@@ -353,6 +353,13 @@ export const content: Record<Locale, Content> = {
         ),
       },
       {
+        icon: "code",
+        title: "小巧、无需特权的网关",
+        body: (
+          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
+        ),
+      },
+      {
         icon: "globe",
         title: "随时随地访问你的桌面",
         body: (
@@ -370,13 +377,6 @@ export const content: Record<Locale, Content> = {
         icon: "play",
         title: "远程自身的画面，在浏览器中解码",
         body: <>主机提供自身画面时，画面原样传递并在浏览器中解码，同时带有远程的声音和双向剪贴板。</>,
-      },
-      {
-        icon: "code",
-        title: "小巧、开源的网关",
-        body: (
-          <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
-        ),
       },
     ],
     howHeading: "工作原理",
@@ -495,6 +495,13 @@ export const content: Record<Locale, Content> = {
         ),
       },
       {
+        icon: "code",
+        title: "小巧、不需特殊權限的閘道",
+        body: (
+          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
+        ),
+      },
+      {
         icon: "globe",
         title: "隨時隨地存取你的桌面",
         body: (
@@ -512,13 +519,6 @@ export const content: Record<Locale, Content> = {
         icon: "play",
         title: "遠端自身的畫面，在瀏覽器中解碼",
         body: <>主機提供自身畫面時，畫面原封不動地傳遞並在瀏覽器中解碼，同時帶有遠端的聲音和雙向剪貼簿。</>,
-      },
-      {
-        icon: "code",
-        title: "小巧、開放原始碼的閘道",
-        body: (
-          <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
-        ),
       },
     ],
     howHeading: "運作方式",
