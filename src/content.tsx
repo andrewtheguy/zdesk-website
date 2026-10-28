@@ -205,7 +205,7 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "code",
-        title: "A small, unprivileged gateway",
+        title: "A lightweight, unprivileged gateway",
         body: (
           <>One Rust binary serving one session at a time, and once installed it runs as an ordinary user account, with no root or administrator rights.<sup><a href="#note-code">*</a></sup> With the picture and sound decoded in the browser, it holds no decoder for them, so its memory footprint stays low. zDesk is free and open source under the <a href={LICENSE}>MIT licence</a>.</>
         ),
@@ -358,7 +358,7 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "code",
-        title: "小巧、无需特权的网关",
+        title: "轻量、无需特权的网关",
         body: (
           <>一个 Rust 二进制文件，一次服务一个会话；安装后以普通用户账户运行，无需 root 或管理员权限<sup><a href="#note-code">*</a></sup>。画面和声音在浏览器中解码，网关无需为它们保留解码器，因此内存占用很低。zDesk 是自由开源软件，采用 <a href={LICENSE}>MIT 许可证</a>。</>
         ),
@@ -503,7 +503,7 @@ export const content: Record<Locale, Content> = {
       },
       {
         icon: "code",
-        title: "小巧、不需特殊權限的閘道",
+        title: "輕量、不需特殊權限的閘道",
         body: (
           <>一個 Rust 執行檔，一次服務一個工作階段；安裝後以一般使用者帳戶執行，不需要 root 或系統管理員權限<sup><a href="#note-code">*</a></sup>。畫面和聲音在瀏覽器中解碼，閘道不需要為它們保留解碼器，因此記憶體用量很低。zDesk 是自由的開放原始碼軟體，採用 <a href={LICENSE}>MIT 授權條款</a>。</>
         ),
