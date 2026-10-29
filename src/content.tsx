@@ -187,7 +187,7 @@ export const content: Record<Locale, Content> = {
     tagline:
       "Remote desktop in a browser, for Windows' and macOS's own remote desktop servers, and for Linux through wlshare.",
     intro:
-      "zDesk is a small gateway you run next to your machines. No plugins or client software are needed: a browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops. It is self-hosted and single-user, with one active session at a time, and supplies no relay: you reach it on localhost, through an SSH tunnel or behind an HTTPS reverse proxy of your own.",
+      "A browser on Windows, macOS, Linux, iOS or Android is all it takes to reach your desktops, with no plugins or client software. zDesk is a lightweight gateway you run next to your machines. It is self-hosted and single-user, with one active session at a time, and supplies no relay: you reach it on localhost, through an SSH tunnel or behind an HTTPS reverse proxy of your own.",
     getStarted: "Get Started",
     seeInAction: "See It in Action",
     source: { label: "Source Code", href: REPO },
@@ -345,7 +345,7 @@ export const content: Record<Locale, Content> = {
     homeTitle: "浏览器中的远程桌面",
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
     intro:
-      "zDesk 是一个小型网关，运行在你的机器旁边。无需插件或客户端软件：在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面。它由你自行托管，供单个用户使用，一次只有一个活动会话，也不提供中继：你需要通过 localhost、SSH 隧道或你自己的 HTTPS 反向代理来访问它。",
+      "在 Windows、macOS、Linux、iOS 或 Android 上，只要有浏览器就能访问你的桌面，无需插件或客户端软件。zDesk 是一个轻量网关，运行在你的机器旁边。它由你自行托管，供单个用户使用，一次只有一个活动会话，也不提供中继：你需要通过 localhost、SSH 隧道或你自己的 HTTPS 反向代理来访问它。",
     getStarted: "开始使用",
     seeInAction: "观看实际效果",
     source: { label: "源代码", href: zhCN.readme },
@@ -495,7 +495,7 @@ export const content: Record<Locale, Content> = {
     homeTitle: "瀏覽器中的遠端桌面",
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",
     intro:
-      "zDesk 是一個小型閘道，執行在你的電腦旁邊。不需要外掛程式或用戶端軟體：在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面。它由你自行架設，供單一使用者使用，一次只有一個進行中的工作階段，也不提供中繼：你需要透過 localhost、SSH 通道或你自己的 HTTPS 反向代理伺服器來連線。",
+      "在 Windows、macOS、Linux、iOS 或 Android 上，只要有瀏覽器就能存取你的桌面，不需要外掛程式或用戶端軟體。zDesk 是一個輕量閘道，執行在你的電腦旁邊。它由你自行架設，供單一使用者使用，一次只有一個進行中的工作階段，也不提供中繼：你需要透過 localhost、SSH 通道或你自己的 HTTPS 反向代理伺服器來連線。",
     getStarted: "開始使用",
     seeInAction: "觀看實際效果",
     source: { label: "原始碼", href: zhTW.readme },
