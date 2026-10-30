@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import InstallTabs from "./InstallTabs";
 import Shell from "./Shell";
 import { HERO_VIDEO, content, pagePath, type FeatureIcon, type Locale } from "./content";
@@ -27,6 +27,20 @@ const ICONS: Record<FeatureIcon, React.ReactNode> = {
   ),
   code: <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />,
 };
+
+// How it works: the browser, the gateway and the desktops.
+const FLOW_ICONS: React.ReactNode[] = [
+  <>
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="M2 9h20M6 6.5h.01M9 6.5h.01" />
+  </>,
+  <>
+    <rect x="3" y="3" width="18" height="7" rx="2" />
+    <rect x="3" y="14" width="18" height="7" rx="2" />
+    <path d="M7 6.5h.01M7 17.5h.01" />
+  </>,
+  ICONS.monitor,
+];
 
 export default function Home({ locale }: { locale: Locale }) {
   const c = content[locale];
@@ -120,9 +134,27 @@ export default function Home({ locale }: { locale: Locale }) {
 
         <h2 className="section" id="how-it-works">{c.howHeading}</h2>
         <p>{c.how}</p>
-        <pre>
-          <code>{c.diagram}</code>
-        </pre>
+        <ol className="flow">
+          {c.flow.map((stage, i) => (
+            <Fragment key={i}>
+              {i > 0 && (
+                <li className="hop">
+                  <svg viewBox="0 0 48 12" aria-hidden="true">
+                    <path d="M6 1L1 6l5 5M1 6h46M42 1l5 5-5 5" />
+                  </svg>
+                  <span>{c.hops[i - 1]}</span>
+                </li>
+              )}
+              <li className="stage">
+                <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  {FLOW_ICONS[i]}
+                </svg>
+                <h3>{stage.title}</h3>
+                <p>{stage.body}</p>
+              </li>
+            </Fragment>
+          ))}
+        </ol>
 
         <h2 className="section" id="quick-start">{c.quickStartHeading}</h2>
         <p className="warning">{c.noCompat}</p>

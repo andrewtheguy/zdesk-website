@@ -157,6 +157,24 @@ main.wide { max-width: 72rem; }
   background: var(--icon-bg); stroke: var(--accent); fill: none;
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
+/* How it works: the browser, the gateway and the desktops in a row, each joined to the next by
+   what carries it; a column on narrow screens */
+.flow {
+  display: grid; grid-template-columns: minmax(0, 1fr) 9rem minmax(0, 1fr) 9rem minmax(0, 1fr);
+  align-items: stretch; margin: 1.25rem 0 1.5rem; padding: 0; list-style: none;
+}
+.flow li { margin: 0; }
+.stage { padding: 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.stage h3 { font-size: 1.1rem; margin: .75rem 0 .4rem; }
+.stage p { color: var(--muted); margin: 0; }
+.hop {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem;
+  padding: 0 .6rem; text-align: center; color: var(--muted); font-size: .85rem; line-height: 1.35;
+}
+.hop svg {
+  width: 100%; height: .75rem; fill: none; stroke: var(--accent);
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+}
 h2.section, .demo h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom: .4rem; border-bottom: 1px solid var(--line); }
 
 /* Demo: a heading band, an index of posters, then each demo */
@@ -214,6 +232,9 @@ footer .footnote { margin-bottom: .75rem; }
   .hero-video { order: -1; }
   .hero h1 { font-size: 2.25rem; }
   .features { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .flow { grid-template-columns: minmax(0, 1fr); }
+  .hop { flex-direction: row; justify-content: flex-start; gap: .75rem; padding: .6rem 0 .6rem 2rem; text-align: left; }
+  .hop svg { flex: none; width: 2.25rem; height: .75rem; transform: rotate(90deg); }
   .demo-row.pair { grid-template-columns: minmax(0, 1fr); }
 }
 /* Phones: the top bar one row, closer together, English named short and the menu without its

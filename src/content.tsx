@@ -145,7 +145,9 @@ export interface Content {
   features: { icon: FeatureIcon; title: string; body: ReactNode; note?: ReactNode }[];
   howHeading: string;
   how: string;
-  diagram: string;
+  // The browser, the gateway and the desktops, in that order, and what joins each to the next.
+  flow: { title: string; body: ReactNode }[];
+  hops: [string, string];
   quickStartHeading: string;
   noCompat: ReactNode;
   quickStart: ReactNode;
@@ -242,8 +244,22 @@ export const content: Record<Locale, Content> = {
       },
     ],
     howHeading: "How it works",
-    how: "The gateway serves one web page that shows the desktop, and speaks RDP or VNC to your machines.",
-    diagram: "browser ── HTTPS or localhost ── zDesk ── RDP / VNC ── your desktops",
+    how: "The browser talks only to the gateway, and the gateway talks to each desktop in its own protocol: RDP, VNC or wlshare.",
+    flow: [
+      {
+        title: "Your browser",
+        body: "The web page the gateway serves is the whole client. You sign in, pick a desktop and how to show it, and the page decodes its picture and sound right in the browser.",
+      },
+      {
+        title: "The zDesk gateway",
+        body: "It runs on a machine of yours, one session at a time. The desktops' passwords stay in its config, encrypted under a master password, and never reach the browser. A picture the remote makes itself passes through untouched; any other is sent as image tiles.",
+      },
+      {
+        title: "Your desktops",
+        body: "Windows' own Remote Desktop, macOS's built-in Screen Sharing, wlshare on Linux, or any other RDP or VNC server. Windows and macOS need nothing installed, only their own sharing switched on.",
+      },
+    ],
+    hops: ["localhost, an SSH tunnel or your own HTTPS reverse proxy", "RDP, VNC or wlshare"],
     quickStartHeading: "Quick start",
     noCompat: (
       <><strong>No backward compatibility.</strong> A release may change or remove a configuration key, the protocol or a feature, with nothing that reads the old form. Install a specific version and stay on it until you choose to upgrade; before you do, check your config against the <code>zdesk.example.toml</code> the new release ships.</>
@@ -403,8 +419,22 @@ export const content: Record<Locale, Content> = {
       },
     ],
     howHeading: "工作原理",
-    how: "网关提供一个显示桌面的网页，并通过 RDP 或 VNC 连接你的机器。",
-    diagram: "浏览器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
+    how: "浏览器只与网关通信，网关再以各桌面自己的协议连接它们：RDP、VNC 或 wlshare。",
+    flow: [
+      {
+        title: "你的浏览器",
+        body: "网关提供的网页就是完整的客户端。登录后选择要连接的桌面及其显示方式，网页直接在浏览器中解码桌面的画面和声音。",
+      },
+      {
+        title: "zDesk 网关",
+        body: "它运行在你自己的一台机器上，同一时间只有一个会话。各桌面的密码保存在它的配置中，用主密码加密，从不发送到浏览器。远程自身生成的画面原样传递，其他画面则以图像图块发送。",
+      },
+      {
+        title: "你的桌面",
+        body: "Windows 自带的远程桌面、macOS 内置的屏幕共享、Linux 上的 wlshare，或任何其他 RDP 或 VNC 服务器。Windows 和 macOS 无需安装任何软件，只需打开它们自带的共享功能。",
+      },
+    ],
+    hops: ["localhost、SSH 隧道或你自己的 HTTPS 反向代理", "RDP、VNC 或 wlshare"],
     quickStartHeading: "快速开始",
     noCompat: (
       <><strong>不保证向后兼容。</strong>任何版本都可能更改或移除某个配置项、协议或某项功能，且不再读取旧的写法。请安装一个指定版本，并一直使用它，直到你决定升级；升级前，请对照新版本附带的 <code>zdesk.example.toml</code> 检查你的配置。</>
@@ -557,8 +587,22 @@ export const content: Record<Locale, Content> = {
       },
     ],
     howHeading: "運作方式",
-    how: "閘道提供一個顯示桌面的網頁，並透過 RDP 或 VNC 連線到你的電腦。",
-    diagram: "瀏覽器 ── HTTPS 或 localhost ── zDesk ── RDP / VNC ── 你的桌面",
+    how: "瀏覽器只與閘道通訊，閘道再以各桌面本身的協定連線到它們：RDP、VNC 或 wlshare。",
+    flow: [
+      {
+        title: "你的瀏覽器",
+        body: "閘道提供的網頁就是完整的用戶端。登入後選擇要連線的桌面及其顯示方式，網頁會直接在瀏覽器中解碼桌面的畫面和聲音。",
+      },
+      {
+        title: "zDesk 閘道",
+        body: "它在你自己的一台電腦上執行，同一時間只有一個工作階段。各桌面的密碼儲存在它的設定中，以主密碼加密，絕不會傳到瀏覽器。遠端自行產生的畫面原封不動地傳遞，其他畫面則以影像圖塊傳送。",
+      },
+      {
+        title: "你的桌面",
+        body: "Windows 內建的遠端桌面、macOS 內建的螢幕共享、Linux 上的 wlshare，或任何其他 RDP 或 VNC 伺服器。Windows 和 macOS 不需要安裝任何軟體，只要開啟它們本身的分享功能。",
+      },
+    ],
+    hops: ["localhost、SSH 通道或你自己的 HTTPS 反向代理伺服器", "RDP、VNC 或 wlshare"],
     quickStartHeading: "快速入門",
     noCompat: (
       <><strong>不保證回溯相容。</strong>任何版本都可能變更或移除某個設定項、協定或某項功能，且不再讀取舊的寫法。請安裝一個指定的版本，並持續使用它，直到你決定升級為止；升級前，請對照新版本隨附的 <code>zdesk.example.toml</code> 檢查你的設定。</>
