@@ -119,6 +119,7 @@ export const demos: Demo[] = [
   { id: "windows-to-mac-two-displays", video: "windows-to-mac-two-displays.mp4", width: 3840, height: 1080, seconds: 103 },
   { id: "ios-to-windows", video: "ios-to-windows.mp4", width: 1180, height: 2556, seconds: 117 },
   { id: "ios-to-mac", video: "ios-to-mac.mp4", width: 1180, height: 2556, seconds: 151 },
+  { id: "ios-to-windows-vscode", video: "ios-to-windows-vscode.mp4", width: 1180, height: 2556, seconds: 84 },
   { id: "ipad-to-windows", video: "ipad-to-windows.mp4", width: 2266, height: 1488, seconds: 93 },
   { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 99, captions: true },
   { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 85, captions: true },
@@ -295,7 +296,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "Demo",
     demoDescription:
-      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows and to a Mac, an iPad to Windows at Retina/HiDPI density, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
+      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including Claude Code and Codex in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
     demoIntro:
       "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
     demoSound: "With sound",
@@ -319,6 +320,11 @@ export const content: Record<Locale, Content> = {
         title: "iOS → Mac",
         caption:
           "Safari on iOS connected to a Mac's High Performance Screen Sharing, scrolling horizontally, with the network throughput meter shown.",
+      },
+      "ios-to-windows-vscode": {
+        title: "iOS → Windows with Claude Code and Codex in Visual Studio Code",
+        caption:
+          "Safari on iOS connected to Windows' own Remote Desktop, typing on the soft keyboard into Claude Code and then Codex in Visual Studio Code's terminal.",
       },
       "ipad-to-windows": {
         title: "iPad → Windows at Retina/HiDPI density",
@@ -451,7 +457,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "演示",
     demoDescription:
-      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows 和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
+      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
     demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
     demoSound: "有声音",
     demoNext: {
@@ -471,6 +477,10 @@ export const content: Record<Locale, Content> = {
       "ios-to-mac": {
         title: "iOS → Mac",
         caption: "iOS 上的 Safari 连接 Mac 的高性能模式屏幕共享，支持水平滚动，并显示网络吞吐量指示。",
+      },
+      "ios-to-windows-vscode": {
+        title: "iOS → Windows，在 Visual Studio Code 中使用 Claude Code 和 Codex",
+        caption: "iOS 上的 Safari 连接 Windows 自带的远程桌面，用软键盘在 Visual Studio Code 的终端中先后向 Claude Code 和 Codex 输入。",
       },
       "ipad-to-windows": {
         title: "iPad → Windows，Retina/HiDPI 密度",
@@ -601,7 +611,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "示範",
     demoDescription:
-      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows 和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
+      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
     demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
     demoSound: "有聲音",
     demoNext: {
@@ -621,6 +631,10 @@ export const content: Record<Locale, Content> = {
       "ios-to-mac": {
         title: "iOS → Mac",
         caption: "iOS 上的 Safari 連線到 Mac 的高效能模式螢幕共享，支援水平捲動，並顯示網路傳輸量指示。",
+      },
+      "ios-to-windows-vscode": {
+        title: "iOS → Windows，在 Visual Studio Code 中使用 Claude Code 和 Codex",
+        caption: "iOS 上的 Safari 連線到 Windows 內建的遠端桌面，用螢幕鍵盤在 Visual Studio Code 的終端機中先後向 Claude Code 和 Codex 輸入。",
       },
       "ipad-to-windows": {
         title: "iPad → Windows，Retina/HiDPI 密度",
