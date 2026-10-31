@@ -100,7 +100,7 @@ host = "192.0.2.12"
 username = "me"
 password_ref = "linux"`;
 
-export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 952, height: 688 };
+export const HERO_VIDEO = { video: "/videos/windows-to-mac-in-chrome.mp4", poster: "/videos/windows-to-mac-in-chrome.jpg", width: 800, height: 686 };
 
 // Each demo's poster is a frame of it beside the video, `<video>.jpg`. A demo with sound has a
 // caption file per locale beside its video, `<video>.<locale>.vtt`, describing the sound.
