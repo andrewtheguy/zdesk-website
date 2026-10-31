@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 
 export type Locale = "en" | "zh-CN" | "zh-TW";
-export type Page = "home" | "demo";
+export type Page = "home" | "demo" | "guide";
 
-// A locale's pages live under its prefix: `/` and `/demo` for English,
-// `/zh-CN/` and `/zh-CN/demo` for the others. `short` names the language on a phone's top bar.
+// A locale's pages live under its prefix: `/`, `/demo` and `/guide` for English,
+// `/zh-CN/`, `/zh-CN/demo` and `/zh-CN/guide` for the others. `short` names the language on a phone's top bar.
 export const locales: { id: Locale; prefix: string; label: string; short?: string }[] = [
   { id: "en", prefix: "", label: "English", short: "EN" },
   { id: "zh-CN", prefix: "/zh-CN", label: "简体中文" },
@@ -13,7 +13,7 @@ export const locales: { id: Locale; prefix: string; label: string; short?: strin
 
 export function pagePath(locale: Locale, page: Page) {
   const { prefix } = locales.find((l) => l.id === locale)!;
-  return page === "home" ? `${prefix}/` : `${prefix}/demo`;
+  return page === "home" ? `${prefix}/` : `${prefix}/${page}`;
 }
 
 export function localeForPath(pathname: string): Locale {
@@ -22,7 +22,7 @@ export function localeForPath(pathname: string): Locale {
   );
 }
 
-const REPO = "https://github.com/andrewtheguy/zdesk";
+export const REPO = "https://github.com/andrewtheguy/zdesk";
 const RELEASES = `${REPO}/releases`;
 // The quick start installs a version the reader picks, 0.0.x standing for it.
 const PINNED = `${RELEASES}/download/v0.0.x`;
@@ -130,6 +130,8 @@ export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | 
 export interface Content {
   description: string;
   nav: Record<Page, string>;
+  // The label of the page menu a phone's top bar collapses the page links into.
+  menu: string;
   // The language menu's accessible name, given the current language's name.
   language: (current: string) => string;
   // The home page's title, after the site name.
@@ -164,13 +166,17 @@ export interface Content {
   // What the demos show, then where to go from them.
   demoNext: { text: string; compatibility: { label: string; href: string } };
   demos: Record<string, { title: string; caption?: string }>;
+  guideTitle: string;
+  guideDescription: string;
+  // Heads the guide's table of contents.
+  guideContents: string;
 }
 
 function docs(locale: Locale) {
   const suffix = locale === "en" ? "" : `.${locale}`;
   return {
     readme: `${REPO}/blob/main/README${suffix}.md`,
-    guide: `${REPO}/blob/main/docs/guide${suffix}.md`,
+    guide: pagePath(locale, "guide"),
     install: `${REPO}/blob/main/docs/install${suffix}.md`,
     wlshare: `https://github.com/andrewtheguy/wlshare${locale === "en" ? "" : `/blob/main/README${suffix}.md`}`,
   };
@@ -184,7 +190,8 @@ export const content: Record<Locale, Content> = {
   en: {
     description:
       "Remote desktop in a browser, for Windows' own Remote Desktop, macOS's built-in Screen Sharing, and Linux through wlshare, our own VNC server for wlroots compositors.",
-    nav: { home: "Home", demo: "Demo" },
+    nav: { home: "Home", demo: "Demo", guide: "Guide" },
+    menu: "Navigate",
     language: (current) => `Language: ${current}`,
     homeTitle: "Remote desktop in a browser",
     tagline:
@@ -288,7 +295,7 @@ export const content: Record<Locale, Content> = {
         <><code>password master create</code> asks for a new master password, writes it to that file, readable by you alone, and prints a <code>[master]</code> block for the config; <code>password encrypt</code> prints the value to add under <code>[passwords]</code>, by the name the target's <code>password_ref</code> gives, so run it once for each target. Without the example's comments, the finished config reads like this, here with a Windows, a Mac and a wlshare target:</>
       ),
       example: (
-        <>For a Mac in High Performance mode, set <code>subtype = "ard-high-performance"</code>; <a href={en.guide}>Using zDesk</a> covers setting up each kind of target. Then start the gateway:</>
+        <>For a Mac in High Performance mode, set <code>subtype = "ard-high-performance"</code>; the <a href={en.guide}>guide</a> covers setting up each kind of target. Then start the gateway:</>
       ),
       steps: (
         <>It listens on loopback, at <code>http://localhost:52380</code>. The page needs a secure context, so from another machine reach it through an SSH tunnel to that port or a TLS-terminating reverse proxy; see <a href={`${en.guide}#the-client`}>The client</a>.</>
@@ -305,7 +312,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <>For the full details, see the <a href={REPO}>source code on GitHub</a>: <a href={en.install}>Installing zDesk</a> covers every platform, and <a href={en.guide}>Using zDesk</a> the browser client and setting up Windows, Mac, wlshare and VNC targets.</>
+      <>The <a href={en.guide}>guide</a> covers the browser client, starting a session and setting up Windows, Mac, wlshare and VNC targets; <a href={en.install}>Installing zDesk</a>, with the <a href={REPO}>source code on GitHub</a>, covers every platform.</>
     ),
     footer: (
       <>zDesk is under the <a href={LICENSE}>MIT licence</a>. It is released on a rolling basis, still settling its direction, and keeps no backward compatibility between releases; see the <a href={`${REPO}#readme`}>README</a>.</>
@@ -358,11 +365,16 @@ export const content: Record<Locale, Content> = {
           "wlshare on Sway shown at the Mac's Retina/HiDPI density, with the remote's sound, and the remote desktop resizing to follow the browser into and out of immersive full screen.",
       },
     },
+    guideTitle: "Using zDesk",
+    guideDescription:
+      "Using zDesk once the gateway is installed: the browser client, starting a session, target passwords, setting up Windows, Mac, wlshare and VNC targets, the camera and microphone, and the local control plane.",
+    guideContents: "On this page",
   },
   "zh-CN": {
     description:
       "在浏览器中使用远程桌面，连接 Windows 自带的远程桌面、macOS 内置的屏幕共享，以及 Linux 上的 wlshare，这是我们自己为 wlroots 合成器编写的 VNC 服务器。",
-    nav: { home: "首页", demo: "演示" },
+    nav: { home: "首页", demo: "演示", guide: "指南" },
+    menu: "导航",
     language: (current) => `语言：${current}`,
     homeTitle: "浏览器中的远程桌面",
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
@@ -402,7 +414,7 @@ export const content: Record<Locale, Content> = {
         icon: "globe",
         title: "随时随地访问你的桌面",
         body: (
-          <>客户端就是网关提供的网页，因此你的桌面不局限于某一台设备或某个地点：只要浏览器能访问网关，就能使用你的机器。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。浏览器能解码哪些画面和声音取决于它对 WebCodecs 的支持，见<a href={`${zhCN.guide}#客户端`}>客户端</a>。</>
+          <>客户端就是网关提供的网页，因此你的桌面不局限于某一台设备或某个地点：只要浏览器能访问网关，就能使用你的机器。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，均无需安装客户端。在手机或平板上，手指就像触控板，并支持双指缩放和软键盘。浏览器能解码哪些画面和声音取决于它对 WebCodecs 的支持，见<a href={`${zhCN.guide}#the-client`}>客户端</a>。</>
         ),
       },
       {
@@ -457,16 +469,16 @@ export const content: Record<Locale, Content> = {
       heading: <>独立网关：<code>zdesk serve</code></>,
       intro: "安装完成后，以将要运行网关的账户创建配置，生成网页登录凭据，然后打开配置进行编辑：",
       edit: (
-        <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下设置 <code>master_password_file = "master-password"</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面。其密码用主密码加密保存（见<a href={`${zhCN.guide}#目标密码`}>目标密码</a>）：</>
+        <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下设置 <code>master_password_file = "master-password"</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面。其密码用主密码加密保存（见<a href={`${zhCN.guide}#target-passwords`}>目标密码</a>）：</>
       ),
       secrets: (
         <><code>password master create</code> 询问新的主密码，把它写入该文件（只有你能读取），并输出配置所需的 <code>[master]</code> 块；<code>password encrypt</code> 输出要添加到 <code>[passwords]</code> 下的值，键名为目标的 <code>password_ref</code>，因此每个目标都要运行一次。去掉示例中的注释后，完成的配置如下，这里有一个 Windows 目标、一个 Mac 目标和一个 wlshare 目标：</>
       ),
       example: (
-        <>对于高性能模式的 Mac，请设置 <code>subtype = "ard-high-performance"</code>；<a href={zhCN.guide}>使用 zDesk</a> 介绍了如何设置每一种目标。然后启动网关：</>
+        <>对于高性能模式的 Mac，请设置 <code>subtype = "ard-high-performance"</code>；<a href={zhCN.guide}>指南</a>介绍了如何设置每一种目标。然后启动网关：</>
       ),
       steps: (
-        <>它监听回环地址，位于 <code>http://localhost:52380</code>。该页面需要安全上下文，因此从其他机器访问时，请通过到该端口的 SSH 隧道或终止 TLS 的反向代理；详见<a href={`${zhCN.guide}#客户端`}>客户端</a>。</>
+        <>它监听回环地址，位于 <code>http://localhost:52380</code>。该页面需要安全上下文，因此从其他机器访问时，请通过到该端口的 SSH 隧道或终止 TLS 的反向代理；详见<a href={`${zhCN.guide}#the-client`}>客户端</a>。</>
       ),
     },
     tui: {
@@ -476,11 +488,11 @@ export const content: Record<Locale, Content> = {
       ),
       desktop: "在 Linux 桌面上，浏览器和密钥环（GNOME Keyring 或 KWallet）都在本机，也可以改用控制面来运行网关，每个网关都有自己的配置：",
       steps: (
-        <>它只监听回环地址，位于 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 创建实例，按 <kbd>e</kbd> 在其配置中添加目标，按 <kbd>p</kbd> 加密目标的密码，按 <kbd>s</kbd> 启动实例，按 <kbd>o</kbd> 在浏览器中打开它。<a href={`${zhCN.guide}#本地实例`}>本地实例</a>列出了所有按键。</>
+        <>它只监听回环地址，位于 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 创建实例，按 <kbd>e</kbd> 在其配置中添加目标，按 <kbd>p</kbd> 加密目标的密码，按 <kbd>s</kbd> 启动实例，按 <kbd>o</kbd> 在浏览器中打开它。<a href={`${zhCN.guide}#local-instances`}>本地实例</a>列出了所有按键。</>
       ),
     },
     docs: (
-      <>完整细节请查看 GitHub 上的<a href={zhCN.readme}>源代码</a>：<a href={zhCN.install}>安装 zDesk</a> 涵盖所有平台；<a href={zhCN.guide}>使用 zDesk</a> 介绍浏览器客户端，以及如何设置 Windows、Mac、wlshare 和 VNC 目标。</>
+      <><a href={zhCN.guide}>指南</a>介绍浏览器客户端、如何启动会话，以及如何设置 Windows、Mac、wlshare 和 VNC 目标；<a href={zhCN.install}>安装 zDesk</a> 与 GitHub 上的<a href={zhCN.readme}>源代码</a>放在一起，涵盖所有平台。</>
     ),
     footer: (
       <>zDesk 采用 <a href={LICENSE}>MIT 许可证</a>，以滚动方式发布，方向仍在调整中，版本之间不保证向后兼容；详见 <a href={zhCN.readme}>README</a>。</>
@@ -526,11 +538,16 @@ export const content: Record<Locale, Content> = {
           "以 Mac 的 Retina/HiDPI 密度显示 Sway 上的 wlshare，带远程的声音，进入和退出沉浸式全屏时远程桌面会随浏览器调整大小。",
       },
     },
+    guideTitle: "使用 zDesk",
+    guideDescription:
+      "网关安装好之后如何使用 zDesk：浏览器客户端、启动会话、目标密码、设置 Windows、Mac、wlshare 和 VNC 目标、摄像头和麦克风，以及本地控制面。",
+    guideContents: "本页内容",
   },
   "zh-TW": {
     description:
       "在瀏覽器中使用遠端桌面，連線 Windows 內建的遠端桌面、macOS 內建的螢幕共享，以及 Linux 上的 wlshare，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。",
-    nav: { home: "首頁", demo: "示範" },
+    nav: { home: "首頁", demo: "示範", guide: "指南" },
+    menu: "導覽",
     language: (current) => `語言：${current}`,
     homeTitle: "瀏覽器中的遠端桌面",
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",
@@ -570,7 +587,7 @@ export const content: Record<Locale, Content> = {
         icon: "globe",
         title: "隨時隨地存取你的桌面",
         body: (
-          <>用戶端就是閘道提供的網頁，因此你的桌面不侷限於某一台裝置或某個地點：只要瀏覽器能連到閘道，就能使用你的電腦。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。瀏覽器能解碼哪些畫面和聲音，取決於它對 WebCodecs 的支援，請見<a href={`${zhTW.guide}#用戶端`}>用戶端</a>。</>
+          <>用戶端就是閘道提供的網頁，因此你的桌面不侷限於某一台裝置或某個地點：只要瀏覽器能連到閘道，就能使用你的電腦。桌面上的 Chrome、Edge 或 Safari，Android 上的 Chrome，以及 iPhone 或 iPad 上的 Safari，都不需要安裝用戶端。在手機或平板上，手指就像觸控板，並支援雙指縮放和螢幕鍵盤。瀏覽器能解碼哪些畫面和聲音，取決於它對 WebCodecs 的支援，請見<a href={`${zhTW.guide}#the-client`}>用戶端</a>。</>
         ),
       },
       {
@@ -625,16 +642,16 @@ export const content: Record<Locale, Content> = {
       heading: <>獨立閘道：<code>zdesk serve</code></>,
       intro: "安裝完成後，以將要執行閘道的帳戶建立設定，產生網頁登入憑證，然後開啟設定進行編輯：",
       edit: (
-        <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下設定 <code>master_password_file = "master-password"</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面。其密碼會用主密碼加密儲存（請見<a href={`${zhTW.guide}#目標密碼`}>目標密碼</a>）：</>
+        <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下設定 <code>master_password_file = "master-password"</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面。其密碼會用主密碼加密儲存（請見<a href={`${zhTW.guide}#target-passwords`}>目標密碼</a>）：</>
       ),
       secrets: (
         <><code>password master create</code> 詢問新的主密碼，把它寫入該檔案（只有你能讀取），並輸出設定所需的 <code>[master]</code> 區塊；<code>password encrypt</code> 輸出要加到 <code>[passwords]</code> 下的值，鍵名為目標的 <code>password_ref</code>，因此每個目標都要執行一次。拿掉範例中的註解後，完成的設定如下，這裡有一個 Windows 目標、一個 Mac 目標和一個 wlshare 目標：</>
       ),
       example: (
-        <>若是高效能模式的 Mac，請設定 <code>subtype = "ard-high-performance"</code>；<a href={zhTW.guide}>使用 zDesk</a> 說明了如何設定每一種目標。然後啟動閘道：</>
+        <>若是高效能模式的 Mac，請設定 <code>subtype = "ard-high-performance"</code>；<a href={zhTW.guide}>指南</a>說明了如何設定每一種目標。然後啟動閘道：</>
       ),
       steps: (
-        <>它監聽回送位址，位於 <code>http://localhost:52380</code>。此網頁需要安全環境，因此從其他電腦存取時，請透過連到該連接埠的 SSH 通道或終止 TLS 的反向代理伺服器；詳見<a href={`${zhTW.guide}#用戶端`}>用戶端</a>。</>
+        <>它監聽回送位址，位於 <code>http://localhost:52380</code>。此網頁需要安全環境，因此從其他電腦存取時，請透過連到該連接埠的 SSH 通道或終止 TLS 的反向代理伺服器；詳見<a href={`${zhTW.guide}#the-client`}>用戶端</a>。</>
       ),
     },
     tui: {
@@ -644,11 +661,11 @@ export const content: Record<Locale, Content> = {
       ),
       desktop: "在 Linux 桌面上，瀏覽器和金鑰圈（GNOME Keyring 或 KWallet）都在本機，也可以改用控制平面來執行閘道，每個閘道都有自己的設定：",
       steps: (
-        <>它只監聽回送位址，位於 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 建立執行個體，按 <kbd>e</kbd> 在其設定中新增目標，按 <kbd>p</kbd> 加密目標的密碼，按 <kbd>s</kbd> 啟動執行個體，按 <kbd>o</kbd> 在瀏覽器中開啟它。<a href={`${zhTW.guide}#本機執行個體`}>本機執行個體</a>列出了所有按鍵。</>
+        <>它只監聽回送位址，位於 <code>http://zdesk.localhost:52380</code>。按 <kbd>n</kbd> 建立執行個體，按 <kbd>e</kbd> 在其設定中新增目標，按 <kbd>p</kbd> 加密目標的密碼，按 <kbd>s</kbd> 啟動執行個體，按 <kbd>o</kbd> 在瀏覽器中開啟它。<a href={`${zhTW.guide}#local-instances`}>本機執行個體</a>列出了所有按鍵。</>
       ),
     },
     docs: (
-      <>完整細節請參閱 GitHub 上的<a href={zhTW.readme}>原始碼</a>：<a href={zhTW.install}>安裝 zDesk</a> 涵蓋所有平台；<a href={zhTW.guide}>使用 zDesk</a> 說明瀏覽器用戶端，以及如何設定 Windows、Mac、wlshare 和 VNC 目標。</>
+      <><a href={zhTW.guide}>指南</a>說明瀏覽器用戶端、如何啟動工作階段，以及如何設定 Windows、Mac、wlshare 和 VNC 目標；<a href={zhTW.install}>安裝 zDesk</a> 與 GitHub 上的<a href={zhTW.readme}>原始碼</a>放在一起，涵蓋所有平台。</>
     ),
     footer: (
       <>zDesk 採用 <a href={LICENSE}>MIT 授權條款</a>，以滾動方式發行，方向仍在調整中，版本之間不保證回溯相容；詳見 <a href={zhTW.readme}>README</a>。</>
@@ -694,5 +711,9 @@ export const content: Record<Locale, Content> = {
           "以 Mac 的 Retina/HiDPI 密度顯示 Sway 上的 wlshare，帶有遠端的聲音，進入和離開沉浸式全螢幕時，遠端桌面會隨瀏覽器調整大小。",
       },
     },
+    guideTitle: "使用 zDesk",
+    guideDescription:
+      "閘道安裝好之後如何使用 zDesk：瀏覽器用戶端、啟動工作階段、目標密碼、設定 Windows、Mac、wlshare 和 VNC 目標、攝影機和麥克風，以及本機控制平面。",
+    guideContents: "本頁內容",
   },
 };
