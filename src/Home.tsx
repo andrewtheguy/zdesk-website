@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import Flow from "./Flow";
 import InstallTabs from "./InstallTabs";
 import Shell from "./Shell";
 import { HERO_VIDEO, content, pagePath, type FeatureIcon, type Locale } from "./content";
@@ -134,27 +135,7 @@ export default function Home({ locale }: { locale: Locale }) {
 
         <h2 className="section" id="how-it-works">{c.howHeading}</h2>
         <p>{c.how}</p>
-        <ol className="flow">
-          {c.flow.map((stage, i) => (
-            <Fragment key={i}>
-              {i > 0 && (
-                <li className="hop">
-                  <svg viewBox="0 0 48 12" aria-hidden="true">
-                    <path d="M6 1L1 6l5 5M1 6h46M42 1l5 5-5 5" />
-                  </svg>
-                  <span>{c.hops[i - 1]}</span>
-                </li>
-              )}
-              <li className="stage">
-                <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
-                  {FLOW_ICONS[i]}
-                </svg>
-                <h3>{stage.title}</h3>
-                <p>{stage.body}</p>
-              </li>
-            </Fragment>
-          ))}
-        </ol>
+        <Flow stages={c.flow.map((stage, i) => ({ ...stage, icon: FLOW_ICONS[i] }))} hops={c.hops} />
 
         <h2 className="section" id="quick-start">{c.quickStartHeading}</h2>
         <p className="warning">{c.noCompat}</p>

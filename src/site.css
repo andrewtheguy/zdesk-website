@@ -61,7 +61,7 @@ pre {
 }
 
 /* Top bar: brand, page links, language menu */
-.topbar { background: var(--topbar); color: var(--topbar-fg); }
+.topbar { position: relative; background: var(--topbar); color: var(--topbar-fg); }
 .topbar-inner {
   max-width: 72rem; margin: 0 auto; padding: 0 16px;
   display: flex; flex-wrap: wrap; align-items: center; gap: 0 2rem; min-height: 3.5rem;
@@ -70,14 +70,15 @@ pre {
   display: flex; align-items: center; gap: .5rem;
   color: var(--topbar-fg); font-weight: 700; font-size: 1.15rem; text-decoration: none;
 }
-.pages { display: flex; gap: 1.5rem; }
-.pages a {
+.page-links { display: flex; gap: 1.5rem; margin: 0; padding: 0; list-style: none; }
+.page-links li { margin: 0; }
+.page-links a {
   display: flex; align-items: center; gap: .4rem; padding: .2rem 0;
   color: var(--topbar-muted); text-decoration: none;
   border-bottom: 2px solid transparent; border-top: 2px solid transparent;
 }
-.pages a:hover { color: var(--topbar-fg); }
-.pages a[aria-current="page"] { color: var(--topbar-fg); font-weight: 600; border-bottom-color: var(--topbar-accent); }
+.page-links a:hover { color: var(--topbar-fg); }
+.page-links a[aria-current="page"] { color: var(--topbar-fg); font-weight: 600; border-bottom-color: var(--topbar-accent); }
 .language { margin-left: auto; position: relative; font-size: .9rem; }
 .language summary {
   display: flex; align-items: center; gap: .45rem; min-height: 2.5rem; padding: 0 .7rem;
@@ -106,6 +107,35 @@ pre {
 .language ul a:hover, .language ul a:focus-visible { background: var(--panel); }
 .language ul a[aria-current="page"] { font-weight: 600; }
 .language ul a[aria-current="page"]::after { content: "✓"; color: var(--accent); }
+/* The page menu, in place of the page links on a phone: its links drop below the whole bar */
+.page-menu { display: none; }
+.page-menu summary {
+  display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem;
+  list-style: none; cursor: pointer; color: var(--topbar-fg);
+  border: 1px solid rgba(255, 255, 255, .22); border-radius: 6px;
+}
+.page-menu summary::-webkit-details-marker { display: none; }
+.page-menu summary:hover, .page-menu[open] summary { background: rgba(255, 255, 255, .08); }
+.page-menu summary:focus-visible { outline: 2px solid var(--topbar-accent); outline-offset: 2px; }
+.page-menu svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.page-menu .close, .page-menu[open] .open { display: none; }
+.page-menu[open] .close { display: block; }
+.page-menu-links {
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 10;
+  margin: 0; padding: .4rem 16px .9rem; list-style: none;
+  background: var(--topbar); border-top: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, .25);
+}
+.page-menu-links li { margin: 0; }
+.page-menu-links a {
+  display: flex; align-items: center; min-height: 3rem; padding: 0 .75rem; border-radius: 6px;
+  color: var(--topbar-muted); text-decoration: none; font-size: 1.05rem;
+}
+.page-menu-links a:hover, .page-menu-links a:focus-visible { color: var(--topbar-fg); background: rgba(255, 255, 255, .06); }
+.page-menu-links a[aria-current="page"] {
+  color: var(--topbar-fg); font-weight: 600; background: rgba(255, 255, 255, .08);
+  box-shadow: inset 3px 0 0 var(--topbar-accent);
+}
 
 /* Home: hero with the video at the right of the text, above it on small screens */
 .hero { background: var(--hero); border-bottom: 1px solid var(--line); }
@@ -166,7 +196,8 @@ main.wide { max-width: 72rem; }
 .flow li { margin: 0; }
 .stage { padding: 1.25rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .stage h3 { font-size: 1.1rem; margin: .75rem 0 .4rem; }
-.stage p { color: var(--muted); margin: 0; }
+.stage > div { color: var(--muted); }
+.stage > div > :last-child { margin-bottom: 0; }
 .hop {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem;
   padding: 0 .6rem; text-align: center; color: var(--muted); font-size: .85rem; line-height: 1.35;
@@ -237,11 +268,16 @@ footer .footnote { margin-bottom: .75rem; }
   .hop svg { flex: none; width: 2.25rem; height: .75rem; transform: rotate(90deg); }
   .demo-row.pair { grid-template-columns: minmax(0, 1fr); }
 }
-/* Phones: the top bar one row, closer together, English named short and the menu without its
-   chevron; the demo index in two columns of smaller posters */
+/* Phones: the page links fold into a menu at the bar's right, after the language */
+@media (max-width: 40rem) {
+  .topbar-inner { flex-wrap: nowrap; gap: 0 .75rem; }
+  .page-links { display: none; }
+  .page-menu { display: block; }
+  .pages { order: 1; }
+}
+/* Smaller phones: English named short and the language menu without its chevron; the demo index
+   in two columns of smaller posters */
 @media (max-width: 36rem) {
-  .topbar-inner { gap: 0 1rem; }
-  .pages { gap: 1rem; }
   .page-head-inner { padding: 1.75rem 16px 1.5rem; }
   .demo-index { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
   .demo-index a { padding: .4rem .4rem .6rem; font-size: .9rem; }
@@ -252,7 +288,7 @@ footer .footnote { margin-bottom: .75rem; }
   .language .chevron { display: none; }
 }
 @media (max-width: 22rem) {
-  .topbar-inner, .pages { gap: 0 .6rem; }
+  .topbar-inner { gap: 0 .5rem; }
   .language summary { gap: .3rem; padding: 0 .5rem; }
 }
 
@@ -282,3 +318,166 @@ kbd {
   border-radius: 6px; padding: .75rem 1rem; margin: 0 0 1.25rem;
 }
 .warning strong { color: var(--warn); }
+
+/* Guide: the contents in a sticky sidebar beside the text, folded above it on a narrow screen */
+:root { --ok: #1a7f37; --ok-bg: #dafbe1; --no: #cf222e; --no-bg: #ffebe9; }
+@media (prefers-color-scheme: dark) {
+  :root { --ok: #3fb950; --ok-bg: #12261e; --no: #f85149; --no-bg: #2d1517; }
+}
+.guide {
+  max-width: 72rem; margin: 0 auto; padding: 0 16px;
+  display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: 3rem; align-items: start;
+}
+.guide-body { max-width: 50rem; margin: 0; padding: 0 0 2rem; container-type: inline-size; }
+.guide-body > section { scroll-margin-top: 1rem; }
+.guide-body > section:first-child > h2.section { margin-top: 2rem; }
+.guide-body h3 { font-size: 1.2rem; margin: 2rem 0 .75rem; scroll-margin-top: 1rem; }
+.guide-body ul, .guide-body ol { margin-bottom: 1.25rem; }
+.guide-body li { margin: .5rem 0; }
+.toc { position: sticky; top: 0; max-height: 100vh; overflow-y: auto; padding: 2rem 0 2rem; font-size: .9rem; }
+.toc h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 .6rem; }
+.toc ol, .toc-folded ol { margin: 0; padding: 0; list-style: none; }
+.toc li, .toc-folded li { margin: 0; }
+.toc a, .toc-folded a {
+  display: block; padding: .35rem .75rem; color: var(--muted); text-decoration: none;
+  border-left: 2px solid var(--line); line-height: 1.4;
+}
+.toc a:hover, .toc-folded a:hover { color: var(--fg); }
+.toc code, .toc-folded code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.toc a[aria-current="location"] { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+.toc-folded { display: none; }
+.guide-head .tagline { font-size: 1.05rem; max-width: 50rem; }
+
+/* Guide: a heading for each of the picker's options, with its icon */
+h3.part { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+h3.part .icon { width: 2.25rem; height: 2.25rem; padding: .5rem; }
+
+/* Statuses, and the marks in a table */
+.tag {
+  display: inline-block; vertical-align: .1em; padding: 0 .45rem; border-radius: 999px;
+  font-size: .75rem; font-weight: 600; line-height: 1.6; letter-spacing: .02em;
+  color: var(--muted); border: 1px solid var(--line); white-space: nowrap;
+}
+.tag-beta { color: var(--accent); border-color: currentColor; }
+.tag-alpha, .tag-experimental, .tag-unofficial, .tag-qa { color: var(--warn); border-color: currentColor; background: var(--warn-bg); }
+.mark { display: inline-flex; align-items: flex-start; gap: .3rem; }
+.mark svg { flex: none; width: 1.1em; height: 1.1em; margin-top: .2em; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.mark-yes svg { stroke: var(--ok); }
+.mark-no svg { stroke: var(--no); }
+.mark-none svg { stroke: var(--line); }
+
+.table-scroll { overflow-x: auto; margin: 0 0 1.5rem; border: 1px solid var(--line); border-radius: 8px; }
+.table-scroll table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.table-scroll th, .table-scroll td { padding: .6rem .8rem; text-align: left; vertical-align: top; border-top: 1px solid var(--line); }
+.table-scroll thead th { border-top: 0; background: var(--panel); font-weight: 600; white-space: nowrap; }
+.table-scroll tbody th { font-weight: 400; min-width: 8rem; }
+.table-scroll td { min-width: 6rem; }
+.table-scroll th code { white-space: nowrap; }
+.keys { display: inline-flex; flex-wrap: wrap; gap: .3rem; }
+
+/* How the page may be reached, each way marked */
+.routes { display: grid; gap: .6rem; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+.routes li {
+  display: flex; gap: .75rem; align-items: flex-start; margin: 0; padding: .75rem 1rem;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--panel);
+}
+.routes li.refused { background: var(--no-bg); }
+.routes .mark svg { width: 1.3rem; height: 1.3rem; margin-top: .1rem; }
+.routes li > div { display: flex; flex-direction: column; }
+.routes li span { color: var(--muted); font-size: .9rem; }
+
+/* Groups side by side, each a column of chips */
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; margin: 0 0 1.5rem; }
+.groups section { padding: 1rem; border: 1px solid var(--line); border-radius: 8px; }
+.groups h4 { margin: 0 0 .6rem; font-size: .95rem; }
+.groups ul { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
+.groups li { margin: 0; padding: .15rem .6rem; border-radius: 999px; background: var(--icon-bg); font-size: .85rem; }
+
+/* The picker's options, each a card linking to its part */
+.options {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: .75rem;
+  margin: 1.25rem 0 1.5rem; padding: 0; list-style: none;
+}
+.options li { margin: 0; }
+.options a {
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: .75rem; height: 100%;
+  padding: .8rem; color: var(--fg); text-decoration: none;
+  border: 1px solid var(--line); border-radius: 10px; transition: border-color .15s;
+}
+.options a:hover { border-color: var(--accent); }
+.options .icon { grid-row: span 2; width: 2.5rem; height: 2.5rem; padding: .55rem; }
+.options span { color: var(--muted); font-size: .85rem; line-height: 1.4; }
+
+/* Alternatives side by side as cards */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin: 0 0 1.5rem; }
+.compare section { display: flex; flex-direction: column; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.compare h4 { margin: 0 0 .3rem; font-size: 1.05rem; }
+.compare-sub { color: var(--muted); font-size: .88rem; margin: 0 0 .75rem; }
+.compare dl { margin: 0; font-size: .88rem; }
+.compare dl > div { padding: .45rem 0; border-top: 1px solid var(--line); }
+.compare dt { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; }
+.compare dd { margin: .1rem 0 0; }
+
+/* The flow, where the guide uses it, holds code and runs on in the text */
+.guide-body .flow { margin: 1.25rem 0 1.75rem; grid-template-columns: minmax(0, 1fr) 6rem minmax(0, 1fr) 6rem minmax(0, 1fr); }
+.guide-body .hop { padding: 0 .4rem; }
+.guide-body .stage { padding: .9rem; }
+.guide-body .stage code { font-size: .82em; }
+.guide-body .stage .icon { width: 2.5rem; height: 2.5rem; padding: .55rem; }
+.guide-body .stage h3 { font-size: 1rem; margin: .6rem 0 .4rem; }
+.guide-body .stage p { font-size: .9rem; margin: 0; }
+
+/* Numbered steps, each number in a disc on a line down the side */
+ol.steps { counter-reset: step; margin: 0 0 1.5rem; padding: 0; list-style: none; }
+ol.steps > li { counter-increment: step; position: relative; margin: 0; padding: 0 0 .5rem 3rem; }
+ol.steps > li::before {
+  content: counter(step); position: absolute; left: 0; top: 0;
+  display: flex; align-items: center; justify-content: center; width: 2rem; height: 2rem;
+  border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: .95rem;
+}
+ol.steps > li:not(:last-child)::after { content: ""; position: absolute; left: calc(1rem - 1px); top: 2.25rem; bottom: .25rem; width: 2px; background: var(--line); }
+ol.steps > li > p:first-child { padding-top: .2rem; }
+
+/* Two displays in two tabs */
+.diagram { margin: 0 0 1.5rem; padding: 1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.diagram svg { display: block; width: 100%; height: auto; }
+.two-displays .frame { fill: var(--bg); stroke: var(--line); stroke-width: 2; }
+.two-displays .bar { fill: var(--icon-bg); }
+.two-displays .dot { fill: var(--line); }
+.two-displays .url { fill: var(--bg); }
+.two-displays .number { fill: var(--line); font: 700 72px system-ui, sans-serif; }
+.two-displays .window rect { fill: var(--panel); stroke: var(--accent); stroke-width: 2; }
+.two-displays .window path { fill: var(--accent); }
+.two-displays .drag, .two-displays .drag-head { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.two-displays .drag { stroke-dasharray: 6 7; }
+.diagram figcaption { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: .5rem; color: var(--muted); font-size: .88rem; text-align: center; }
+
+/* A demo recording played in place, no taller than most of the screen */
+.clip { margin: 0 0 1.5rem; }
+.clip video {
+  display: block; max-width: 100%; width: min(100%, calc(70svh * var(--ratio))); height: auto;
+  background: #000; border: 1px solid var(--line); border-radius: 8px;
+}
+.clip figcaption { color: var(--muted); font-size: .85rem; margin-top: .5rem; }
+.note { color: var(--muted); font-size: .92rem; border-left: 3px solid var(--line); padding-left: 1rem; }
+
+@media (max-width: 60rem) {
+  .guide { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .toc { display: none; }
+  .toc-folded {
+    display: block; margin: 1.5rem 0 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel);
+  }
+  .toc-folded summary { padding: .75rem 1rem; cursor: pointer; font-weight: 600; min-height: 2.75rem; }
+  .toc-folded nav { padding: 0 .75rem .75rem; }
+  .toc-folded a { padding: .5rem .75rem; }
+}
+/* The guide's flows turn to a column by the text's width, whatever the sidebar takes */
+@container (max-width: 44rem) {
+  .guide-body .flow { grid-template-columns: minmax(0, 1fr); }
+  .guide-body .hop { flex-direction: row; justify-content: flex-start; gap: .75rem; padding: .5rem 0 .5rem 1.5rem; text-align: left; }
+  .guide-body .hop svg { flex: none; width: 2.25rem; height: .75rem; transform: rotate(90deg); }
+}
+@media (max-width: 36rem) {
+  .diagram { padding: .6rem; }
+  .diagram figcaption { font-size: .8rem; }
+}

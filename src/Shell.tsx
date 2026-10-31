@@ -1,11 +1,11 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { content, locales, pagePath, type Locale, type Page } from "./content";
 
-const PAGES: Page[] = ["home", "demo"];
+const PAGES: Page[] = ["home", "demo", "guide"];
 
-// A disclosure of plain links, each language named in itself, so it works
-// before hydration; once hydrated, Escape or a tap outside closes it.
-function LanguageMenu({ locale, page, label }: { locale: Locale; page: Page; label: (current: string) => string }) {
+// A menu is a disclosure of plain links, so it works before hydration; once hydrated, Escape or
+// a tap outside closes it.
+function useDismiss() {
   const ref = useRef<HTMLDetailsElement>(null);
   useEffect(() => {
     const onPointer = (e: PointerEvent) => {
@@ -26,6 +26,45 @@ function LanguageMenu({ locale, page, label }: { locale: Locale; page: Page; lab
       document.removeEventListener("keydown", onKey);
     };
   }, []);
+  return ref;
+}
+
+function PageLinks({ locale, page, className }: { locale: Locale; page: Page; className: string }) {
+  const c = content[locale];
+  return (
+    <ul className={className}>
+      {PAGES.map((p) => (
+        <li key={p}>
+          <a href={pagePath(locale, p)} aria-current={p === page ? "page" : undefined}>
+            {c.nav[p]}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// On a phone the page links collapse into this menu, at the top bar's right.
+function PageMenu({ locale, page }: { locale: Locale; page: Page }) {
+  const ref = useDismiss();
+  return (
+    <details className="page-menu" ref={ref}>
+      <summary aria-label={content[locale].menu}>
+        <svg className="open" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg className="close" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </summary>
+      <PageLinks locale={locale} page={page} className="page-menu-links" />
+    </details>
+  );
+}
+
+// Each language named in itself.
+function LanguageMenu({ locale, page, label }: { locale: Locale; page: Page; label: (current: string) => string }) {
+  const ref = useDismiss();
   const current = locales.find((l) => l.id === locale)!;
   return (
     <details className="language" ref={ref}>
@@ -86,11 +125,8 @@ export default function Shell({
             zDesk
           </a>
           <nav className="pages">
-            {PAGES.map((p) => (
-              <a key={p} href={pagePath(locale, p)} aria-current={p === page ? "page" : undefined}>
-                {c.nav[p]}
-              </a>
-            ))}
+            <PageLinks locale={locale} page={page} className="page-links" />
+            <PageMenu locale={locale} page={page} />
           </nav>
           <LanguageMenu locale={locale} page={page} label={c.language} />
         </div>

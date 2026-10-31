@@ -6,8 +6,9 @@ const SITE_NAME = "zDesk";
 // Each page names itself as canonical and lists its every locale as an alternate.
 export function pageMeta(locale: Locale, page: Page) {
   const c = content[locale];
-  const title = page === "home" ? `${SITE_NAME} · ${c.homeTitle}` : `${c.demoTitle} · ${SITE_NAME}`;
-  const description = page === "home" ? c.description : c.demoDescription;
+  const title =
+    page === "home" ? `${SITE_NAME} · ${c.homeTitle}` : `${page === "demo" ? c.demoTitle : c.guideTitle} · ${SITE_NAME}`;
+  const description = { home: c.description, demo: c.demoDescription, guide: c.guideDescription }[page];
   const self = `${SITE_URL}${pagePath(locale, page)}`;
   return [
     { title },
