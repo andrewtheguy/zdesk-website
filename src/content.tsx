@@ -130,7 +130,7 @@ export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | 
 export interface Content {
   description: string;
   nav: Record<Page, string>;
-  // The accessible name of the page menu a phone's top bar collapses the page links into.
+  // The label of the page menu a phone's top bar collapses the page links into.
   menu: string;
   // The language menu's accessible name, given the current language's name.
   language: (current: string) => string;
@@ -191,7 +191,7 @@ export const content: Record<Locale, Content> = {
     description:
       "Remote desktop in a browser, for Windows' own Remote Desktop, macOS's built-in Screen Sharing, and Linux through wlshare, our own VNC server for wlroots compositors.",
     nav: { home: "Home", demo: "Demo", guide: "Guide" },
-    menu: "Menu",
+    menu: "Navigate",
     language: (current) => `Language: ${current}`,
     homeTitle: "Remote desktop in a browser",
     tagline:
@@ -374,7 +374,7 @@ export const content: Record<Locale, Content> = {
     description:
       "在浏览器中使用远程桌面，连接 Windows 自带的远程桌面、macOS 内置的屏幕共享，以及 Linux 上的 wlshare，这是我们自己为 wlroots 合成器编写的 VNC 服务器。",
     nav: { home: "首页", demo: "演示", guide: "指南" },
-    menu: "菜单",
+    menu: "导航",
     language: (current) => `语言：${current}`,
     homeTitle: "浏览器中的远程桌面",
     tagline: "在浏览器中使用远程桌面，连接 Windows 和 macOS 自带的远程桌面服务器，以及 Linux 上的 wlshare。",
@@ -547,7 +547,7 @@ export const content: Record<Locale, Content> = {
     description:
       "在瀏覽器中使用遠端桌面，連線 Windows 內建的遠端桌面、macOS 內建的螢幕共享，以及 Linux 上的 wlshare，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。",
     nav: { home: "首頁", demo: "示範", guide: "指南" },
-    menu: "選單",
+    menu: "導覽",
     language: (current) => `語言：${current}`,
     homeTitle: "瀏覽器中的遠端桌面",
     tagline: "在瀏覽器中使用遠端桌面，連線 Windows 和 macOS 內建的遠端桌面伺服器，以及 Linux 上的 wlshare。",

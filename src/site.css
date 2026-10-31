@@ -82,7 +82,7 @@ pre {
 .language { margin-left: auto; position: relative; font-size: .9rem; }
 .language summary {
   display: flex; align-items: center; gap: .45rem; min-height: 2.5rem; padding: 0 .7rem;
-  list-style: none; cursor: pointer; user-select: none; color: var(--topbar-fg);
+  list-style: none; cursor: pointer; user-select: none; white-space: nowrap; color: var(--topbar-fg);
   border: 1px solid rgba(255, 255, 255, .22); border-radius: 6px;
 }
 .language summary::-webkit-details-marker { display: none; }
@@ -110,8 +110,8 @@ pre {
 /* The page menu, in place of the page links on a phone: its links drop below the whole bar */
 .page-menu { display: none; }
 .page-menu summary {
-  display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem;
-  list-style: none; cursor: pointer; color: var(--topbar-fg);
+  display: flex; align-items: center; gap: .5rem; min-height: 2.5rem; padding: 0 .8rem 0 .65rem;
+  list-style: none; cursor: pointer; user-select: none; white-space: nowrap; color: var(--topbar-fg); font-weight: 600;
   border: 1px solid rgba(255, 255, 255, .22); border-radius: 6px;
 }
 .page-menu summary::-webkit-details-marker { display: none; }
@@ -287,9 +287,15 @@ footer .footnote { margin-bottom: .75rem; }
   .language .short { display: inline; }
   .language .chevron { display: none; }
 }
+/* The narrowest phones: the logo alone, its name kept for screen readers, so that the language
+   and the page menu's label fit beside it */
 @media (max-width: 22rem) {
   .topbar-inner { gap: 0 .5rem; }
   .language summary { gap: .3rem; padding: 0 .5rem; }
+  .brand span {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
 }
 
 /* Quick start: one install per platform, as tabs */

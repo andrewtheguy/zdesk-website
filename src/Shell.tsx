@@ -49,13 +49,14 @@ function PageMenu({ locale, page }: { locale: Locale; page: Page }) {
   const ref = useDismiss();
   return (
     <details className="page-menu" ref={ref}>
-      <summary aria-label={content[locale].menu}>
+      <summary>
         <svg className="open" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
         <svg className="close" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6 6l12 12M18 6L6 18" />
         </svg>
+        {content[locale].menu}
       </summary>
       <PageLinks locale={locale} page={page} className="page-menu-links" />
     </details>
@@ -122,7 +123,7 @@ export default function Shell({
         <div className="topbar-inner" data-nosnippet>
           <a className="brand" href={pagePath(locale, "home")}>
             <img src="/logo.svg" alt="" width="28" height="28" />
-            zDesk
+            <span>zDesk</span>
           </a>
           <nav className="pages">
             <PageLinks locale={locale} page={page} className="page-links" />
