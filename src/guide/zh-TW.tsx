@@ -2,7 +2,7 @@ import Flow from "../Flow";
 import { pagePath, REPO } from "../content";
 import ICON from "./icons";
 import { repo, type GuideText } from "./links";
-import { Compare, DemoClip, Groups, Keys, Mark, Options, Part, Routes, Table, Tag, TwoDisplays } from "./visuals";
+import { Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
 
 const guide: GuideText = {
   intro: (
@@ -103,9 +103,8 @@ const guide: GuideText = {
             桌面以 100%
             顯示，從不縮放以符合視窗：較大的桌面會捲動；而在啟用調整尺寸的工作階段中，則由視窗決定遠端的尺寸。手機或平板會符合寬度並支援雙指縮放，手指作為觸控板，並提供螢幕鍵盤。
           </p>
-          <DemoClip
-            locale="zh-TW"
-            id="ipad-to-windows"
+          <Still
+            name="ipad-soft-keyboard"
             caption="iPad 上的 Safari，符合寬度顯示，螢幕鍵盤提供功能鍵、導覽鍵和相黏輔助按鍵。"
           />
           <p>
@@ -144,6 +143,7 @@ const guide: GuideText = {
             登入後頁面會顯示目標選擇器。點選一個目標會將它展開，下方顯示其選項，按下 Start
             即以這些選項連線。這些選項依工作階段選擇，在工作階段期間維持不變，並由瀏覽器依目標記住；它們都不是設定項。
           </p>
+          <Still name="rdp-picker" caption={<><code>rdp</code> 目標的選擇器：尺寸跟隨視窗，聲音使用 FLAC，圖形管線始終直通，並以 High quality 繪製。</>} />
           <Options
             items={[
               { id: "size", icon: "size", title: "尺寸", body: "維持一個尺寸，或跟隨視窗" },
@@ -268,7 +268,7 @@ const guide: GuideText = {
                 title: "Gateway adaptive",
                 sub: "Mac 的無損 Full 品質，由閘道解壓縮後以其圖塊傳送。",
                 rows: [
-                  ["每次變化", "區域變化時用 JPEG，穩定後變為精確"],
+                  ["每次變化", "區域變化時用 JPEG，穩定後變為無損"],
                   ["在較慢的連線上", "配合連線調整"],
                   ["無損", <Mark value="yes">穩定後</Mark>],
                   ["瀏覽器回來時", "恢復"],
@@ -306,7 +306,7 @@ const guide: GuideText = {
           </Part>
           <p>
             RDP 主機如何繪製其管線。在 <code>VideoDecoder</code> 無法解碼主機 H.264 的瀏覽器中，Adaptive
-            會變灰。要讓主機無損繪製，請見<a href="#an-exact-picture">精確畫面</a>。
+            會變灰。要讓主機無損繪製，請見<a href="#a-lossless-picture">無損畫面</a>。
           </p>
           <Compare
             items={[
@@ -490,10 +490,9 @@ password_ref = "workstation"`}</code>
             的遠端桌面（NLA）測試。它傳輸桌面、指標、鍵盤、滑鼠、調整尺寸、剪貼簿、聲音，以及瀏覽器的攝影機和麥克風。不傳輸觸控。無法連線到
             Windows 家用版：它無法作為遠端桌面主機。
           </p>
-          <DemoClip
-            locale="zh-TW"
-            id="mac-to-windows"
-            caption="以 Mac 的 Retina 密度顯示 Windows 內建的遠端桌面，並在瀏覽器中播放其聲音。"
+          <Still
+            name="windows-retina"
+            caption="以 Mac 的 Retina 密度顯示 Windows 內建的遠端桌面：主機上的 Chrome 回報裝置像素比為 2。"
           />
           <ul>
             <li>
@@ -557,10 +556,10 @@ password_ref = "workstation"`}</code>
             第二個顯示器的分頁適用於有兩個實體顯示器的用戶端，每個顯示器顯示一個。只有一個顯示器的用戶端不開啟該分頁，在此處像只有一個顯示器時那樣使用第一個，或者選擇一個顯示器。手機或平板上不支援該分頁，儘管那裡沒有任何東西阻止你開啟它。
           </p>
 
-          <h3 id="an-exact-picture">精確畫面</h3>
+          <h3 id="a-lossless-picture">無損畫面</h3>
           <p>
             預設情況下，Windows 主機以有損方式繪製大部分桌面，使用 RemoteFX Progressive 和 ClearCodec 的
-            NSCodec，會讓文字和顏色稍微模糊。這由主機自己的原則決定，zDesk 中沒有任何設定能覆寫它。要讓它精確繪製每個像素：
+            NSCodec，會讓文字和顏色稍微模糊。這由主機自己的原則決定，zDesk 中沒有任何設定能覆寫它。要讓它無損繪製每個像素：
           </p>
           <ol className="steps">
             <li>
@@ -587,7 +586,7 @@ password_ref = "workstation"`}</code>
             <li>
               <p>
                 在選擇器中，把 <strong>Graphics</strong> 保持為 <em>High quality</em>
-                。這樣主機只使用精確的編碼，即 planar 和未壓縮的矩形，並原封不動地傳給瀏覽器。
+                。這樣主機只使用無損的編碼，即 planar 和未壓縮的矩形，並原封不動地傳給瀏覽器。
               </p>
             </li>
             <li>
@@ -599,7 +598,7 @@ password_ref = "workstation"`}</code>
             </li>
           </ol>
           <p>
-            無損的代價很高，因為主機也會精確繪製移動中的內容：光是開啟時的桌面就約 7.6 MB，視窗中的影片約每秒 19
+            無損的代價很高，因為主機也會無損繪製移動中的內容：光是開啟時的桌面就約 7.6 MB，視窗中的影片約每秒 19
             MB，這還是主機自身壓縮之前的數字；該壓縮隨資料一起到達瀏覽器，可讓 planar
             繪製減少約三分之一，捲動減少約一半。這適合區域網路。在這樣的主機上，自適應 H.264 不會改變任何東西：Lossless
             下它不繪製 H.264。測量資料請見{" "}
@@ -718,10 +717,9 @@ password_ref = "mac"`}</code>
               一樣，拖過兩個分頁之間邊緣的視窗會出現在另一個顯示器上；不建議在只有一個實體顯示器的用戶端上使用第二個顯示器的分頁，手機或平板上也不支援。
             </li>
           </ul>
-          <DemoClip
-            locale="zh-TW"
-            id="windows-to-mac-two-displays"
-            caption="高效能模式 Mac 的兩個虛擬顯示器，顯示在 Windows 上的兩個 Chrome 分頁中，用戶端的兩個顯示器各一個。"
+          <Still
+            name="mac-two-displays"
+            caption="高效能模式 Mac 的兩個虛擬顯示器顯示在 Windows 上的兩個 Chrome 分頁中，一個視窗正從第一個顯示器的分頁拖到第二個。"
           />
           <ul>
             <li>
@@ -804,6 +802,7 @@ password_ref = "wayland"`}</code>
             串流，原封不動地直通並依瀏覽器的連線調節節奏；像素密度；輸出清單；聲音；以及在勾選後啟動的工作階段中，作為桌面上
             PipeWire 裝置的瀏覽器攝影機和麥克風。不設定子類型時，同一個伺服器會以任何 VNC 伺服器的方式讀取。
           </p>
+          <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度顯示：<code>wlr-randr</code> 回報其無頭輸出的縮放比例為 2，瀏覽器進入沉浸式全螢幕後，尺寸從 3456×1802 變為 3456×2168。</>} />
           <h3>畫面</h3>
           <p>
             選擇器的 Picture 群組有三種，全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
@@ -839,7 +838,7 @@ password_ref = "wayland"`}</code>
                 rows: [
                   ["連線", "需要充裕的頻寬：位元組數是視訊的數倍，大面積移動時達每秒數十 Mbit"],
                   ["移動的區域", "由主機硬體編碼器或 libx264 編碼的 H.264"],
-                  ["文字", "靜止後精確"],
+                  ["文字", "靜止後無損"],
                   ["無損", <Mark value="yes">區域停下後</Mark>],
                 ],
               },
@@ -1010,9 +1009,8 @@ vnc_password_ref = "workstation-vnc"`}</code>
             。其他主機名稱或連接埠一律拒絕，因此以其他主機名稱或連接埠到達的通道或連接埠轉送進不了 TUI；但以該連接埠上的{" "}
             <code>zdesk.localhost</code> 到達、或把主機名稱改寫成它的通道或轉送，仍然可以進入。
           </p>
-          <DemoClip
-            locale="zh-TW"
-            id="mac-to-linux"
+          <Still
+            name="local-instance"
             caption={
               <>
                 執行個體 <code>instance3</code>，在 Chrome 中以 <code>instance3.zdesk.localhost:52380</code> 開啟。

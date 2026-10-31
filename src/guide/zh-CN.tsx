@@ -2,7 +2,7 @@ import Flow from "../Flow";
 import { pagePath, REPO } from "../content";
 import ICON from "./icons";
 import { repo, type GuideText } from "./links";
-import { Compare, DemoClip, Groups, Keys, Mark, Options, Part, Routes, Table, Tag, TwoDisplays } from "./visuals";
+import { Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
 
 const guide: GuideText = {
   intro: (
@@ -85,9 +85,8 @@ const guide: GuideText = {
           <p>
             桌面按 100% 显示，从不缩放以适应窗口：较大的桌面会滚动；而在以跟随窗口方式启动的会话中，则由窗口决定远程的尺寸。手机或平板按宽度适配并支持双指缩放，手指作为触控板，并提供软键盘。
           </p>
-          <DemoClip
-            locale="zh-CN"
-            id="ipad-to-windows"
+          <Still
+            name="ipad-soft-keyboard"
             caption="iPad 上的 Safari，按宽度适配，软键盘带有功能键、导航键和粘滞修饰键。"
           />
           <p>
@@ -117,6 +116,7 @@ const guide: GuideText = {
           <p>
             登录后页面显示目标选择器。点选一个目标会将其展开，其下显示选项，点击 Start 即以这些选项连接。这些选项按会话选择，在会话期间保持不变，并由浏览器按目标记住；它们都不是配置项。
           </p>
+          <Still name="rdp-picker" caption={<><code>rdp</code> 目标的选择器：尺寸跟随窗口，声音使用 FLAC，图形管道始终直通，并以 High quality 绘制。</>} />
           <Options
             items={[
               { id: "size", icon: "size", title: "尺寸", body: "保持一个尺寸，或跟随窗口" },
@@ -228,7 +228,7 @@ const guide: GuideText = {
                 title: "Gateway adaptive",
                 sub: "Mac 的无损 Full 质量，由网关解压后以它的图块发送。",
                 rows: [
-                  ["每次变化", "区域变化时用 JPEG，稳定后变为精确"],
+                  ["每次变化", "区域变化时用 JPEG，稳定后变为无损"],
                   ["较慢的链路上", "适配链路"],
                   ["无损", <Mark value="yes">稳定后</Mark>],
                   ["浏览器回来时", "恢复"],
@@ -256,7 +256,7 @@ const guide: GuideText = {
             图形（Graphics）
           </Part>
           <p>
-            RDP 主机如何绘制其管道。在 <code>VideoDecoder</code> 无法解码主机 H.264 的浏览器中，Adaptive 会被置灰。要让主机无损绘制，见<a href="#an-exact-picture">精确画面</a>。
+            RDP 主机如何绘制其管道。在 <code>VideoDecoder</code> 无法解码主机 H.264 的浏览器中，Adaptive 会被置灰。要让主机无损绘制，见<a href="#a-lossless-picture">无损画面</a>。
           </p>
           <Compare
             items={[
@@ -417,10 +417,9 @@ password_ref = "workstation"`}</code>
           <p>
             RDP 客户端是网关自己实现的，针对 Windows 10 和 11 通过 NLA 的远程桌面测试过。它传输桌面、指针、键盘、鼠标、调整尺寸、剪贴板、声音，以及浏览器的摄像头和麦克风。不传输触摸。Windows 家庭版无法连接：它不能作为远程桌面主机。
           </p>
-          <DemoClip
-            locale="zh-CN"
-            id="mac-to-windows"
-            caption="Windows 自带的远程桌面，以 Mac 的 Retina 密度显示，声音在浏览器中播放。"
+          <Still
+            name="windows-retina"
+            caption="Windows 自带的远程桌面，以 Mac 的 Retina 密度显示：主机上的 Chrome 报告设备像素比为 2。"
           />
           <ul>
             <li>
@@ -463,9 +462,9 @@ password_ref = "workstation"`}</code>
             第二个显示器的标签页适用于有两个物理显示器的客户端，每个显示器显示一个。只有一个显示器的客户端不打开该标签页，在此处像只有一个显示器时那样使用第一个，或者选择一个显示器。手机或平板上不支持该标签页，尽管那里没有任何东西阻止你打开它。
           </p>
 
-          <h3 id="an-exact-picture">精确画面</h3>
+          <h3 id="a-lossless-picture">无损画面</h3>
           <p>
-            默认情况下，Windows 主机以有损方式绘制大部分桌面，使用 RemoteFX Progressive 和 ClearCodec 的 NSCodec，会让文字和颜色略微模糊。这由主机自己的策略决定，zDesk 中没有任何设置能覆盖它。要让它精确绘制每个像素：
+            默认情况下，Windows 主机以有损方式绘制大部分桌面，使用 RemoteFX Progressive 和 ClearCodec 的 NSCodec，会让文字和颜色略微模糊。这由主机自己的策略决定，zDesk 中没有任何设置能覆盖它。要让它无损绘制每个像素：
           </p>
           <ol className="steps">
             <li>
@@ -484,7 +483,7 @@ password_ref = "workstation"`}</code>
             </li>
             <li>
               <p>
-                在选择器中，把 <strong>Graphics</strong> 保持为 <em>High quality</em>。这样主机只使用精确的编码，即 planar 和未压缩的矩形，并原样传给浏览器。
+                在选择器中，把 <strong>Graphics</strong> 保持为 <em>High quality</em>。这样主机只使用无损的编码，即 planar 和未压缩的矩形，并原样传给浏览器。
               </p>
             </li>
             <li>
@@ -494,7 +493,7 @@ password_ref = "workstation"`}</code>
             </li>
           </ol>
           <p>
-            无损的代价很高，因为主机也会精确绘制运动的内容：仅打开时的桌面就约 7.6 MB，窗口中的视频约每秒 19 MB，这还是主机自身压缩之前的数字；该压缩随数据一起到达浏览器，可让 planar 绘制减少约三分之一，滚动减少约一半。这适合局域网。在这样的主机上，自适应 H.264 不会改变任何东西：Lossless 下它不绘制 H.264。测量数据见{" "}
+            无损的代价很高，因为主机也会无损绘制运动的内容：仅打开时的桌面就约 7.6 MB，窗口中的视频约每秒 19 MB，这还是主机自身压缩之前的数字；该压缩随数据一起到达浏览器，可让 planar 绘制减少约三分之一，滚动减少约一半。这适合局域网。在这样的主机上，自适应 H.264 不会改变任何东西：Lossless 下它不绘制 H.264。测量数据见{" "}
             <a href={repo("docs/rdp-client.md#lossless-by-the-hosts-policy")}>Lossless, by the host's policy</a>。
           </p>
           <p>
@@ -591,10 +590,9 @@ password_ref = "mac"`}</code>
               <Tag kind="beta">beta</Tag> <code>virtual_displays = 2</code> 请求 Mac 提供两个虚拟显示器，即 Apple 查看器的“2 Virtual Displays”，第二个在第一个右侧：位置由 Mac 决定，因此选择器不提供其他方向。要放到其他方向，请在会话打开期间到 Mac 的“系统设置 → 显示器 → 排列”中调整：把第二个显示器拖到第一个的左侧、上方或下方。会话会随之变化：每个标签页保持自己的显示器，指针穿过它们现在共享的那条边；Mac 可能会为下一次会话保留这一排列，没有保留时它又回到右侧。会话从 Display 选择器的 <em>All Displays</em> 开始，它在此处保留第一个显示器，并在同一浏览器的新标签页中打开 <code>/display/2</code> 显示第二个，与 RDP 目标一样，选择器也可以单独显示其中任一个；在跟随窗口的会话中，那个标签页的窗口决定第二个显示器的尺寸。Mac 为每个显示器发送一路流，第二路发到 UDP 端口 5902，网关只直通正在显示的显示器。与 RDP 一样，在两个标签页之间拖过边缘的窗口会出现在另一个显示器上；不建议在只有一个物理显示器的客户端上使用第二个显示器的标签页，手机或平板上也不支持。
             </li>
           </ul>
-          <DemoClip
-            locale="zh-CN"
-            id="windows-to-mac-two-displays"
-            caption="高性能模式 Mac 的两个虚拟显示器，显示在 Windows 上的两个 Chrome 标签页中，客户端的每个显示器各显示一个。"
+          <Still
+            name="mac-two-displays"
+            caption="高性能模式 Mac 的两个虚拟显示器显示在 Windows 上的两个 Chrome 标签页中，一个窗口正从第一个显示器的标签页拖到第二个。"
           />
           <ul>
             <li>
@@ -660,6 +658,7 @@ password_ref = "wayland"`}</code>
           <p>
             <a href="https://github.com/andrewtheguy/wlshare/blob/main/README.zh-CN.md">wlshare</a> 是本项目自己的 VNC 服务器，面向基于 wlroots 的 Wayland 桌面。这个子类型让网关列出 wlshare 的私有 RFB 扩展：它对整个桌面的 H.264 流，原样直通并按浏览器的链路调节节奏；像素密度；输出列表；声音；以及在勾选后启动的会话中，作为桌面上 PipeWire 设备的浏览器摄像头和麦克风。不设置子类型时，同一服务器按任何 VNC 服务器的方式读取。
           </p>
+          <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度显示：<code>wlr-randr</code> 报告其无头输出的缩放为 2，浏览器进入沉浸式全屏后，尺寸从 3456×1802 变为 3456×2168。</>} />
           <h3>画面</h3>
           <p>
             选择器的 Picture 组有三种画面，都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
@@ -694,7 +693,7 @@ password_ref = "wayland"`}</code>
                 rows: [
                   ["链路", "需要充裕的带宽：视频数倍的字节数，大面积运动时达每秒数十 Mbit"],
                   ["运动区域", "主机硬件编码器或 libx264 编码的 H.264"],
-                  ["文字", "静止后精确"],
+                  ["文字", "静止后无损"],
                   ["无损", <Mark value="yes">区域停下后</Mark>],
                 ],
               },
@@ -827,9 +826,8 @@ vnc_password_ref = "workstation-vnc"`}</code>
           <p>
             它只监听回环地址，默认端口为 52380，<code>--port</code> 或 <code>ZDESK_TUI_PORT</code> 可以更改；端口已被其他程序占用时拒绝启动。打开 <a href="http://zdesk.localhost:52380">http://zdesk.localhost:52380</a>；每个运行中的实例位于 <code>{"http://<instance>.zdesk.localhost:52380"}</code>。它只响应这些名称，且只在自己的端口上响应。该端口上的 <code>localhost</code>、<code>127.0.0.1</code> 和 <code>[::1]</code> 会被重定向到 <code>zdesk.localhost</code>。其他主机名或端口一律拒绝，因此以其他主机名或端口到达的隧道或端口转发进不了 TUI；但以该端口上的 <code>zdesk.localhost</code> 到达、或把主机名改写成它的隧道或转发，仍然可以进入。
           </p>
-          <DemoClip
-            locale="zh-CN"
-            id="mac-to-linux"
+          <Still
+            name="local-instance"
             caption={
               <>
                 一个实例 <code>instance3</code>，在 Chrome 中通过 <code>instance3.zdesk.localhost:52380</code> 打开。

@@ -23,16 +23,6 @@ export default function Guide({ locale }: { locale: Locale }) {
     addEventListener("scroll", onScroll, { passive: true });
     return () => removeEventListener("scroll", onScroll);
   }, [g]);
-  // One recording plays at a time: starting one pauses whichever was playing.
-  useEffect(() => {
-    const onPlay = (e: Event) => {
-      for (const video of document.querySelectorAll<HTMLVideoElement>(".clip video")) {
-        if (video !== e.target && !video.paused) video.pause();
-      }
-    };
-    document.addEventListener("play", onPlay, true);
-    return () => document.removeEventListener("play", onPlay, true);
-  }, []);
   const contents = (
     <ol>
       {g.sections.map((s) => (

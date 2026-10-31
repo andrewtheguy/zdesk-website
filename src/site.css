@@ -452,13 +452,13 @@ ol.steps > li > p:first-child { padding-top: .2rem; }
 .two-displays .drag { stroke-dasharray: 6 7; }
 .diagram figcaption { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: .5rem; color: var(--muted); font-size: .88rem; text-align: center; }
 
-/* A demo recording played in place, no taller than most of the screen */
-.clip { margin: 0 0 1.5rem; }
-.clip video {
+/* A frame from a demo recording, no taller than most of the screen */
+.still { margin: 0 0 1.5rem; }
+.still img {
   display: block; max-width: 100%; width: min(100%, calc(70svh * var(--ratio))); height: auto;
-  background: #000; border: 1px solid var(--line); border-radius: 8px;
+  border: 1px solid var(--line); border-radius: 8px; background: #000;
 }
-.clip figcaption { color: var(--muted); font-size: .85rem; margin-top: .5rem; }
+.still figcaption { color: var(--muted); font-size: .85rem; margin-top: .5rem; }
 .note { color: var(--muted); font-size: .92rem; border-left: 3px solid var(--line); padding-left: 1rem; }
 
 @media (max-width: 60rem) {

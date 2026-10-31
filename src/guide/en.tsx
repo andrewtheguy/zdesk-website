@@ -2,7 +2,7 @@ import Flow from "../Flow";
 import { pagePath, REPO } from "../content";
 import ICON from "./icons";
 import { repo, type GuideText } from "./links";
-import { Compare, DemoClip, Groups, Keys, Mark, Options, Part, Routes, Table, Tag, TwoDisplays } from "./visuals";
+import { Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
 
 const guide: GuideText = {
   intro: (
@@ -110,9 +110,8 @@ const guide: GuideText = {
             resize the window drives the remote's size instead. A phone or tablet fits to width and pinch-zooms, with
             fingers as a trackpad and a soft keyboard.
           </p>
-          <DemoClip
-            locale="en"
-            id="ipad-to-windows"
+          <Still
+            name="ipad-soft-keyboard"
             caption="Safari on an iPad, fitted to width, with the soft keyboard's function, navigation and sticky modifier keys."
           />
           <p>
@@ -150,6 +149,7 @@ const guide: GuideText = {
             Start connects with them. They are chosen per session, held for its life, and remembered by the browser per
             target; none is a config key.
           </p>
+          <Still name="rdp-picker" caption={<>The picker on an <code>rdp</code> target: the size following the window, sound as FLAC, and the pipeline always passed through and drawn High quality.</>} />
           <Options
             items={[
               { id: "size", icon: "size", title: "Size", body: "Keep one size, or follow the window" },
@@ -278,7 +278,7 @@ const guide: GuideText = {
                 title: "Gateway adaptive",
                 sub: "The Mac's lossless Full quality, which the gateway inflates and sends as its tiles.",
                 rows: [
-                  ["Each change", "JPEG while a region changes, exact once it has settled"],
+                  ["Each change", "JPEG while a region changes, lossless once it has settled"],
                   ["On a slower link", "Fitted to the link"],
                   ["Lossless", <Mark value="yes">once settled</Mark>],
                   ["Browser comes back", "Resumed"],
@@ -316,7 +316,7 @@ const guide: GuideText = {
           </Part>
           <p>
             How an RDP host draws its pipeline. Adaptive is greyed in a browser whose <code>VideoDecoder</code> cannot
-            decode the host's H.264. See <a href="#an-exact-picture">An exact picture</a> for having the host draw
+            decode the host's H.264. See <a href="#a-lossless-picture">A lossless picture</a> for having the host draw
             losslessly.
           </p>
           <Compare
@@ -511,10 +511,9 @@ password_ref = "workstation"`}</code>
             the desktop, pointer, keyboard, mouse, resize, the clipboard, sound, and the browser's camera and
             microphone. It does not carry touch. Windows Home cannot be reached: it does not host Remote Desktop.
           </p>
-          <DemoClip
-            locale="en"
-            id="mac-to-windows"
-            caption="Windows' own Remote Desktop at a Mac's Retina density, with its sound in the browser."
+          <Still
+            name="windows-retina"
+            caption="Windows' own Remote Desktop at a Mac's Retina density: Chrome on the host reports a device pixel ratio of 2."
           />
           <ul>
             <li>
@@ -586,11 +585,11 @@ password_ref = "workstation"`}</code>
             supported on a phone or tablet, though nothing there stops you opening it.
           </p>
 
-          <h3 id="an-exact-picture">An exact picture</h3>
+          <h3 id="a-lossless-picture">A lossless picture</h3>
           <p>
             By default a Windows host draws much of its desktop lossily, as RemoteFX Progressive and ClearCodec's
             NSCodec, which blur text and colours slightly. Its own policy decides that, and no setting in zDesk
-            overrides it. To have it draw every pixel exactly:
+            overrides it. To have it draw every pixel losslessly:
           </p>
           <ol className="steps">
             <li>
@@ -614,7 +613,7 @@ password_ref = "workstation"`}</code>
             </li>
             <li>
               <p>
-                At the picker, keep <strong>Graphics</strong> on <em>High quality</em>. The host then draws only exact
+                At the picker, keep <strong>Graphics</strong> on <em>High quality</em>. The host then draws only lossless
                 codecs, planar and uncompressed rectangles, and passes them to the browser as they are.
               </p>
             </li>
@@ -627,7 +626,7 @@ password_ref = "workstation"`}</code>
             </li>
           </ol>
           <p>
-            Lossless is costly, because the host draws what moves exactly too: the opening desktop alone is about 7.6
+            Lossless is costly, because the host draws what moves losslessly too: the opening desktop alone is about 7.6
             MB, and a video in a window about 19 MB a second, before the host's own compression, which reaches the
             browser with them and takes about a third off planar drawing and half off scrolling. That suits a LAN.
             Adaptive H.264 changes nothing on such a host: it draws no H.264 under Lossless. See{" "}
@@ -756,10 +755,9 @@ password_ref = "mac"`}</code>
               supported on a phone or tablet.
             </li>
           </ul>
-          <DemoClip
-            locale="en"
-            id="windows-to-mac-two-displays"
-            caption="A High Performance Mac's two virtual displays in two Chrome tabs on Windows, one on each of the client's displays."
+          <Still
+            name="mac-two-displays"
+            caption="A window dragged from the first display's tab to the second, on a High Performance Mac's two virtual displays in two Chrome tabs on Windows."
           />
           <ul>
             <li>
@@ -851,6 +849,7 @@ password_ref = "wayland"`}</code>
             density, the output list, sound, and, in a session started with them, the browser's camera and microphone as
             PipeWire devices on the desktop. Without the subtype the same server is read as any VNC server is.
           </p>
+          <Still name="wlshare-retina" caption={<>wlshare on Sway at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
           <h3>The picture</h3>
           <p>
             The picker's Picture group has three, all passed through, so no label says so, and no key tunes any of them:
@@ -886,7 +885,7 @@ password_ref = "wayland"`}</code>
                 rows: [
                   ["Link", "Room to spare: several times the video's bytes, tens of Mbit/s while something large moves"],
                   ["Moving regions", "H.264 from the host's hardware encoder or libx264"],
-                  ["Text", "Exact once still"],
+                  ["Text", "Lossless once still"],
                   ["Lossless", <Mark value="yes">once a region stops</Mark>],
                 ],
               },
@@ -1065,9 +1064,8 @@ vnc_password_ref = "workstation-vnc"`}</code>
             under another name or port does not reach the TUI. One that arrives as <code>zdesk.localhost</code> at this
             port, or rewrites the host to it, does.
           </p>
-          <DemoClip
-            locale="en"
-            id="mac-to-linux"
+          <Still
+            name="local-instance"
             caption={
               <>
                 An instance, <code>instance3</code>, open in Chrome at <code>instance3.zdesk.localhost:52380</code>.

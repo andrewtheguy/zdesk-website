@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from "react";
-import { content, demos, locales, type Locale } from "../content";
 import ICONS from "./icons";
 
 export type IconName = keyof typeof ICONS;
@@ -199,33 +198,34 @@ export function TwoDisplays({ first, second, drag }: { first: ReactNode; second:
   );
 }
 
-// One of the demo recordings, played in place: nothing loads but its poster until it is played.
-export function DemoClip({ locale, id, caption }: { locale: Locale; id: string; caption: ReactNode }) {
-  const demo = demos.find((d) => d.id === id)!;
-  const language = locales.find((l) => l.id === locale)!.label;
+// A frame from one of the demo recordings, taken from the original at its full size. A frame
+// wider than 1600 pixels has a copy that wide beside it, `<name>-1600.webp`, for a 1x screen.
+const STILLS = {
+  "ipad-soft-keyboard": [2266, 1488],
+  "rdp-picker": [940, 1000],
+  "windows-retina": [3456, 2234],
+  "mac-two-displays": [3840, 1080],
+  "wlshare-retina": [3456, 2234],
+  "local-instance": [3456, 2234],
+} as const;
+
+export function Still({ name, caption }: { name: keyof typeof STILLS; caption: ReactNode }) {
+  const [width, height] = STILLS[name];
+  const src = `/guide/${name}.webp`;
   return (
-    <figure className="clip">
-      <video
-        controls
-        preload="none"
-        playsInline
-        poster={`/videos/${demo.video.replace(/\.mp4$/, ".jpg")}`}
-        width={demo.width}
-        height={demo.height}
-        style={{ "--ratio": demo.width / demo.height } as CSSProperties}
-        src={`/videos/${demo.video}`}
-        aria-label={content[locale].demos[id].title}
-      >
-        {demo.captions && (
-          <track
-            kind="captions"
-            src={`/videos/${demo.video.replace(/\.mp4$/, `.${locale}.vtt`)}`}
-            srcLang={locale}
-            label={language}
-            default
-          />
-        )}
-      </video>
+    <figure className="still">
+      <img
+        src={src}
+        srcSet={width > 1600 ? `/guide/${name}-1600.webp 1600w, ${src} ${width}w` : undefined}
+        sizes={width > 1600 ? "(max-width: 60rem) 100vw, 50rem" : undefined}
+        alt=""
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+        // Every frame is a 2x screen's, so it is shown no wider than half its pixels.
+        style={{ "--ratio": width / height, maxWidth: `min(100%, ${width / 2}px)` } as CSSProperties}
+      />
       <figcaption>{caption}</figcaption>
     </figure>
   );
