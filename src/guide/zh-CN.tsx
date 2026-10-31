@@ -238,7 +238,7 @@ const guide: GuideText = {
           />
           <p>在 Combined Display（见下文）下 Apple's Adaptive 会被置灰，因为 Combined Display 同样是网关的图块。</p>
           <p>
-            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明：Picture 组为 <em>Adaptive video</em>（默认），即 wlshare 对整个桌面编码的 H.264；<em>Progressive tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；或 <em>Tiles with motion (LAN)</em>，即 wlshare 自己的图块，适用于局域网：见 <a href="#wlshare">wlshare</a>。
+            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明：Picture 组为 <em>Adaptive video</em>（默认），即 wlshare 对整个桌面编码的 H.264；<em>Progressive tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Tiles with motion (LAN)</em>，即 wlshare 自己的图块，适用于局域网；或 <em>Lossless tiles (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都精确无损：见 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -664,7 +664,7 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度显示：<code>wlr-randr</code> 报告其无头输出的缩放为 2，浏览器进入沉浸式全屏后，尺寸从 3456×1802 变为 3456×2168。</>} />
           <h3>画面</h3>
           <p>
-            选择器的 Picture 组有三种画面，都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
+            选择器的 Picture 组有四种画面，都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
           </p>
           <Compare
             items={[
@@ -700,10 +700,21 @@ password_ref = "wayland"`}</code>
                   ["无损", <Mark value="yes">区域停下后</Mark>],
                 ],
               },
+              {
+                title: "Lossless tiles",
+                tag: <Tag kind="experimental">实验性</Tag>,
+                sub: "适用于局域网：每个图块无论静止还是运动都精确无损，就像 Windows 主机在其 Lossless 策略下通过 RDP 绘制的那样。",
+                rows: [
+                  ["链路", "局域网：静止的桌面只有 PNG 字节数的三分之一，播放视频时达每秒数百 Mbit"],
+                  ["主机处理器", "有内容运动时比带运动视频的图块占用更多，由软件编码"],
+                  ["文字", "无损"],
+                  ["无损", <Mark value="yes">始终</Mark>],
+                ],
+              },
             ]}
           />
           <p>
-            渐进式图块先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。带运动视频的图块会在每个运动区域停下后再以无损重发。
+            渐进式图块先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。带运动视频的图块会在每个运动区域停下后再以无损重发。无损图块把每个变化的图块以 RDP 的 planar 编解码器精确发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码渐进式图块那样解码它们，并在那些图块置灰时同样置灰。
           </p>
           <h3>
             两个输出 <Tag kind="beta">beta</Tag>
