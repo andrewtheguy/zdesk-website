@@ -290,8 +290,9 @@ const guide: GuideText = {
           <p>
             On a <code>wlshare</code> target every picture is wlshare's own and passed through, which the labels leave
             unsaid: the Picture group is <em>Adaptive video</em>, the default, wlshare's H.264 of the whole desktop,{" "}
-            <em>Progressive tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264, or{" "}
-            <em>Tiles with motion (LAN)</em>, wlshare's own tiles, for a LAN: see <a href="#wlshare">wlshare</a>.
+            <em>Progressive tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264,{" "}
+            <em>Tiles with motion (LAN)</em>, wlshare's own tiles, for a LAN, or <em>Lossless tiles (experimental)</em>,
+            every tile exact as a Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
           </p>
 
           <Part id="displays" icon="displays">
@@ -858,7 +859,7 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>wlshare on Sway at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
           <h3>The picture</h3>
           <p>
-            The picker's Picture group has three, all passed through, so no label says so, and no key tunes any of them:
+            The picker's Picture group has four, all passed through, so no label says so, and no key tunes any of them:
             wlshare codes each one way.
           </p>
           <Compare
@@ -895,13 +896,26 @@ password_ref = "wayland"`}</code>
                   ["Lossless", <Mark value="yes">once a region stops</Mark>],
                 ],
               },
+              {
+                title: "Lossless tiles",
+                tag: <Tag kind="experimental">experimental</Tag>,
+                sub: "For a LAN: every tile exact, still or moving, as a Windows host draws over RDP under its Lossless policy.",
+                rows: [
+                  ["Link", "A LAN: a third of a PNG's bytes on a still desktop, hundreds of Mbit/s while a video plays"],
+                  ["Host's processor", "More than the tiles with motion while something moves, coded in software"],
+                  ["Text", "Lossless"],
+                  ["Lossless", <Mark value="yes">always</Mark>],
+                ],
+              },
             ]}
           />
           <p>
             Progressive tiles are coarse first and refined in place once still, what moves sent as the change from what
             the page holds. The page decodes them itself, as it composes an RDP host's pipeline, so they need no video
             decoder, and are greyed where the page cannot compose one. Tiles with motion send each region that moves
-            lossless again once it stops.
+            lossless again once it stops. Lossless tiles send every tile that changes exact, in RDP's planar codec, and a
+            slower link gets fewer of them, never coarser ones; the page decodes them as it does the progressive tiles,
+            and they are greyed where those are.
           </p>
           <h3>
             Two outputs <Tag kind="beta">beta</Tag>
