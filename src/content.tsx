@@ -44,7 +44,6 @@ sudo apt install ./zdesk-linux-amd64.deb`,
     configure: `sudo install -d -m 700 -o "$(id -un)" -g "$(id -gn)" /etc/zdesk /var/lib/zdesk
 sudo install -m 600 -o "$(id -un)" -g "$(id -gn)" \\
   /usr/share/doc/zdesk/zdesk.example.toml /etc/zdesk/zdesk.toml
-zdesk gen-passwd admin
 \${EDITOR:-vi} /etc/zdesk/zdesk.toml`,
   },
   {
@@ -65,7 +64,8 @@ start zdesk-windows-x86_64.msi`,
 // comments: one target for each of Windows, a Mac and wlshare. `zdesk check-config` takes it
 // with the elided values filled in.
 export const SERVED_CONFIG = `[server]
-site_passwd = "admin:$2b$12$…"
+site_username = "admin"
+site_passwd_enc = "$ZD;1;AES-256-GCM;…"
 master_password_file = "master-password"
 
 [master]
@@ -287,12 +287,12 @@ export const content: Record<Locale, Content> = {
     },
     serve: {
       heading: <>Served gateway: <code>zdesk serve</code></>,
-      intro: "Once it is installed, create the config as the account that will run the gateway, generate a web login and open the config to edit:",
+      intro: "Once it is installed, create the config as the account that will run the gateway and open it to edit:",
       edit: (
-        <>Paste the generated <code>admin:$2b$...</code> value into <code>[server].site_passwd</code>, set <code>master_password_file = "master-password"</code> under <code>[server]</code>, and replace the example <code>[[targets]]</code> entry with the remote desktop to reach. Its password is kept encrypted under a master password (see <a href={`${en.guide}#target-passwords`}>Target passwords</a>):</>
+        <>Set the web login's username in <code>[server].site_username</code>, set <code>master_password_file = "master-password"</code> under <code>[server]</code>, and replace the example <code>[[targets]]</code> entry with the remote desktop to reach. The web login's password and the target's are kept encrypted under a master password (see <a href={`${en.guide}#target-passwords`}>Target passwords</a>):</>
       ),
       secrets: (
-        <><code>password master create</code> asks for a new master password, writes it to that file, readable by you alone, and prints a <code>[master]</code> block for the config; <code>password encrypt</code> prints the value to add under <code>[passwords]</code>, by the name the target's <code>password_ref</code> gives, so run it once for each target. Without the example's comments, the finished config reads like this, here with a Windows, a Mac and a wlshare target:</>
+        <><code>password master create</code> asks for a new master password, writes it to that file, readable by you alone, and prints a <code>[master]</code> block for the config; <code>password encrypt</code> prints one value, so run it once for the web login's password, pasted as <code>site_passwd_enc</code> under <code>[server]</code>, and once for each target, added under <code>[passwords]</code> by the name its <code>password_ref</code> gives. Without the example's comments, the finished config reads like this, here with a Windows, a Mac and a wlshare target:</>
       ),
       example: (
         <>For a Mac in High Performance mode, set <code>subtype = "ard-high-performance"</code>; the <a href={en.guide}>guide</a> covers setting up each kind of target. Then start the gateway:</>
@@ -467,12 +467,12 @@ export const content: Record<Locale, Content> = {
     },
     serve: {
       heading: <>独立网关：<code>zdesk serve</code></>,
-      intro: "安装完成后，以将要运行网关的账户创建配置，生成网页登录凭据，然后打开配置进行编辑：",
+      intro: "安装完成后，以将要运行网关的账户创建配置，然后打开它进行编辑：",
       edit: (
-        <>将生成的 <code>admin:$2b$...</code> 值粘贴到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下设置 <code>master_password_file = "master-password"</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面。其密码用主密码加密保存（见<a href={`${zhCN.guide}#target-passwords`}>目标密码</a>）：</>
+        <>在 <code>[server].site_username</code> 中设置网页登录的用户名，在 <code>[server]</code> 下设置 <code>master_password_file = "master-password"</code>，并把示例中的 <code>[[targets]]</code> 条目替换为要连接的远程桌面。网页登录的密码和目标的密码都用主密码加密保存（见<a href={`${zhCN.guide}#target-passwords`}>目标密码</a>）：</>
       ),
       secrets: (
-        <><code>password master create</code> 询问新的主密码，把它写入该文件（只有你能读取），并输出配置所需的 <code>[master]</code> 块；<code>password encrypt</code> 输出要添加到 <code>[passwords]</code> 下的值，键名为目标的 <code>password_ref</code>，因此每个目标都要运行一次。去掉示例中的注释后，完成的配置如下，这里有一个 Windows 目标、一个 Mac 目标和一个 wlshare 目标：</>
+        <><code>password master create</code> 询问新的主密码，把它写入该文件（只有你能读取），并输出配置所需的 <code>[master]</code> 块；<code>password encrypt</code> 每次输出一个值：为网页登录的密码运行一次，作为 <code>[server]</code> 下的 <code>site_passwd_enc</code> 粘贴；再为每个目标各运行一次，添加到 <code>[passwords]</code> 下，键名为目标的 <code>password_ref</code>。去掉示例中的注释后，完成的配置如下，这里有一个 Windows 目标、一个 Mac 目标和一个 wlshare 目标：</>
       ),
       example: (
         <>对于高性能模式的 Mac，请设置 <code>subtype = "ard-high-performance"</code>；<a href={zhCN.guide}>指南</a>介绍了如何设置每一种目标。然后启动网关：</>
@@ -640,12 +640,12 @@ export const content: Record<Locale, Content> = {
     },
     serve: {
       heading: <>獨立閘道：<code>zdesk serve</code></>,
-      intro: "安裝完成後，以將要執行閘道的帳戶建立設定，產生網頁登入憑證，然後開啟設定進行編輯：",
+      intro: "安裝完成後，以將要執行閘道的帳戶建立設定，然後開啟它進行編輯：",
       edit: (
-        <>將產生的 <code>admin:$2b$...</code> 值貼到 <code>[server].site_passwd</code>，在 <code>[server]</code> 下設定 <code>master_password_file = "master-password"</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面。其密碼會用主密碼加密儲存（請見<a href={`${zhTW.guide}#target-passwords`}>目標密碼</a>）：</>
+        <>在 <code>[server].site_username</code> 中設定網頁登入的使用者名稱，在 <code>[server]</code> 下設定 <code>master_password_file = "master-password"</code>，並把範例中的 <code>[[targets]]</code> 項目換成要連線的遠端桌面。網頁登入的密碼和目標的密碼都會用主密碼加密儲存（請見<a href={`${zhTW.guide}#target-passwords`}>目標密碼</a>）：</>
       ),
       secrets: (
-        <><code>password master create</code> 詢問新的主密碼，把它寫入該檔案（只有你能讀取），並輸出設定所需的 <code>[master]</code> 區塊；<code>password encrypt</code> 輸出要加到 <code>[passwords]</code> 下的值，鍵名為目標的 <code>password_ref</code>，因此每個目標都要執行一次。拿掉範例中的註解後，完成的設定如下，這裡有一個 Windows 目標、一個 Mac 目標和一個 wlshare 目標：</>
+        <><code>password master create</code> 詢問新的主密碼，把它寫入該檔案（只有你能讀取），並輸出設定所需的 <code>[master]</code> 區塊；<code>password encrypt</code> 每次輸出一個值：為網頁登入的密碼執行一次，作為 <code>[server]</code> 下的 <code>site_passwd_enc</code> 貼上；再為每個目標各執行一次，加到 <code>[passwords]</code> 下，鍵名為目標的 <code>password_ref</code>。拿掉範例中的註解後，完成的設定如下，這裡有一個 Windows 目標、一個 Mac 目標和一個 wlshare 目標：</>
       ),
       example: (
         <>若是高效能模式的 Mac，請設定 <code>subtype = "ard-high-performance"</code>；<a href={zhTW.guide}>指南</a>說明了如何設定每一種目標。然後啟動閘道：</>

@@ -440,8 +440,14 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
           </p>
           <p>
             A value may also be left empty, <code>workstation = ""</code>, as a placeholder for a password not set yet:
-            the target answers with the empty password until the real value is pasted over it, and a config whose names
-            are all placeholders needs no <code>[master]</code> or master password.
+            the target answers with the empty password until the real value is pasted over it, and a local instance's
+            config whose names are all placeholders needs no <code>[master]</code> or master password.
+          </p>
+          <p>
+            A served gateway's web login is kept the same way. <code>[server].site_username</code> names the one user,
+            and <code>[server].site_passwd_enc</code> holds its password as a value <code>password encrypt</code> prints,
+            pasted there rather than under <code>[passwords]</code>. It opens under the same <code>[master]</code>, so a
+            served config always needs its master password.
           </p>
           <h3>The master password</h3>
           <p>
@@ -462,8 +468,8 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
               [
                 <code>zdesk serve</code>,
                 <>
-                  <code>[server].master_password_file</code>; refused without it when a target names an encrypted value,
-                  never asked
+                  <code>[server].master_password_file</code>; refused without it, since the web login's password is
+                  always encrypted; never asked
                 </>,
               ],
               [

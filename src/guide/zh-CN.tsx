@@ -361,7 +361,10 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             <code>password encrypt</code> 会要求输入两次密码，或从管道读取一行，并用配置中已有的 <code>[master]</code> 加密，它只读取配置。名称在粘贴时由你决定，也就是 <code>password_ref</code> 写的名称。<code>vnc_password_ref</code> 以同样方式引用 VNC 服务器自己的密码。两个输出中都没有机密信息，因此可以放在任何组装配置的地方：编辑器、Helm values 文件、模板化的 ConfigMap。本地实例的配置由 TUI 负责写入：它的 <kbd>p</kbd> 会询问名称和密码，并自己写入两个表。
           </p>
           <p>
-            值也可以留空，<code>workstation = ""</code>，作为尚未设置的密码的占位符：在粘贴真实的值之前，目标使用空密码应答；名称全是占位符的配置不需要 <code>[master]</code> 或主密码。
+            值也可以留空，<code>workstation = ""</code>，作为尚未设置的密码的占位符：在粘贴真实的值之前，目标使用空密码应答；名称全是占位符的本地实例配置不需要 <code>[master]</code> 或主密码。
+          </p>
+          <p>
+            独立网关的网页登录也以同样方式保存：<code>[server].site_username</code> 指定唯一的用户，<code>[server].site_passwd_enc</code> 保存其密码，值为 <code>password encrypt</code> 输出的内容，粘贴在那里而不是 <code>[passwords]</code> 下。它用同一个 <code>[master]</code> 打开，因此独立网关的配置总是需要主密码。
           </p>
           <h3>主密码</h3>
           <p>
@@ -373,7 +376,7 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
               [
                 <code>zdesk serve</code>,
                 <>
-                  <code>[server].master_password_file</code>；目标引用加密值而未设置它时拒绝启动，从不询问
+                  <code>[server].master_password_file</code>；网页登录的密码总是加密的，因此未设置它时拒绝启动，从不询问
                 </>,
               ],
               [
