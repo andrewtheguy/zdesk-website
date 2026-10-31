@@ -445,7 +445,7 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
           </p>
           <p>
             A served gateway's web login is kept the same way. <code>[server].site_username</code> names the one user,
-            and <code>[server].site_passwd</code> holds its password as a value <code>password encrypt</code> prints,
+            and <code>[server].site_passwd_enc</code> holds its password as a value <code>password encrypt</code> prints,
             pasted there rather than under <code>[passwords]</code>. It opens under the same <code>[master]</code>, so a
             served config always needs its master password.
           </p>

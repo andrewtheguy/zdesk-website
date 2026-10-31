@@ -364,7 +364,7 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             值也可以留空，<code>workstation = ""</code>，作为尚未设置的密码的占位符：在粘贴真实的值之前，目标使用空密码应答；名称全是占位符的本地实例配置不需要 <code>[master]</code> 或主密码。
           </p>
           <p>
-            独立网关的网页登录也以同样方式保存：<code>[server].site_username</code> 指定唯一的用户，<code>[server].site_passwd</code> 保存其密码，值为 <code>password encrypt</code> 输出的内容，粘贴在那里而不是 <code>[passwords]</code> 下。它用同一个 <code>[master]</code> 打开，因此独立网关的配置总是需要主密码。
+            独立网关的网页登录也以同样方式保存：<code>[server].site_username</code> 指定唯一的用户，<code>[server].site_passwd_enc</code> 保存其密码，值为 <code>password encrypt</code> 输出的内容，粘贴在那里而不是 <code>[passwords]</code> 下。它用同一个 <code>[master]</code> 打开，因此独立网关的配置总是需要主密码。
           </p>
           <h3>主密码</h3>
           <p>
