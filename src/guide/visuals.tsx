@@ -211,12 +211,12 @@ const STILLS = {
 
 export function Still({ name, caption }: { name: keyof typeof STILLS; caption: ReactNode }) {
   const [width, height] = STILLS[name];
-  const src = `/guide/${name}.webp`;
+  const src = `/images/${name}.webp`;
   return (
     <figure className="still">
       <img
         src={src}
-        srcSet={width > 1600 ? `/guide/${name}-1600.webp 1600w, ${src} ${width}w` : undefined}
+        srcSet={width > 1600 ? `/images/${name}-1600.webp 1600w, ${src} ${width}w` : undefined}
         sizes={width > 1600 ? "(max-width: 60rem) 100vw, 50rem" : undefined}
         alt=""
         width={width}

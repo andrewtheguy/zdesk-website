@@ -9,6 +9,7 @@ Pages.
 
 - `src/content.tsx`: the text of the home and demo pages for each locale, and their videos.
 - `src/guide/`: the guide's text, one file per locale, and the diagrams and cards it draws with.
+- `public/images/`: the guide's stills, frames from the demo recordings' originals, each wider than 1600 pixels with a copy that wide beside it.
 - `public/videos/`: the home page's video and its poster, and the demo videos, each with a poster of the same name and, where it has sound, a caption file per locale.
 - `site.config.mjs`: the site's URL and routes, for prerendering and the sitemap.
 
