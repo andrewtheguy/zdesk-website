@@ -423,8 +423,13 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
           </p>
           <p>
             值也可以留空，<code>workstation = ""</code>
-            ，作為尚未設定之密碼的預留位置：在貼上真實的值之前，目標以空白密碼回應；如果設定中的名稱全是這樣的預留位置，就不需要{" "}
+            ，作為尚未設定之密碼的預留位置：在貼上真實的值之前，目標以空白密碼回應；如果本機執行個體設定中的名稱全是這樣的預留位置，就不需要{" "}
             <code>[master]</code> 或主密碼。
+          </p>
+          <p>
+            獨立閘道的網頁登入也以同樣方式保存：<code>[server].site_username</code> 指定唯一的使用者，
+            <code>[server].site_passwd</code> 保存其密碼，值為 <code>password encrypt</code> 輸出的內容，貼在那裡而不是{" "}
+            <code>[passwords]</code> 下。它用同一個 <code>[master]</code> 開啟，因此獨立閘道的設定一定需要主密碼。
           </p>
           <h3>主密碼</h3>
           <p>
@@ -443,7 +448,7 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
               [
                 <code>zdesk serve</code>,
                 <>
-                  <code>[server].master_password_file</code>；目標指明加密值而未設定它時拒絕啟動，從不詢問
+                  <code>[server].master_password_file</code>；網頁登入的密碼一定是加密的，因此未設定它時拒絕啟動，從不詢問
                 </>,
               ],
               [
