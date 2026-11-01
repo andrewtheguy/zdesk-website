@@ -21,7 +21,7 @@ const text: WlshareText = {
   packages: (
     <>
       在 Debian trixie 上，它需要 wlroots 0.19 以及以它建置的 sway 或 labwc，來自它自己的{" "}
-      <a href="#install">APT 套件庫</a>：0.19 讓指標不進入畫面，套件庫中的修補讓 labwc 的指標落在正確的輸出上。
+      <a href="#install">APT 套件庫</a>：0.19 讓指標不進入畫面；當 labwc 顯示兩個輸出、每個瀏覽器分頁各顯示一個時，套件庫中的修補讓指標落在正確的輸出上。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度透過 wlshare 顯示 Sway，畫面上正在播放影片。",

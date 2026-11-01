@@ -83,7 +83,7 @@ const guide: GuideText = {
             head={["Package", "What needs it"]}
             rows={[
               [<>wlroots 0.19</>, "The pointer kept out of the picture on a headless output, for wlshare to send apart; 0.18 paints it into every capture. wlshare's package depends on it, and does not install without it."],
-              [<>wlroots' one patch</>, "On labwc, the client's pointer where it is put on an output away from the layout's origin, such as a second output or a headless one beside a monitor; unpatched, it lands elsewhere. sway places it right without the patch."],
+              [<>wlroots' one patch</>, "On labwc with two outputs: the client's pointer where it is put on the second, shown in a browser tab of its own or chosen from the list, rather than off by that output's place in the layout. A desktop with one output, and sway, need no patch."],
               [<>sway 1.11, labwc 0.9.7</>, "The releases built against wlroots 0.19: trixie's sway 1.10 and labwc 0.8.3 link 0.18."],
             ]}
           />

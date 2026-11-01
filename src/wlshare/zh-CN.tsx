@@ -20,7 +20,7 @@ const text: WlshareText = {
   packages: (
     <>
       在 Debian trixie 上，它需要 wlroots 0.19 以及基于它构建的 sway 或 labwc，来自它自己的{" "}
-      <a href="#install">APT 仓库</a>：0.19 让指针不进入画面，仓库中的补丁让 labwc 的指针落在正确的输出上。
+      <a href="#install">APT 仓库</a>：0.19 让指针不进入画面；当 labwc 显示两个输出、每个浏览器标签页各显示一个时，仓库中的补丁让指针落在正确的输出上。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度通过 wlshare 显示 Sway，正在播放一段视频。",
