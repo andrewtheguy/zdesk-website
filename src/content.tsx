@@ -391,13 +391,13 @@ export const content: Record<Locale, Content> = {
     },
     guidesTitle: "Guides",
     guidesDescription:
-      "The guides to zDesk and to wlshare: using the gateway once it is installed, and setting up and using wlshare, the VNC server for wlroots desktops that zDesk reaches Linux through.",
-    guidesIntro: "Using the zDesk gateway, and setting up and using wlshare on the Linux desktops it reaches.",
+      "The guides to zDesk and to wlshare: setting up and using the gateway once it is installed, and wlshare, the VNC server for wlroots desktops that zDesk reaches Linux through.",
+    guidesIntro: "Setting up and using the zDesk gateway, and wlshare on the Linux desktops it reaches.",
     guides: {
       zdesk: {
-        title: "Using zDesk",
+        title: "Setting up and using zDesk",
         description:
-          "Using zDesk once the gateway is installed: the browser client, starting a session, target passwords, setting up Windows, Mac, wlshare and VNC targets, the camera and microphone, and the local control plane.",
+          "Setting up and using zDesk once the gateway is installed: the browser client, starting a session, target passwords, setting up Windows, Mac, wlshare and VNC targets, the camera and microphone, and the local control plane.",
       },
       wlshare: {
         title: "Setting up and using wlshare",
@@ -580,13 +580,13 @@ export const content: Record<Locale, Content> = {
     },
     guidesTitle: "指南",
     guidesDescription:
-      "zDesk 和 wlshare 的指南：网关安装好之后如何使用它，以及如何设置和使用 wlshare，即 zDesk 连接 Linux 所经由的、面向 wlroots 桌面的 VNC 服务器。",
-    guidesIntro: "使用 zDesk 网关，以及在它连接的 Linux 桌面上设置和使用 wlshare。",
+      "zDesk 和 wlshare 的指南：网关安装好之后如何设置和使用它，以及如何设置和使用 wlshare，即 zDesk 连接 Linux 所经由的、面向 wlroots 桌面的 VNC 服务器。",
+    guidesIntro: "设置和使用 zDesk 网关，以及在它连接的 Linux 桌面上设置和使用 wlshare。",
     guides: {
       zdesk: {
-        title: "使用 zDesk",
+        title: "设置和使用 zDesk",
         description:
-          "网关安装好之后如何使用 zDesk：浏览器客户端、启动会话、目标密码、设置 Windows、Mac、wlshare 和 VNC 目标、摄像头和麦克风，以及本地控制面。",
+          "网关安装好之后如何设置和使用 zDesk：浏览器客户端、启动会话、目标密码、设置 Windows、Mac、wlshare 和 VNC 目标、摄像头和麦克风，以及本地控制面。",
       },
       wlshare: {
         title: "设置和使用 wlshare",
@@ -769,13 +769,13 @@ export const content: Record<Locale, Content> = {
     },
     guidesTitle: "指南",
     guidesDescription:
-      "zDesk 和 wlshare 的指南：閘道安裝好之後如何使用，以及如何設定和使用 wlshare，也就是 zDesk 用來連線 Linux 的 wlroots 桌面 VNC 伺服器。",
-    guidesIntro: "使用 zDesk 閘道，以及在它所連線的 Linux 桌面上設定和使用 wlshare。",
+      "zDesk 和 wlshare 的指南：閘道安裝好之後如何設定和使用，以及如何設定和使用 wlshare，也就是 zDesk 用來連線 Linux 的 wlroots 桌面 VNC 伺服器。",
+    guidesIntro: "設定和使用 zDesk 閘道，以及在它所連線的 Linux 桌面上設定和使用 wlshare。",
     guides: {
       zdesk: {
-        title: "使用 zDesk",
+        title: "設定和使用 zDesk",
         description:
-          "閘道安裝好之後如何使用 zDesk：瀏覽器用戶端、啟動工作階段、目標密碼、設定 Windows、Mac、wlshare 和 VNC 目標、攝影機和麥克風，以及本機控制平面。",
+          "閘道安裝好之後如何設定和使用 zDesk：瀏覽器用戶端、啟動工作階段、目標密碼、設定 Windows、Mac、wlshare 和 VNC 目標、攝影機和麥克風，以及本機控制平面。",
       },
       wlshare: {
         title: "設定和使用 wlshare",
