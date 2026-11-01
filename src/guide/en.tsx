@@ -2,7 +2,7 @@ import Flow from "../Flow";
 import { pagePath, REPO } from "../content";
 import ICON from "./icons";
 import { repo, type GuideText } from "./links";
-import { Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
+import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
 
 const guide: GuideText = {
   intro: (
@@ -764,9 +764,9 @@ password_ref = "mac"`}</code>
               supported on a phone or tablet.
             </li>
           </ul>
-          <Still
+          <Clip
             name="mac-two-displays"
-            caption="A window dragged from the first display's tab to the second, on a High Performance Mac's two virtual displays in two Chrome tabs on Windows."
+            caption="A window dragged from the first display's tab to the second and back, on a High Performance Mac's two virtual displays in two Chrome tabs on Windows."
           />
           <ul>
             <li>

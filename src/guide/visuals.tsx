@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import ICONS from "./icons";
 
 export type IconName = keyof typeof ICONS;
@@ -204,7 +204,6 @@ const STILLS = {
   "ipad-soft-keyboard": [2266, 1488],
   "rdp-picker": [940, 1000],
   "windows-retina": [3456, 2234],
-  "mac-two-displays": [3840, 1080],
   "wlshare-retina": [3456, 2234],
   "local-instance": [3456, 2234],
 } as const;
@@ -224,6 +223,48 @@ export function Still({ name, caption }: { name: keyof typeof STILLS; caption: R
         loading="lazy"
         decoding="async"
         // Every frame is a 2x screen's, so it is shown no wider than half its pixels.
+        style={{ "--ratio": width / height, maxWidth: `min(100%, ${width / 2}px)` } as CSSProperties}
+      />
+      <figcaption>{caption}</figcaption>
+    </figure>
+  );
+}
+
+// A few seconds cut from one of the demo recordings, without sound, that loops, its poster its
+// first frame beside it, `<name>.jpg`. It plays once the page is read, and not where the reader
+// asks for reduced motion, who gets its controls instead.
+const CLIPS = {
+  "mac-two-displays": [3840, 1080],
+} as const;
+
+export function Clip({ name, caption }: { name: keyof typeof CLIPS; caption: ReactNode }) {
+  const [width, height] = CLIPS[name];
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const el = video.current;
+    if (!el) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.controls = true;
+      return;
+    }
+    el.muted = true;
+    el.play().catch(() => {
+      el.controls = true;
+    });
+  }, []);
+  return (
+    <figure className="still">
+      <video
+        ref={video}
+        src={`/videos/${name}.mp4`}
+        poster={`/videos/${name}.jpg`}
+        width={width}
+        height={height}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label={typeof caption === "string" ? caption : undefined}
         style={{ "--ratio": width / height, maxWidth: `min(100%, ${width / 2}px)` } as CSSProperties}
       />
       <figcaption>{caption}</figcaption>

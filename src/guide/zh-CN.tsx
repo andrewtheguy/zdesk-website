@@ -2,7 +2,7 @@ import Flow from "../Flow";
 import { pagePath, REPO } from "../content";
 import ICON from "./icons";
 import { repo, type GuideText } from "./links";
-import { Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
+import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
 
 const guide: GuideText = {
   intro: (
@@ -594,9 +594,9 @@ password_ref = "mac"`}</code>
               <Tag kind="beta">beta</Tag> <code>virtual_displays = 2</code> 请求 Mac 提供两个虚拟显示器，即 Apple 查看器的“2 Virtual Displays”，第二个在第一个右侧：位置由 Mac 决定，因此选择器不提供其他方向。要放到其他方向，请在会话打开期间到 Mac 的“系统设置 → 显示器 → 排列”中调整：把第二个显示器拖到第一个的左侧、上方或下方。会话会随之变化：每个标签页保持自己的显示器，指针穿过它们现在共享的那条边；Mac 可能会为下一次会话保留这一排列，没有保留时它又回到右侧。会话从 Display 选择器的 <em>All Displays</em> 开始，它在此处保留第一个显示器，并在同一浏览器的新标签页中打开 <code>/display/2</code> 显示第二个，与 RDP 目标一样，选择器也可以单独显示其中任一个；在跟随窗口的会话中，那个标签页的窗口决定第二个显示器的尺寸。Mac 为每个显示器发送一路流，第二路发到 UDP 端口 5902，网关只直通正在显示的显示器。与 RDP 一样，在两个标签页之间拖过边缘的窗口会出现在另一个显示器上；不建议在只有一个物理显示器的客户端上使用第二个显示器的标签页，手机或平板上也不支持。
             </li>
           </ul>
-          <Still
+          <Clip
             name="mac-two-displays"
-            caption="高性能模式 Mac 的两个虚拟显示器显示在 Windows 上的两个 Chrome 标签页中，一个窗口正从第一个显示器的标签页拖到第二个。"
+            caption="高性能模式 Mac 的两个虚拟显示器显示在 Windows 上的两个 Chrome 标签页中，一个窗口从第一个显示器的标签页拖到第二个，再拖回来。"
           />
           <ul>
             <li>
