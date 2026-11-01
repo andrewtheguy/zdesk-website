@@ -27,8 +27,8 @@ export default function Wlshare({ locale }: { locale: Locale }) {
             </h1>
             <p className="tagline">{t.tagline}</p>
             <p>{t.intro}</p>
+            <p>{t.packages}</p>
             <p className="rolling">{t.rolling}</p>
-            <p className="rolling">{t.packages}</p>
             <ul className="links">
               <li>
                 <a className="primary" href="#install">
