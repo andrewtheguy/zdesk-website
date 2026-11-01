@@ -187,7 +187,7 @@ const text: WlshareText = {
               { name: "wlshare-sway", caption: "With the subtype: the scale 2 output at 2x, whole in the window." },
               {
                 name: "wlshare-plain-vnc",
-                caption: "Without it: the same pixels at 1x, twice the size, a quarter of the desktop in the window.",
+                caption: "Without it: the same pixels at 1x, twice the size: scrolled to the video, the window holds a quarter of the desktop.",
               },
             ]}
           />
