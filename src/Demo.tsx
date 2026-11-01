@@ -1,9 +1,9 @@
 import { useEffect, type CSSProperties } from "react";
 import Shell from "./Shell";
-import { content, demos, locales, pagePath, type Demo as DemoVideo, type Locale } from "./content";
+import { content, demos, locales, pagePath, type Demo as Recording, type Locale } from "./content";
 
-const poster = (demo: DemoVideo) => `/videos/${demo.video.replace(/\.mp4$/, ".jpg")}`;
-const portrait = (demo: DemoVideo) => demo.height > demo.width;
+const poster = (demo: Recording) => `/videos/${demo.video.replace(/\.mp4$/, ".jpg")}`;
+const portrait = (demo: Recording) => demo.height > demo.width;
 
 function Length({ seconds }: { seconds: number }) {
   const m = Math.floor(seconds / 60);
@@ -23,8 +23,8 @@ function Sound({ label }: { label: string }) {
 }
 
 // Consecutive phone recordings share a row on a wide screen; every other demo has a row of its own.
-function rows(list: DemoVideo[]) {
-  const out: DemoVideo[][] = [];
+function rows(list: Recording[]) {
+  const out: Recording[][] = [];
   for (const demo of list) {
     const last = out[out.length - 1];
     if (last && portrait(demo) && last.length === 1 && portrait(last[0])) last.push(demo);
@@ -33,9 +33,47 @@ function rows(list: DemoVideo[]) {
   return out;
 }
 
+// One recording with its title, length and caption, and its sound described in a caption track.
+// `heading` is its title's level: its own section on the demo page, under another elsewhere.
+export function DemoVideo({ demo, locale, heading = "h2" }: { demo: Recording; locale: Locale; heading?: "h2" | "h3" }) {
+  const c = content[locale];
+  const text = c.demos[demo.id];
+  const language = locales.find((l) => l.id === locale)!.label;
+  const Title = heading;
+  return (
+    <section className="demo" id={demo.id}>
+      <Title>{text.title}</Title>
+      <p className="demo-meta">
+        <Length seconds={demo.seconds} />
+        {demo.captions && <Sound label={c.demoSound} />}
+      </p>
+      {text.caption && <p>{text.caption}</p>}
+      <video
+        controls
+        preload="none"
+        playsInline
+        poster={poster(demo)}
+        width={demo.width}
+        height={demo.height}
+        style={{ "--ratio": demo.width / demo.height } as CSSProperties}
+        src={`/videos/${demo.video}`}
+      >
+        {demo.captions && (
+          <track
+            kind="captions"
+            src={`/videos/${demo.video.replace(/\.mp4$/, `.${locale}.vtt`)}`}
+            srcLang={locale}
+            label={language}
+            default
+          />
+        )}
+      </video>
+    </section>
+  );
+}
+
 export default function Demo({ locale }: { locale: Locale }) {
   const c = content[locale];
-  const language = locales.find((l) => l.id === locale)!.label;
   // One demo plays at a time: starting one pauses whichever was playing.
   useEffect(() => {
     const onPlay = (e: Event) => {
@@ -71,39 +109,9 @@ export default function Demo({ locale }: { locale: Locale }) {
         </ul>
         {rows(demos).map((row) => (
           <div className={row.length > 1 ? "demo-row pair" : "demo-row"} key={row[0].id}>
-            {row.map((demo) => {
-              const text = c.demos[demo.id];
-              return (
-                <section className="demo" id={demo.id} key={demo.id}>
-                  <h2>{text.title}</h2>
-                  <p className="demo-meta">
-                    <Length seconds={demo.seconds} />
-                    {demo.captions && <Sound label={c.demoSound} />}
-                  </p>
-                  {text.caption && <p>{text.caption}</p>}
-                  <video
-                    controls
-                    preload="none"
-                    playsInline
-                    poster={poster(demo)}
-                    width={demo.width}
-                    height={demo.height}
-                    style={{ "--ratio": demo.width / demo.height } as CSSProperties}
-                    src={`/videos/${demo.video}`}
-                  >
-                    {demo.captions && (
-                      <track
-                        kind="captions"
-                        src={`/videos/${demo.video.replace(/\.mp4$/, `.${locale}.vtt`)}`}
-                        srcLang={locale}
-                        label={language}
-                        default
-                      />
-                    )}
-                  </video>
-                </section>
-              );
-            })}
+            {row.map((demo) => (
+              <DemoVideo demo={demo} locale={locale} key={demo.id} />
+            ))}
           </div>
         ))}
         <section className="demo-next">

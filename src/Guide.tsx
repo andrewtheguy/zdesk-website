@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
 import Shell from "./Shell";
-import { content, type Locale } from "./content";
-import type { GuideText } from "./guide/links";
-import en from "./guide/en";
-import zhCN from "./guide/zh-CN";
-import zhTW from "./guide/zh-TW";
+import { content, pagePath, type Guide as GuideName, type Locale } from "./content";
+import { guideText } from "./guides/text";
 
-const guides: Record<Locale, GuideText> = { en, "zh-CN": zhCN, "zh-TW": zhTW };
-
-export default function Guide({ locale }: { locale: Locale }) {
+export default function Guide({ locale, guide }: { locale: Locale; guide: GuideName }) {
   const c = content[locale];
-  const g = guides[locale];
+  const g = guideText[guide][locale];
   // The contents mark the section being read: the last whose heading has passed the top third.
   const [current, setCurrent] = useState<string>();
   useEffect(() => {
@@ -35,10 +30,13 @@ export default function Guide({ locale }: { locale: Locale }) {
     </ol>
   );
   return (
-    <Shell locale={locale} page="guide">
+    <Shell locale={locale} page={`${guide}-guide`}>
       <section className="page-head guide-head">
         <div className="page-head-inner">
-          <h1>{c.guideTitle}</h1>
+          <p className="crumb">
+            <a href={pagePath(locale, "guides")}>{c.guidesTitle}</a>
+          </p>
+          <h1>{c.guides[guide].title}</h1>
           <p className="tagline">{g.intro}</p>
         </div>
       </section>

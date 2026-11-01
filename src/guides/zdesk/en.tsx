@@ -1,8 +1,8 @@
-import Flow from "../Flow";
-import { pagePath, REPO } from "../content";
-import ICON from "./icons";
-import { repo, type GuideText } from "./links";
-import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
+import Flow from "../../Flow";
+import { pagePath, REPO } from "../../content";
+import ICON from "../icons";
+import { repo, type GuideText } from "../links";
+import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "../visuals";
 
 const guide: GuideText = {
   intro: (
@@ -292,7 +292,7 @@ const guide: GuideText = {
             unsaid: the Picture group is <em>Adaptive video</em>, the default, wlshare's H.264 of the whole desktop,{" "}
             <em>Progressive tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264,{" "}
             <em>Tiles with motion (LAN)</em>, wlshare's own tiles, for a LAN, or <em>Lossless tiles (experimental)</em>,
-            every tile exact as a Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
+            every tile lossless as a Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
           </p>
 
           <Part id="displays" icon="displays">
@@ -852,13 +852,15 @@ username = "me"
 password_ref = "wayland"`}</code>
           </pre>
           <p>
-            <a href="https://github.com/andrewtheguy/wlshare">wlshare</a> is this project's own VNC server for
-            wlroots-based Wayland desktops. The subtype makes the gateway list wlshare's private RFB extensions: its
+            <a href={pagePath("en", "wlshare")}>wlshare</a> is this project's own VNC server for wlroots-based
+            Wayland desktops. The subtype makes the gateway list wlshare's private RFB extensions: its
             H.264 stream of the whole desktop, which is passed through untouched and paced to the browser's link, pixel
             density, the output list, sound, and, in a session started with them, the browser's camera and microphone as
             PipeWire devices on the desktop. Without the subtype the same server is read as any VNC server is.
+            Setting up wlshare itself, from installing it to a headless desktop up at boot, is in the{" "}
+            <a href={pagePath("en", "wlshare-guide")}>wlshare guide</a>.
           </p>
-          <Still name="wlshare-retina" caption={<>wlshare on Sway at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
+          <Still name="wlshare-retina" caption={<>Sway through wlshare at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
           <h3>The picture</h3>
           <p>
             The picker's Picture group has four, all passed through, so no label says so, and no key tunes any of them:
@@ -868,7 +870,7 @@ password_ref = "wayland"`}</code>
             items={[
               {
                 title: "Adaptive video",
-                sub: "The default. wlshare's H.264 of the whole desktop, 4:2:0, at the quality wlshare decides.",
+                sub: "The default. The whole desktop as wlshare's H.264, 4:2:0, at the quality wlshare decides.",
                 rows: [
                   ["On a slower link", "Fewer frames rather than coarser ones"],
                   ["Host's processor", "The lighter; the host's hardware encoder where it has one"],
@@ -901,7 +903,7 @@ password_ref = "wayland"`}</code>
               {
                 title: "Lossless tiles",
                 tag: <Tag kind="experimental">experimental</Tag>,
-                sub: "For a LAN: every tile exact, still or moving, as a Windows host draws over RDP under its Lossless policy.",
+                sub: "For a LAN: every tile lossless, still or moving, as a Windows host draws over RDP under its Lossless policy.",
                 rows: [
                   ["Link", "A LAN: a quarter of a PNG's bytes or less on a still desktop, hundreds of Mbit/s while a video plays"],
                   ["Host's processor", "More than the tiles with motion while something moves, coded in software"],
@@ -915,7 +917,7 @@ password_ref = "wayland"`}</code>
             Progressive tiles are coarse first and refined in place once still, what moves sent as the change from what
             the page holds. The page decodes them itself, as it composes an RDP host's pipeline, so they need no video
             decoder, and are greyed where the page cannot compose one. Tiles with motion send each region that moves
-            lossless again once it stops. Lossless tiles send every tile that changes exact, in RDP's planar codec, and a
+            lossless again once it stops. Lossless tiles send every tile that changes losslessly, in RDP's planar codec, and a
             slower link gets fewer of them, never coarser ones; the page decodes them as it does the progressive tiles,
             and they are greyed where those are.
           </p>
@@ -935,8 +937,7 @@ password_ref = "wayland"`}</code>
           <p>
             The example uses the account wlshare runs as, checked through PAM over RSA-AES. If wlshare instead uses its{" "}
             <code>[password]</code> table, keep that password under <code>password_ref</code> and omit{" "}
-            <code>username</code>: RSA-AES then sends the password alone. wlshare does not offer classic VNC
-            authentication, so <code>vnc_password_ref</code> does not apply to it.
+            <code>username</code>: RSA-AES then sends the password alone. Since wlshare offers no classic VNC authentication, <code>vnc_password_ref</code> does not apply to it.
           </p>
           <p>
             The gateway and wlshare must speak the same version of wlshare's protocol; <code>wlshare --version</code>{" "}

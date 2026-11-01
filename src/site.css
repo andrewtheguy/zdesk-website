@@ -78,7 +78,7 @@ pre {
   border-bottom: 2px solid transparent; border-top: 2px solid transparent;
 }
 .page-links a:hover { color: var(--topbar-fg); }
-.page-links a[aria-current="page"] { color: var(--topbar-fg); font-weight: 600; border-bottom-color: var(--topbar-accent); }
+.page-links a[aria-current] { color: var(--topbar-fg); font-weight: 600; border-bottom-color: var(--topbar-accent); }
 .language { margin-left: auto; position: relative; font-size: .9rem; }
 .language summary {
   display: flex; align-items: center; gap: .45rem; min-height: 2.5rem; padding: 0 .7rem;
@@ -132,7 +132,7 @@ pre {
   color: var(--topbar-muted); text-decoration: none; font-size: 1.05rem;
 }
 .page-menu-links a:hover, .page-menu-links a:focus-visible { color: var(--topbar-fg); background: rgba(255, 255, 255, .06); }
-.page-menu-links a[aria-current="page"] {
+.page-menu-links a[aria-current] {
   color: var(--topbar-fg); font-weight: 600; background: rgba(255, 255, 255, .08);
   box-shadow: inset 3px 0 0 var(--topbar-accent);
 }
@@ -160,7 +160,11 @@ h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 .75rem; letter-spacing: 
 .links .external svg:not(.github) { width: .85em; height: .85em; fill: none; stroke: var(--muted); stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
 .links .github { width: 1.1em; height: 1.1em; fill: currentColor; margin-right: .1rem; }
 .links a.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
-.rolling { color: var(--muted); font-size: .9rem; }
+.rolling { color: var(--muted); font-size: .9rem; margin-bottom: .4rem; }
+.guide-link { margin: .5rem 0 0; font-weight: 600; }
+.guide-link a { display: inline-flex; align-items: center; gap: .45rem; text-decoration: none; }
+.guide-link a:hover { text-decoration: underline; }
+.guide-link .book { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 /* The buttons stack once the text column cannot hold them in a row */
 @container (max-width: 32rem) {
   .links { flex-direction: column; }
@@ -243,6 +247,8 @@ h2.section, .demo h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom:
 .demo-next p { margin: 0; }
 .demo { display: flex; flex-direction: column; margin: 0 0 3rem; scroll-margin-top: 1rem; }
 .demo h2 { font-size: 1.35rem; margin-bottom: .35rem; }
+/* A recording under another heading, as on the wlshare page */
+.demo h3 { font-size: 1.2rem; margin: 1.25rem 0 .35rem; }
 .demo p { color: var(--muted); margin: 0 0 .75rem; max-width: 48rem; }
 .demo .demo-meta { display: flex; gap: 1rem; align-items: center; font-size: .9rem; font-variant-numeric: tabular-nums; }
 /* A recording fills the column, but no taller than most of the screen; side by side, the pair
@@ -487,3 +493,51 @@ ol.steps > li > p:first-child { padding-top: .2rem; }
   .diagram { padding: .6rem; }
   .diagram figcaption { font-size: .8rem; }
 }
+
+/* Two frames side by side */
+.still-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0 0 1.5rem; }
+.still-pair .still { margin: 0; }
+@media (max-width: 40rem) {
+  .still-pair { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Short cards in a grid */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1rem; margin: 0 0 1.5rem; }
+.cards section { padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.cards h3 { font-size: 1.05rem; margin: 0 0 .4rem; }
+.cards p { color: var(--muted); font-size: .92rem; margin: 0; }
+
+/* A guide's way back to the guides, above its title */
+.crumb { margin: 0 0 .4rem; font-size: .9rem; }
+.crumb a { color: var(--muted); text-decoration: none; }
+.crumb a::before { content: "← "; }
+.crumb a:hover { color: var(--accent); }
+
+/* The guides' index: a card for each guide, its sections listed */
+.guide-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 0 0 1rem; }
+.guide-card { display: flex; flex-direction: column; padding: 1.5rem; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.guide-card h2 { font-size: 1.4rem; margin: 0 0 .5rem; }
+.guide-card h2 a { color: var(--fg); text-decoration: none; }
+.guide-card h2 a:hover { color: var(--accent); }
+.guide-card > p { color: var(--muted); }
+.guide-card h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: .5rem 0 .4rem; }
+.guide-card ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+.guide-card li { margin: .2rem 0; }
+.guide-card code { font-size: .85em; }
+.guide-card .links { margin: auto 0 0; }
+@media (max-width: 52rem) {
+  .guide-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* wlshare: the hero's picture, and its sections' prose no wider than the guide's; their cards,
+   figures and code keep the page's width */
+.wlshare-section > p { max-width: 50rem; }
+.hero-still { margin: 0; }
+.hero-still img {
+  display: block; width: 100%; height: auto; border-radius: 10px;
+  border: 1px solid var(--line); background: #000; box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+}
+.hero-still figcaption { color: var(--muted); font-size: .85rem; margin-top: .6rem; text-align: center; }
+.hero h1 .wordmark { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: -.02em; }
+.hero h1 .icon { width: 3.25rem; height: 3.25rem; padding: .75rem; }
+.guide-card li code { background: none; padding: 0; font-size: inherit; color: inherit; }

@@ -1,8 +1,8 @@
-import Flow from "../Flow";
-import { pagePath, REPO } from "../content";
-import ICON from "./icons";
-import { repo, type GuideText } from "./links";
-import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
+import Flow from "../../Flow";
+import { pagePath, REPO } from "../../content";
+import ICON from "../icons";
+import { repo, type GuideText } from "../links";
+import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "../visuals";
 
 const guide: GuideText = {
   intro: (
@@ -238,7 +238,7 @@ const guide: GuideText = {
           />
           <p>在 Combined Display（见下文）下 Apple's Adaptive 会被置灰，因为 Combined Display 同样是网关的图块。</p>
           <p>
-            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明：Picture 组为 <em>Adaptive video</em>（默认），即 wlshare 对整个桌面编码的 H.264；<em>Progressive tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Tiles with motion (LAN)</em>，即 wlshare 自己的图块，适用于局域网；或 <em>Lossless tiles (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都精确无损：见 <a href="#wlshare">wlshare</a>。
+            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明：Picture 组为 <em>Adaptive video</em>（默认），即 wlshare 对整个桌面编码的 H.264；<em>Progressive tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Tiles with motion (LAN)</em>，即 wlshare 自己的图块，适用于局域网；或 <em>Lossless tiles (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -660,7 +660,7 @@ username = "me"
 password_ref = "wayland"`}</code>
           </pre>
           <p>
-            <a href="https://github.com/andrewtheguy/wlshare/blob/main/README.zh-CN.md">wlshare</a> 是本项目自己的 VNC 服务器，面向基于 wlroots 的 Wayland 桌面。这个子类型让网关列出 wlshare 的私有 RFB 扩展：它对整个桌面的 H.264 流，原样直通并按浏览器的链路调节节奏；像素密度；输出列表；声音；以及在勾选后启动的会话中，作为桌面上 PipeWire 设备的浏览器摄像头和麦克风。不设置子类型时，同一服务器按任何 VNC 服务器的方式读取。
+            <a href={pagePath("zh-CN", "wlshare")}>wlshare</a> 是本项目自己的 VNC 服务器，面向基于 wlroots 的 Wayland 桌面。这个子类型让网关列出 wlshare 的私有 RFB 扩展：它对整个桌面的 H.264 流，原样直通并按浏览器的链路调节节奏；像素密度；输出列表；声音；以及在勾选后启动的会话中，作为桌面上 PipeWire 设备的浏览器摄像头和麦克风。不设置子类型时，同一服务器按任何 VNC 服务器的方式读取。wlshare 本身的设置，从安装到开机即启动的无头桌面，见 <a href={pagePath("zh-CN", "wlshare-guide")}>wlshare 指南</a>。
           </p>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度显示：<code>wlr-randr</code> 报告其无头输出的缩放为 2，浏览器进入沉浸式全屏后，尺寸从 3456×1802 变为 3456×2168。</>} />
           <h3>画面</h3>
@@ -704,7 +704,7 @@ password_ref = "wayland"`}</code>
               {
                 title: "Lossless tiles",
                 tag: <Tag kind="experimental">实验性</Tag>,
-                sub: "适用于局域网：每个图块无论静止还是运动都精确无损，就像 Windows 主机在其 Lossless 策略下通过 RDP 绘制的那样。",
+                sub: "适用于局域网：每个图块无论静止还是运动都无损，就像 Windows 主机在其 Lossless 策略下通过 RDP 绘制的那样。",
                 rows: [
                   ["链路", "局域网：静止的桌面不超过 PNG 字节数的四分之一，播放视频时达每秒数百 Mbit"],
                   ["主机处理器", "有内容运动时比带运动视频的图块占用更多，由软件编码"],
@@ -715,7 +715,7 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            渐进式图块先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。带运动视频的图块会在每个运动区域停下后再以无损重发。无损图块把每个变化的图块以 RDP 的 planar 编解码器精确发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码渐进式图块那样解码它们，并在那些图块置灰时同样置灰。
+            渐进式图块先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。带运动视频的图块会在每个运动区域停下后再以无损重发。无损图块把每个变化的图块以 RDP 的 planar 编解码器无损发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码渐进式图块那样解码它们，并在那些图块置灰时同样置灰。
           </p>
           <h3>
             两个输出 <Tag kind="beta">beta</Tag>

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import Flow from "./Flow";
 import InstallTabs from "./InstallTabs";
 import Shell from "./Shell";
+import GuideLink from "./GuideLink";
 import { HERO_VIDEO, content, pagePath, type FeatureIcon, type Locale } from "./content";
 
 // Strokes on a 24-unit grid, drawn in the accent colour.
@@ -95,6 +96,7 @@ export default function Home({ locale }: { locale: Locale }) {
               </li>
             </ul>
             <p className="rolling">{c.rolling}</p>
+            <GuideLink href={pagePath(locale, "zdesk-guide")} label={c.readGuide} />
           </div>
           <figure className="hero-video">
             <video

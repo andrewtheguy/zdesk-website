@@ -1,7 +1,10 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import { content, locales, pagePath, type Locale, type Page } from "./content";
+import { content, locales, pagePath, type Locale, type NavPage, type Page } from "./content";
 
-const PAGES: Page[] = ["home", "demo", "guide"];
+const PAGES: NavPage[] = ["home", "demo", "guides", "wlshare"];
+
+// The top bar's link a page sits under: a guide under the guides.
+const navOf = (page: Page): NavPage => (page.endsWith("-guide") ? "guides" : (page as NavPage));
 
 // A menu is a disclosure of plain links, so it works before hydration; once hydrated, Escape or
 // a tap outside closes it.
@@ -35,7 +38,7 @@ function PageLinks({ locale, page, className }: { locale: Locale; page: Page; cl
     <ul className={className}>
       {PAGES.map((p) => (
         <li key={p}>
-          <a href={pagePath(locale, p)} aria-current={p === page ? "page" : undefined}>
+          <a href={pagePath(locale, p)} aria-current={p === page ? "page" : p === navOf(page) ? "true" : undefined}>
             {c.nav[p]}
           </a>
         </li>

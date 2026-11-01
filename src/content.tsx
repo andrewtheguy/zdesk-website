@@ -1,19 +1,34 @@
 import type { ReactNode } from "react";
 
 export type Locale = "en" | "zh-CN" | "zh-TW";
-export type Page = "home" | "demo" | "guide";
+export type Guide = "zdesk" | "wlshare";
+export type Page = "home" | "demo" | "guides" | `${Guide}-guide` | "wlshare";
+// The pages the top bar links to; a guide is reached through the guides.
+export type NavPage = "home" | "demo" | "guides" | "wlshare";
 
-// A locale's pages live under its prefix: `/`, `/demo` and `/guide` for English,
-// `/zh-CN/`, `/zh-CN/demo` and `/zh-CN/guide` for the others. `short` names the language on a phone's top bar.
+// A locale's pages live under its prefix: `/`, `/demo`, `/guides/`, `/guides/zdesk`,
+// `/guides/wlshare` and `/wlshare` for English, `/zh-CN/`, `/zh-CN/demo` and so on for the others.
+// `short` names the language on a phone's top bar.
 export const locales: { id: Locale; prefix: string; label: string; short?: string }[] = [
   { id: "en", prefix: "", label: "English", short: "EN" },
   { id: "zh-CN", prefix: "/zh-CN", label: "简体中文" },
   { id: "zh-TW", prefix: "/zh-TW", label: "繁體中文" },
 ];
 
+// The guides' index ends in a slash, as a locale's home does: `guides/` holds `index.html` beside
+// each guide's `.html`.
+const PATHS: Record<Page, string> = {
+  home: "/",
+  demo: "/demo",
+  guides: "/guides/",
+  "zdesk-guide": "/guides/zdesk",
+  "wlshare-guide": "/guides/wlshare",
+  wlshare: "/wlshare",
+};
+
 export function pagePath(locale: Locale, page: Page) {
   const { prefix } = locales.find((l) => l.id === locale)!;
-  return page === "home" ? `${prefix}/` : `${prefix}/${page}`;
+  return `${prefix}${PATHS[page]}`;
 }
 
 export function localeForPath(pathname: string): Locale {
@@ -129,7 +144,7 @@ export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | 
 
 export interface Content {
   description: string;
-  nav: Record<Page, string>;
+  nav: Record<NavPage, string>;
   // The label of the page menu a phone's top bar collapses the page links into.
   menu: string;
   // The language menu's accessible name, given the current language's name.
@@ -160,15 +175,22 @@ export interface Content {
   footer: ReactNode;
   demoTitle: string;
   demoDescription: string;
-  demoIntro: string;
+  // The demo page is zDesk's: its wlshare recordings are zDesk sessions too.
+  demoIntro: ReactNode;
   // Marks a demo recorded with the remote's sound.
   demoSound: string;
   // What the demos show, then where to go from them.
   demoNext: { text: string; compatibility: { label: string; href: string } };
   demos: Record<string, { title: string; caption?: string }>;
-  guideTitle: string;
-  guideDescription: string;
-  // Heads the guide's table of contents.
+  // The guides' index: its heading, description and the line under the heading.
+  guidesTitle: string;
+  guidesDescription: string;
+  guidesIntro: string;
+  // Each guide's title and description, on its own page and on the index.
+  guides: Record<Guide, { title: string; description: string }>;
+  // A link into a guide: on the index, and on the home and wlshare pages.
+  readGuide: string;
+  // Heads a guide's table of contents.
   guideContents: string;
 }
 
@@ -176,9 +198,10 @@ function docs(locale: Locale) {
   const suffix = locale === "en" ? "" : `.${locale}`;
   return {
     readme: `${REPO}/blob/main/README${suffix}.md`,
-    guide: pagePath(locale, "guide"),
+    guide: pagePath(locale, "zdesk-guide"),
     install: `${REPO}/blob/main/docs/install${suffix}.md`,
-    wlshare: `https://github.com/andrewtheguy/wlshare${locale === "en" ? "" : `/blob/main/README${suffix}.md`}`,
+    wlshare: pagePath(locale, "wlshare"),
+    wlshareGuide: pagePath(locale, "wlshare-guide"),
   };
 }
 
@@ -190,7 +213,7 @@ export const content: Record<Locale, Content> = {
   en: {
     description:
       "Remote desktop in a browser, for Windows' own Remote Desktop, macOS's built-in Screen Sharing, and Linux through wlshare, our own VNC server for wlroots compositors.",
-    nav: { home: "Home", demo: "Demo", guide: "Guide" },
+    nav: { home: "Home", demo: "Demo", guides: "Guides", wlshare: "wlshare" },
     menu: "Navigate",
     language: (current) => `Language: ${current}`,
     homeTitle: "Remote desktop in a browser",
@@ -215,7 +238,7 @@ export const content: Record<Locale, Content> = {
         icon: "terminal",
         title: "Linux through wlshare",
         body: (
-          <><a href={en.wlshare}>wlshare</a> is our own VNC server for wlroots compositors, and it gives zDesk what plain VNC lacks: screen density, sound and a choice of outputs. Other RDP and VNC servers connect through each protocol's baseline.</>
+          <>Our own VNC server for wlroots compositors, <a href={en.wlshare}>wlshare</a>, gives zDesk what plain VNC lacks: screen density, sound and a choice of outputs. Other RDP and VNC servers connect through each protocol's baseline.</>
         ),
       },
       {
@@ -312,7 +335,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <>The <a href={en.guide}>guide</a> covers the browser client, starting a session and setting up Windows, Mac, wlshare and VNC targets; <a href={en.install}>Installing zDesk</a>, with the <a href={REPO}>source code on GitHub</a>, covers every platform.</>
+      <>The <a href={en.guide}>zDesk guide</a> covers the browser client, starting a session and setting up Windows, Mac, wlshare and VNC targets, and the <a href={en.wlshareGuide}>wlshare guide</a> setting up wlshare on a Linux desktop; <a href={en.install}>Installing zDesk</a>, with the <a href={REPO}>source code on GitHub</a>, covers every platform.</>
     ),
     footer: (
       <>zDesk is under the <a href={LICENSE}>MIT licence</a>. It is released on a rolling basis, still settling its direction, and keeps no backward compatibility between releases; see the <a href={`${REPO}#readme`}>README</a>.</>
@@ -320,8 +343,9 @@ export const content: Record<Locale, Content> = {
     demoTitle: "Demo",
     demoDescription:
       "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including Claude Code and Codex in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
-    demoIntro:
-      "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
+    demoIntro: (
+      <><a href={pagePath("en", "home")}>zDesk</a> puts your remote desktops in a browser tab: a lightweight gateway you run yourself, with no client to install. Below are zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux. The wlshare recordings are zDesk sessions too, zDesk being the only client of wlshare's private extensions; wlshare itself has <a href={en.wlshare}>a page of its own</a>.</>
+    ),
     demoSound: "With sound",
     demoNext: {
       text: "Each recording is a live zDesk session in a browser, with no client installed on the device it was recorded from.",
@@ -362,18 +386,32 @@ export const content: Record<Locale, Content> = {
       "mac-to-linux": {
         title: "Mac → Linux (wlshare on Sway) at Retina/HiDPI density with audio",
         caption:
-          "wlshare on Sway shown at the Mac's Retina/HiDPI density, with the remote's sound, and the remote desktop resizing to follow the browser into and out of immersive full screen.",
+          "Sway through wlshare, shown at the Mac's Retina/HiDPI density, with the remote's sound, and the remote desktop resizing to follow the browser into and out of immersive full screen.",
       },
     },
-    guideTitle: "Using zDesk",
-    guideDescription:
-      "Using zDesk once the gateway is installed: the browser client, starting a session, target passwords, setting up Windows, Mac, wlshare and VNC targets, the camera and microphone, and the local control plane.",
+    guidesTitle: "Guides",
+    guidesDescription:
+      "The guides to zDesk and to wlshare: using the gateway once it is installed, and setting up wlshare, the VNC server for wlroots desktops that zDesk reaches Linux through.",
+    guidesIntro: "Using the zDesk gateway, and setting up wlshare on the Linux desktops it reaches.",
+    guides: {
+      zdesk: {
+        title: "Using zDesk",
+        description:
+          "Using zDesk once the gateway is installed: the browser client, starting a session, target passwords, setting up Windows, Mac, wlshare and VNC targets, the camera and microphone, and the local control plane.",
+      },
+      wlshare: {
+        title: "Setting up wlshare",
+        description:
+          "Setting up wlshare on a wlroots desktop: installing it, who may connect, a headless desktop up at boot, outputs, a desktop at the console too, sound, the camera and microphone, the keyboard, the picture, and its clients.",
+      },
+    },
+    readGuide: "Read the Guide",
     guideContents: "On this page",
   },
   "zh-CN": {
     description:
       "在浏览器中使用远程桌面，连接 Windows 自带的远程桌面、macOS 内置的屏幕共享，以及 Linux 上的 wlshare，这是我们自己为 wlroots 合成器编写的 VNC 服务器。",
-    nav: { home: "首页", demo: "演示", guide: "指南" },
+    nav: { home: "首页", demo: "演示", guides: "指南", wlshare: "wlshare" },
     menu: "导航",
     language: (current) => `语言：${current}`,
     homeTitle: "浏览器中的远程桌面",
@@ -492,7 +530,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={zhCN.guide}>指南</a>介绍浏览器客户端、如何启动会话，以及如何设置 Windows、Mac、wlshare 和 VNC 目标；<a href={zhCN.install}>安装 zDesk</a> 与 GitHub 上的<a href={zhCN.readme}>源代码</a>放在一起，涵盖所有平台。</>
+      <><a href={zhCN.guide}>zDesk 指南</a>介绍浏览器客户端、如何启动会话，以及如何设置 Windows、Mac、wlshare 和 VNC 目标，<a href={zhCN.wlshareGuide}>wlshare 指南</a>介绍如何在 Linux 桌面上设置 wlshare；<a href={zhCN.install}>安装 zDesk</a> 与 GitHub 上的<a href={zhCN.readme}>源代码</a>放在一起，涵盖所有平台。</>
     ),
     footer: (
       <>zDesk 采用 <a href={LICENSE}>MIT 许可证</a>，以滚动方式发布，方向仍在调整中，版本之间不保证向后兼容；详见 <a href={zhCN.readme}>README</a>。</>
@@ -500,7 +538,9 @@ export const content: Record<Locale, Content> = {
     demoTitle: "演示",
     demoDescription:
       "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
-    demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
+    demoIntro: (
+      <><a href={pagePath("zh-CN", "home")}>zDesk</a> 把你的远程桌面放进浏览器标签页：一个由你自行运行的轻量网关，无需安装客户端。以下是从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。其中的 wlshare 录像同样是 zDesk 会话，因为 zDesk 是 wlshare 私有扩展的唯一客户端；wlshare 本身另有<a href={zhCN.wlshare}>专门的页面</a>。</>
+    ),
     demoSound: "有声音",
     demoNext: {
       text: "每段录像都是在浏览器中进行的真实 zDesk 会话，录制所用的设备上没有安装任何客户端。",
@@ -538,15 +578,29 @@ export const content: Record<Locale, Content> = {
           "以 Mac 的 Retina/HiDPI 密度显示 Sway 上的 wlshare，带远程的声音，进入和退出沉浸式全屏时远程桌面会随浏览器调整大小。",
       },
     },
-    guideTitle: "使用 zDesk",
-    guideDescription:
-      "网关安装好之后如何使用 zDesk：浏览器客户端、启动会话、目标密码、设置 Windows、Mac、wlshare 和 VNC 目标、摄像头和麦克风，以及本地控制面。",
+    guidesTitle: "指南",
+    guidesDescription:
+      "zDesk 和 wlshare 的指南：网关安装好之后如何使用它，以及如何设置 wlshare，即 zDesk 连接 Linux 所经由的、面向 wlroots 桌面的 VNC 服务器。",
+    guidesIntro: "使用 zDesk 网关，以及在它连接的 Linux 桌面上设置 wlshare。",
+    guides: {
+      zdesk: {
+        title: "使用 zDesk",
+        description:
+          "网关安装好之后如何使用 zDesk：浏览器客户端、启动会话、目标密码、设置 Windows、Mac、wlshare 和 VNC 目标、摄像头和麦克风，以及本地控制面。",
+      },
+      wlshare: {
+        title: "设置 wlshare",
+        description:
+          "在 wlroots 桌面上设置 wlshare：安装、谁可以连接、开机即启动的无头桌面、输出、也在控制台使用的桌面、声音、摄像头和麦克风、键盘、画面，以及它的客户端。",
+      },
+    },
+    readGuide: "阅读指南",
     guideContents: "本页内容",
   },
   "zh-TW": {
     description:
       "在瀏覽器中使用遠端桌面，連線 Windows 內建的遠端桌面、macOS 內建的螢幕共享，以及 Linux 上的 wlshare，這是我們自己為 wlroots 合成器撰寫的 VNC 伺服器。",
-    nav: { home: "首頁", demo: "示範", guide: "指南" },
+    nav: { home: "首頁", demo: "示範", guides: "指南", wlshare: "wlshare" },
     menu: "導覽",
     language: (current) => `語言：${current}`,
     homeTitle: "瀏覽器中的遠端桌面",
@@ -665,7 +719,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={zhTW.guide}>指南</a>說明瀏覽器用戶端、如何啟動工作階段，以及如何設定 Windows、Mac、wlshare 和 VNC 目標；<a href={zhTW.install}>安裝 zDesk</a> 與 GitHub 上的<a href={zhTW.readme}>原始碼</a>放在一起，涵蓋所有平台。</>
+      <><a href={zhTW.guide}>zDesk 指南</a>說明瀏覽器用戶端、如何啟動工作階段，以及如何設定 Windows、Mac、wlshare 和 VNC 目標，<a href={zhTW.wlshareGuide}>wlshare 指南</a>說明如何在 Linux 桌面上設定 wlshare；<a href={zhTW.install}>安裝 zDesk</a> 與 GitHub 上的<a href={zhTW.readme}>原始碼</a>放在一起，涵蓋所有平台。</>
     ),
     footer: (
       <>zDesk 採用 <a href={LICENSE}>MIT 授權條款</a>，以滾動方式發行，方向仍在調整中，版本之間不保證回溯相容；詳見 <a href={zhTW.readme}>README</a>。</>
@@ -673,7 +727,9 @@ export const content: Record<Locale, Content> = {
     demoTitle: "示範",
     demoDescription:
       "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
-    demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
+    demoIntro: (
+      <><a href={pagePath("zh-TW", "home")}>zDesk</a> 把你的遠端桌面放進瀏覽器分頁：一個由你自行執行的輕量閘道，不需要安裝用戶端。以下是從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。其中的 wlshare 錄影同樣是 zDesk 工作階段，因為 zDesk 是 wlshare 私有擴充的唯一用戶端；wlshare 本身另有<a href={zhTW.wlshare}>專屬頁面</a>。</>
+    ),
     demoSound: "有聲音",
     demoNext: {
       text: "每段錄影都是在瀏覽器中進行的真實 zDesk 工作階段，錄製所用的裝置上沒有安裝任何用戶端。",
@@ -711,9 +767,23 @@ export const content: Record<Locale, Content> = {
           "以 Mac 的 Retina/HiDPI 密度顯示 Sway 上的 wlshare，帶有遠端的聲音，進入和離開沉浸式全螢幕時，遠端桌面會隨瀏覽器調整大小。",
       },
     },
-    guideTitle: "使用 zDesk",
-    guideDescription:
-      "閘道安裝好之後如何使用 zDesk：瀏覽器用戶端、啟動工作階段、目標密碼、設定 Windows、Mac、wlshare 和 VNC 目標、攝影機和麥克風，以及本機控制平面。",
+    guidesTitle: "指南",
+    guidesDescription:
+      "zDesk 和 wlshare 的指南：閘道安裝好之後如何使用，以及如何設定 wlshare，也就是 zDesk 用來連線 Linux 的 wlroots 桌面 VNC 伺服器。",
+    guidesIntro: "使用 zDesk 閘道，以及在它所連線的 Linux 桌面上設定 wlshare。",
+    guides: {
+      zdesk: {
+        title: "使用 zDesk",
+        description:
+          "閘道安裝好之後如何使用 zDesk：瀏覽器用戶端、啟動工作階段、目標密碼、設定 Windows、Mac、wlshare 和 VNC 目標、攝影機和麥克風，以及本機控制平面。",
+      },
+      wlshare: {
+        title: "設定 wlshare",
+        description:
+          "在 wlroots 桌面上設定 wlshare：安裝、誰可以連線、開機即啟動的無頭桌面、輸出、主控台上的桌面、聲音、攝影機和麥克風、鍵盤、畫面，以及它的用戶端。",
+      },
+    },
+    readGuide: "閱讀指南",
     guideContents: "本頁內容",
   },
 };

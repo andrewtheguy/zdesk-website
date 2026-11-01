@@ -1,8 +1,8 @@
-import Flow from "../Flow";
-import { pagePath, REPO } from "../content";
-import ICON from "./icons";
-import { repo, type GuideText } from "./links";
-import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
+import Flow from "../../Flow";
+import { pagePath, REPO } from "../../content";
+import ICON from "../icons";
+import { repo, type GuideText } from "../links";
+import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "../visuals";
 
 const guide: GuideText = {
   intro: (
@@ -282,7 +282,7 @@ const guide: GuideText = {
             自己的，而且一律直通，因此標籤不再註明：Picture 群組為 <em>Adaptive video</em>（預設），即 wlshare
             針對整個桌面編碼的 H.264；<em>Progressive tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有
             H.264 時那樣繪製；<em>Tiles with motion (LAN)</em>，即 wlshare 自己的圖塊，適用於區域網路；或{" "}
-            <em>Lossless tiles (experimental)</em>，即像 Windows 主機在其 Lossless 原則下那樣，每個圖塊都精確無損：請見{" "}
+            <em>Lossless tiles (experimental)</em>，即像 Windows 主機在其 Lossless 原則下那樣，每個圖塊都無損：請見{" "}
             <a href="#wlshare">wlshare</a>。
           </p>
 
@@ -803,11 +803,13 @@ username = "me"
 password_ref = "wayland"`}</code>
           </pre>
           <p>
-            <a href="https://github.com/andrewtheguy/wlshare/blob/main/README.zh-TW.md">wlshare</a> 是本專案自己的 VNC
+            <a href={pagePath("zh-TW", "wlshare")}>wlshare</a> 是本專案自己的 VNC
             伺服器，針對以 wlroots 為基礎的 Wayland 桌面。這個子類型讓閘道列出 wlshare 的私有 RFB
             擴充：它針對整個桌面的 H.264
             串流，原封不動地直通並依瀏覽器的連線調節節奏；像素密度；輸出清單；聲音；以及在勾選後啟動的工作階段中，作為桌面上
             PipeWire 裝置的瀏覽器攝影機和麥克風。不設定子類型時，同一個伺服器會以任何 VNC 伺服器的方式讀取。
+            wlshare 本身的設定，從安裝到開機即啟動的無頭桌面，請見{" "}
+            <a href={pagePath("zh-TW", "wlshare-guide")}>wlshare 指南</a>。
           </p>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度顯示：<code>wlr-randr</code> 回報其無頭輸出的縮放比例為 2，瀏覽器進入沉浸式全螢幕後，尺寸從 3456×1802 變為 3456×2168。</>} />
           <h3>畫面</h3>
@@ -852,7 +854,7 @@ password_ref = "wayland"`}</code>
               {
                 title: "Lossless tiles",
                 tag: <Tag kind="experimental">實驗性</Tag>,
-                sub: "適用於區域網路：每個圖塊無論靜止或移動都精確無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
+                sub: "適用於區域網路：每個圖塊無論靜止或移動都無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
                 rows: [
                   ["連線", "區域網路：靜止的桌面不超過 PNG 位元組數的四分之一，播放視訊時達每秒數百 Mbit"],
                   ["主機處理器", "有內容移動時比帶移動視訊的圖塊負擔更多，以軟體編碼"],
@@ -866,7 +868,7 @@ password_ref = "wayland"`}</code>
             漸進式圖塊先送粗略的一遍，靜止後就地細化，移動的部分以相對於頁面所持內容的變更傳送。頁面自己解碼它們，就像它合成
             RDP
             主機的管線那樣，因此不需要視訊解碼器；在頁面無法合成管線時會變灰。帶移動視訊的圖塊會在每個移動區域停下後，再以無損方式重送。無損圖塊把每個變更的圖塊以
-            RDP 的 planar 編解碼器精確傳送，在較慢的連線上傳送得較少，而不會較粗糙；頁面像解碼漸進式圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。
+            RDP 的 planar 編解碼器無損傳送，在較慢的連線上傳送得較少，而不會較粗糙；頁面像解碼漸進式圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。
           </p>
           <h3>
             兩個輸出 <Tag kind="beta">beta</Tag>

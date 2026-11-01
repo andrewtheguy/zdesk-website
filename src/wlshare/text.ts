@@ -1,0 +1,25 @@
+import type { ReactNode } from "react";
+import type { Locale } from "../content";
+import type { IconName } from "../guides/visuals";
+import en from "./en";
+import zhCN from "./zh-CN";
+import zhTW from "./zh-TW";
+
+export interface WlshareText {
+  // The page's title, before the site's name, and its description.
+  title: string;
+  description: string;
+  tagline: string;
+  intro: ReactNode;
+  // Under the hero's buttons: its rolling release, and its patched packages for Debian.
+  rolling: string;
+  packages: ReactNode;
+  heroCaption: ReactNode;
+  // The page's own demo: its heading and the line under it.
+  demoHeading: string;
+  demoIntro: ReactNode;
+  features: { icon: IconName; title: string; body: ReactNode }[];
+  sections: { id: string; title: ReactNode; body: ReactNode }[];
+}
+
+export const wlshareText: Record<Locale, WlshareText> = { en, "zh-CN": zhCN, "zh-TW": zhTW };
