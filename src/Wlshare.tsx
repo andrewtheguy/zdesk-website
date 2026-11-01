@@ -20,9 +20,7 @@ export default function Wlshare({ locale }: { locale: Locale }) {
         <div className="hero-inner">
           <div className="hero-text">
             <h1>
-              <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
-                {ICONS.terminal}
-              </svg>
+              <img className="logo" src="/wlshare-logo.svg" alt="" width="48" height="48" />
               <span className="wordmark">wlshare</span>
             </h1>
             <p className="tagline">{t.tagline}</p>

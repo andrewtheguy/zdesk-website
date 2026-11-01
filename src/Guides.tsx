@@ -3,6 +3,8 @@ import { content, pagePath, type Guide, type Locale } from "./content";
 import { guideText } from "./guides/text";
 
 const GUIDES: Guide[] = ["zdesk", "wlshare"];
+// Each guide beside the logo of what it covers.
+const LOGOS: Record<Guide, string> = { zdesk: "/logo.svg", wlshare: "/wlshare-logo.svg" };
 
 // The guides' index: each guide with what it says, its sections linked.
 export default function Guides({ locale }: { locale: Locale }) {
@@ -22,7 +24,10 @@ export default function Guides({ locale }: { locale: Locale }) {
             return (
               <section className="guide-card" key={guide} id={guide}>
                 <h2>
-                  <a href={href}>{c.guides[guide].title}</a>
+                  <a href={href}>
+                    <img className="logo" src={LOGOS[guide]} alt="" width="40" height="40" />
+                    {c.guides[guide].title}
+                  </a>
                 </h2>
                 <p>{c.guides[guide].description}</p>
                 <h3>{c.guideContents}</h3>
