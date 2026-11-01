@@ -175,7 +175,8 @@ export interface Content {
   footer: ReactNode;
   demoTitle: string;
   demoDescription: string;
-  demoIntro: string;
+  // The demo page is zDesk's: its wlshare recordings are zDesk sessions too.
+  demoIntro: ReactNode;
   // Marks a demo recorded with the remote's sound.
   demoSound: string;
   // What the demos show, then where to go from them.
@@ -342,8 +343,9 @@ export const content: Record<Locale, Content> = {
     demoTitle: "Demo",
     demoDescription:
       "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including Claude Code and Codex in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, and a Mac to Windows and to Linux at Retina/HiDPI density with sound.",
-    demoIntro:
-      "zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux.",
+    demoIntro: (
+      <>zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux. The wlshare recordings are zDesk sessions too, zDesk being the only client of wlshare's private extensions; wlshare itself has <a href={en.wlshare}>a page of its own</a>.</>
+    ),
     demoSound: "With sound",
     demoNext: {
       text: "Each recording is a live zDesk session in a browser, with no client installed on the device it was recorded from.",
@@ -536,7 +538,9 @@ export const content: Record<Locale, Content> = {
     demoTitle: "演示",
     demoDescription:
       "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，以及 Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux。",
-    demoIntro: "从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。",
+    demoIntro: (
+      <>从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。其中的 wlshare 录像同样是 zDesk 会话，因为 zDesk 是 wlshare 私有扩展的唯一客户端；wlshare 本身另有<a href={zhCN.wlshare}>专门的页面</a>。</>
+    ),
     demoSound: "有声音",
     demoNext: {
       text: "每段录像都是在浏览器中进行的真实 zDesk 会话，录制所用的设备上没有安装任何客户端。",
@@ -723,7 +727,9 @@ export const content: Record<Locale, Content> = {
     demoTitle: "示範",
     demoDescription:
       "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，以及 Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux。",
-    demoIntro: "從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。",
+    demoIntro: (
+      <>從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。其中的 wlshare 錄影同樣是 zDesk 工作階段，因為 zDesk 是 wlshare 私有擴充的唯一用戶端；wlshare 本身另有<a href={zhTW.wlshare}>專屬頁面</a>。</>
+    ),
     demoSound: "有聲音",
     demoNext: {
       text: "每段錄影都是在瀏覽器中進行的真實 zDesk 工作階段，錄製所用的裝置上沒有安裝任何用戶端。",
