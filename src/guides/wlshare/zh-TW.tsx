@@ -12,8 +12,8 @@ const zdeskGuide = pagePath("zh-TW", "zdesk-guide");
 const guide: GuideText = {
   intro: (
     <>
-      在 sway 或 labwc 等 wlroots 合成器上設定 <a href={pagePath("zh-TW", "wlshare")}>wlshare</a>，也就是 zDesk
-      用來連線 Linux 桌面的 VNC 伺服器：它需要什麼、誰可以連線、不需要任何人登入就在開機時啟動的桌面，以及它傳送的內容。所有設定項都在附註解的{" "}
+      在 sway 或 labwc 等 wlroots 合成器上設定和使用 <a href={pagePath("zh-TW", "wlshare")}>wlshare</a>，也就是 zDesk
+      用來連線 Linux 桌面的 VNC 伺服器：它需要什麼、誰可以連線、透過 zDesk 或其他 VNC 用戶端連線、不需要任何人登入就在開機時啟動的桌面，以及它傳送的內容。所有設定項都在附註解的{" "}
       <a href={wl("wlshare.example.toml")}>
         <code>wlshare.example.toml</code>
       </a>
@@ -263,6 +263,43 @@ systemctl --user mask gnome-keyring-daemon.socket gnome-keyring-daemon.service`}
             ，讓任何經由啟用機制啟動的常駐程式都不會搶在持有密碼的那一個之前占用 Secret Service。請用{" "}
             <code>passwd</code> 變更帳戶的密碼，它會透過 PAM 重新加密金鑰圈；以其他方式寫入{" "}
             <code>/etc/shadow</code> 的雜湊會讓金鑰圈仍使用舊密碼。
+          </p>
+        </>
+      ),
+    },
+    {
+      id: "through-zdesk",
+      title: "透過 zDesk 連線",
+      body: (
+        <>
+          <p>
+            zDesk 以設定 <code>subtype = "wlshare"</code> 的 <code>vnc</code> 目標連線 wlshare，這會讓閘道向
+            wlshare 要求密度、輸出、畫面、聲音、攝影機和麥克風：
+          </p>
+          <pre>
+            <code>{`[[targets]]
+name = "wayland"
+protocol = "vnc"
+subtype = "wlshare"
+host = "192.0.2.12"
+username = "me"          # leave out under [password]
+password_ref = "wayland"
+# virtual_displays = 2   # on sway, a second headless output`}</code>
+          </pre>
+          <Still
+            name="wlshare-picker"
+            caption={
+              <>
+                <code>wlshare</code> 目標上的選擇器：尺寸跟隨視窗、聲音可選 Opus 或 FLAC、攝影機和麥克風，以及 wlshare
+                的四種畫面。
+              </>
+            }
+          />
+          <p>
+            工作階段以哪些選項啟動，請見 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
+          </p>
+          <p>
+            沒有 zDesk 時，也可以用其他 VNC 用戶端作為備用方式連線：請見 <a href="#vnc-client">以 VNC 用戶端連線</a>。
           </p>
         </>
       ),
@@ -572,39 +609,66 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "clients",
-      title: "用戶端",
+      id: "vnc-client",
+      title: "以 VNC 用戶端連線",
       body: (
         <>
           <p>
-            zDesk 以設定 <code>subtype = "wlshare"</code> 的 <code>vnc</code> 目標連線 wlshare，這會讓閘道向
-            wlshare 要求密度、輸出、畫面、聲音、攝影機和麥克風：
+            手邊沒有 zDesk 時，任何其他列出 Cursor 偽編碼並能繪製 Raw 矩形的 RFB 3.8
+            用戶端都可以連線，以輸出本身的像素顯示，沒有聲音。之所以需要 Cursor，是因為指標永遠不在影格緩衝區中；沒有列出
+            wlshare 擴充的用戶端不會收到它們。TigerVNC 的檢視器（1.13 或更新版本）就是其中之一，因為它支援
+            RSA-AES。它的 <code>vncviewer</code> 在兩個冒號之後寫連接埠；只寫一個冒號時，後面是從 5900 起算的顯示編號：
           </p>
           <pre>
-            <code>{`[[targets]]
-name = "wayland"
-protocol = "vnc"
-subtype = "wlshare"
-host = "192.0.2.12"
-username = "me"          # leave out under [password]
-password_ref = "wayland"
-# virtual_displays = 2   # on sway, a second headless output`}</code>
+            <code>{`sudo apt install tigervnc-viewer   # Debian, Ubuntu
+vncviewer 192.0.2.12::5900`}</code>
           </pre>
+          <p>
+            在 <code>[pam]</code> 或 <code>[password]</code> 下，它會先顯示伺服器金鑰的指紋，這應與 wlshare
+            啟動時記錄的指紋相同。接著，在 <code>[pam]</code> 下它詢問帳戶的使用者名稱和密碼，在{" "}
+            <code>[password]</code> 下只詢問密碼。
+          </p>
+          <StillPair
+            items={[
+              {
+                name: "wlshare-tigervnc-fingerprint",
+                caption: <>TigerVNC 顯示的指紋：也就是 wlshare 產生金鑰時記錄的那一個。</>,
+              },
+              {
+                name: "wlshare-tigervnc-login",
+                caption: (
+                  <>
+                    <code>[pam]</code> 下詢問帳戶的使用者名稱和密碼，此時連線已由 RSA-AES 加密。
+                  </>
+                ),
+              },
+            ]}
+          />
+          <p>
+            兩個表都沒有設定時，TigerVNC 不詢問任何東西就連線，而且不加密，所以請透過 SSH 連到位於回送位址上的{" "}
+            <code>listen</code>。<code>-via</code> 會建立通道並經由它連線，其後的主機名稱以通道遠端看到的為準，所以{" "}
+            <code>localhost</code> 指的是桌面所在的機器：
+          </p>
+          <pre>
+            <code>{`vncviewer -via me@192.0.2.12 localhost::5900`}</code>
+          </pre>
+          <p>
+            只提供傳統 VncAuth 的用戶端找不到共同的安全性類型，會在任何登入之前就被拒絕：限定使用 VncAuth 的 TigerVNC
+            會回報 <em>No matching security types</em>。
+          </p>
+          <p>
+            連線之後，TigerVNC 會要求與其視窗相同的大小，wlshare 會把無頭輸出調整成這個大小，縮放比例為
+            1。剪貼簿雙向互通。用戶端只看到一個輸出（請見 <a href="#outputs">輸出</a>），沒有聲音、攝影機和麥克風。和任何用戶端一樣，它在登入完成後就從目前持有桌面的一方接管桌面。
+          </p>
           <Still
-            name="wlshare-picker"
+            name="wlshare-tigervnc"
             caption={
               <>
-                <code>wlshare</code> 目標上的選擇器：尺寸跟隨視窗、聲音可選 Opus 或 FLAC、攝影機和麥克風，以及 wlshare
-                的四種畫面。
+                X 桌面上的 TigerVNC，以 <code>[pam]</code> 登入：sway 的無頭輸出已調整成檢視器視窗的大小，1520×940、縮放比例為
+                1，wlshare 的記錄中載有檢視器顯示的指紋。
               </>
             }
           />
-          <p>
-            任何其他列出 Cursor 偽編碼並能繪製 Raw 矩形的 RFB 3.8
-            用戶端都可以連線，以輸出本身的像素顯示，沒有聲音：例如支援 RSA-AES 的 TigerVNC。之所以需要
-            Cursor，是因為指標永遠不在影格緩衝區中。沒有列出 wlshare 擴充的用戶端不會收到它們。工作階段以哪些選項啟動，請見
-            zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
-          </p>
         </>
       ),
     },

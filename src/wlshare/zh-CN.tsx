@@ -188,6 +188,22 @@ const text: WlshareText = {
       ),
     },
     {
+      id: "vnc-client",
+      title: "使用其他 VNC 客户端",
+      body: (
+        <>
+          <p>
+            wlshare 同时也是标准的 RFB 3.8 服务器，因此 TigerVNC 或其他 VNC 客户端可以用同样的登录方式连接，按输出自身的像素显示，没有声音、摄像头和麦克风。设置了登录时，客户端必须支持 RSA-AES；只提供经典 VncAuth 的客户端会被拒绝。
+            <a href={`${guide}#vnc-client`}>连接方法</a>
+          </p>
+          <Still
+            name="wlshare-tigervnc"
+            caption="以系统登录方式登录的 TigerVNC：无头输出已调整为查看器窗口的尺寸，缩放为 1。"
+          />
+        </>
+      ),
+    },
+    {
       id: "install",
       title: "安装",
       body: (

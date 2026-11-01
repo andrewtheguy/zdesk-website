@@ -335,7 +335,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <>The <a href={en.guide}>zDesk guide</a> covers the browser client, starting a session and setting up Windows, Mac, wlshare and VNC targets, and the <a href={en.wlshareGuide}>wlshare guide</a> setting up wlshare on a Linux desktop; <a href={en.install}>Installing zDesk</a>, with the <a href={REPO}>source code on GitHub</a>, covers every platform.</>
+      <>The <a href={en.guide}>zDesk guide</a> covers the browser client, starting a session and setting up Windows, Mac, wlshare and VNC targets, and the <a href={en.wlshareGuide}>wlshare guide</a> setting up and using wlshare on a Linux desktop; <a href={en.install}>Installing zDesk</a>, with the <a href={REPO}>source code on GitHub</a>, covers every platform.</>
     ),
     footer: (
       <>zDesk is under the <a href={LICENSE}>MIT licence</a>. It is released on a rolling basis, still settling its direction, and keeps no backward compatibility between releases; see the <a href={`${REPO}#readme`}>README</a>.</>
@@ -391,8 +391,8 @@ export const content: Record<Locale, Content> = {
     },
     guidesTitle: "Guides",
     guidesDescription:
-      "The guides to zDesk and to wlshare: using the gateway once it is installed, and setting up wlshare, the VNC server for wlroots desktops that zDesk reaches Linux through.",
-    guidesIntro: "Using the zDesk gateway, and setting up wlshare on the Linux desktops it reaches.",
+      "The guides to zDesk and to wlshare: using the gateway once it is installed, and setting up and using wlshare, the VNC server for wlroots desktops that zDesk reaches Linux through.",
+    guidesIntro: "Using the zDesk gateway, and setting up and using wlshare on the Linux desktops it reaches.",
     guides: {
       zdesk: {
         title: "Using zDesk",
@@ -400,9 +400,9 @@ export const content: Record<Locale, Content> = {
           "Using zDesk once the gateway is installed: the browser client, starting a session, target passwords, setting up Windows, Mac, wlshare and VNC targets, the camera and microphone, and the local control plane.",
       },
       wlshare: {
-        title: "Setting up wlshare",
+        title: "Setting up and using wlshare",
         description:
-          "Setting up wlshare on a wlroots desktop: installing it, who may connect, a headless desktop up at boot, outputs, a desktop at the console too, sound, the camera and microphone, the keyboard, the picture, and its clients.",
+          "Setting up and using wlshare on a wlroots desktop: installing it, who may connect, connecting through zDesk, a headless desktop up at boot, outputs, a desktop at the console too, sound, the camera and microphone, the keyboard, the picture, and another VNC client as a fallback.",
       },
     },
     readGuide: "Read the Guide",
@@ -530,7 +530,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={zhCN.guide}>zDesk 指南</a>介绍浏览器客户端、如何启动会话，以及如何设置 Windows、Mac、wlshare 和 VNC 目标，<a href={zhCN.wlshareGuide}>wlshare 指南</a>介绍如何在 Linux 桌面上设置 wlshare；<a href={zhCN.install}>安装 zDesk</a> 与 GitHub 上的<a href={zhCN.readme}>源代码</a>放在一起，涵盖所有平台。</>
+      <><a href={zhCN.guide}>zDesk 指南</a>介绍浏览器客户端、如何启动会话，以及如何设置 Windows、Mac、wlshare 和 VNC 目标，<a href={zhCN.wlshareGuide}>wlshare 指南</a>介绍如何在 Linux 桌面上设置和使用 wlshare；<a href={zhCN.install}>安装 zDesk</a> 与 GitHub 上的<a href={zhCN.readme}>源代码</a>放在一起，涵盖所有平台。</>
     ),
     footer: (
       <>zDesk 采用 <a href={LICENSE}>MIT 许可证</a>，以滚动方式发布，方向仍在调整中，版本之间不保证向后兼容；详见 <a href={zhCN.readme}>README</a>。</>
@@ -580,8 +580,8 @@ export const content: Record<Locale, Content> = {
     },
     guidesTitle: "指南",
     guidesDescription:
-      "zDesk 和 wlshare 的指南：网关安装好之后如何使用它，以及如何设置 wlshare，即 zDesk 连接 Linux 所经由的、面向 wlroots 桌面的 VNC 服务器。",
-    guidesIntro: "使用 zDesk 网关，以及在它连接的 Linux 桌面上设置 wlshare。",
+      "zDesk 和 wlshare 的指南：网关安装好之后如何使用它，以及如何设置和使用 wlshare，即 zDesk 连接 Linux 所经由的、面向 wlroots 桌面的 VNC 服务器。",
+    guidesIntro: "使用 zDesk 网关，以及在它连接的 Linux 桌面上设置和使用 wlshare。",
     guides: {
       zdesk: {
         title: "使用 zDesk",
@@ -589,9 +589,9 @@ export const content: Record<Locale, Content> = {
           "网关安装好之后如何使用 zDesk：浏览器客户端、启动会话、目标密码、设置 Windows、Mac、wlshare 和 VNC 目标、摄像头和麦克风，以及本地控制面。",
       },
       wlshare: {
-        title: "设置 wlshare",
+        title: "设置和使用 wlshare",
         description:
-          "在 wlroots 桌面上设置 wlshare：安装、谁可以连接、开机即启动的无头桌面、输出、也在控制台使用的桌面、声音、摄像头和麦克风、键盘、画面，以及它的客户端。",
+          "在 wlroots 桌面上设置和使用 wlshare：安装、谁可以连接、通过 zDesk 连接、开机即启动的无头桌面、输出、也在控制台使用的桌面、声音、摄像头和麦克风、键盘、画面，以及作为备用的其他 VNC 客户端。",
       },
     },
     readGuide: "阅读指南",
@@ -719,7 +719,7 @@ export const content: Record<Locale, Content> = {
       ),
     },
     docs: (
-      <><a href={zhTW.guide}>zDesk 指南</a>說明瀏覽器用戶端、如何啟動工作階段，以及如何設定 Windows、Mac、wlshare 和 VNC 目標，<a href={zhTW.wlshareGuide}>wlshare 指南</a>說明如何在 Linux 桌面上設定 wlshare；<a href={zhTW.install}>安裝 zDesk</a> 與 GitHub 上的<a href={zhTW.readme}>原始碼</a>放在一起，涵蓋所有平台。</>
+      <><a href={zhTW.guide}>zDesk 指南</a>說明瀏覽器用戶端、如何啟動工作階段，以及如何設定 Windows、Mac、wlshare 和 VNC 目標，<a href={zhTW.wlshareGuide}>wlshare 指南</a>說明如何在 Linux 桌面上設定和使用 wlshare；<a href={zhTW.install}>安裝 zDesk</a> 與 GitHub 上的<a href={zhTW.readme}>原始碼</a>放在一起，涵蓋所有平台。</>
     ),
     footer: (
       <>zDesk 採用 <a href={LICENSE}>MIT 授權條款</a>，以滾動方式發行，方向仍在調整中，版本之間不保證回溯相容；詳見 <a href={zhTW.readme}>README</a>。</>
@@ -769,8 +769,8 @@ export const content: Record<Locale, Content> = {
     },
     guidesTitle: "指南",
     guidesDescription:
-      "zDesk 和 wlshare 的指南：閘道安裝好之後如何使用，以及如何設定 wlshare，也就是 zDesk 用來連線 Linux 的 wlroots 桌面 VNC 伺服器。",
-    guidesIntro: "使用 zDesk 閘道，以及在它所連線的 Linux 桌面上設定 wlshare。",
+      "zDesk 和 wlshare 的指南：閘道安裝好之後如何使用，以及如何設定和使用 wlshare，也就是 zDesk 用來連線 Linux 的 wlroots 桌面 VNC 伺服器。",
+    guidesIntro: "使用 zDesk 閘道，以及在它所連線的 Linux 桌面上設定和使用 wlshare。",
     guides: {
       zdesk: {
         title: "使用 zDesk",
@@ -778,9 +778,9 @@ export const content: Record<Locale, Content> = {
           "閘道安裝好之後如何使用 zDesk：瀏覽器用戶端、啟動工作階段、目標密碼、設定 Windows、Mac、wlshare 和 VNC 目標、攝影機和麥克風，以及本機控制平面。",
       },
       wlshare: {
-        title: "設定 wlshare",
+        title: "設定和使用 wlshare",
         description:
-          "在 wlroots 桌面上設定 wlshare：安裝、誰可以連線、開機即啟動的無頭桌面、輸出、主控台上的桌面、聲音、攝影機和麥克風、鍵盤、畫面，以及它的用戶端。",
+          "在 wlroots 桌面上設定和使用 wlshare：安裝、誰可以連線、透過 zDesk 連線、開機即啟動的無頭桌面、輸出、主控台上的桌面、聲音、攝影機和麥克風、鍵盤、畫面，以及作為備用的其他 VNC 用戶端。",
       },
     },
     readGuide: "閱讀指南",
