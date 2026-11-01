@@ -214,6 +214,41 @@ journalctl --user -u wlshare -f`}</code>
 auth    optional    pam_exec.so expose_authtok quiet /usr/local/lib/wlshare/unlock-keyring
 @include common-account`}</code>
           </pre>
+          <p>wlshare 及其套件都不提供這個指令碼，內容如下：</p>
+          <pre>
+            <code>{`#!/bin/sh
+# /usr/local/lib/wlshare/unlock-keyring: run by pam_exec from /etc/pam.d/wlshare
+# with the password PAM has just checked on stdin. It starts the keyring daemon
+# with it, both halves of what pam_gnome_keyring does, since wlshare opens no
+# PAM session.
+set -eu
+XDG_RUNTIME_DIR="/run/user/$(id -u)"
+DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"
+export XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS
+
+# A daemon already holding the Secret Service: an earlier login unlocked it.
+owner=$(busctl --user list --no-legend 2>/dev/null |
+    awk '$1 == "org.freedesktop.secrets" && $2 != "-" { print $2 }')
+[ -z "$owner" ] || exit 0
+
+# In a scope of its own, so that restarting wlshare does not take it down.
+systemd-run --user --scope --quiet --collect --unit=gnome-keyring-login \\
+    /usr/bin/gnome-keyring-daemon --daemonize --login --components=pkcs11,secrets
+
+# --start only once that daemon listens, or it starts a second one.
+i=0
+while [ ! -S "$XDG_RUNTIME_DIR/keyring/control" ] && [ "$i" -lt 50 ]; do
+    i=$((i + 1)); sleep 0.1
+done
+[ -S "$XDG_RUNTIME_DIR/keyring/control" ] || exit 0
+exec /usr/bin/gnome-keyring-daemon --start >/dev/null 2>&1`}</code>
+          </pre>
+          <p>把它安裝到上面那一行指定的位置，同時安裝金鑰圈的套件，並遮蔽守護程式的按需啟用：</p>
+          <pre>
+            <code>{`sudo apt install gnome-keyring libpam-gnome-keyring
+sudo install -D -m 755 unlock-keyring /usr/local/lib/wlshare/unlock-keyring
+systemctl --user mask gnome-keyring-daemon.socket gnome-keyring-daemon.service`}</code>
+          </pre>
           <p>
             設為 <code>optional</code>，因此打不開的金鑰圈只會在工作階段中多一次提示，永遠不會讓 VNC
             登入失敗。請遮蔽（mask）<code>gnome-keyring-daemon.socket</code> 和 <code>.service</code>

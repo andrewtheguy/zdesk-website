@@ -192,6 +192,41 @@ journalctl --user -u wlshare -f`}</code>
 auth    optional    pam_exec.so expose_authtok quiet /usr/local/lib/wlshare/unlock-keyring
 @include common-account`}</code>
           </pre>
+          <p>wlshare 及其软件包都不提供这个脚本，内容如下：</p>
+          <pre>
+            <code>{`#!/bin/sh
+# /usr/local/lib/wlshare/unlock-keyring: run by pam_exec from /etc/pam.d/wlshare
+# with the password PAM has just checked on stdin. It starts the keyring daemon
+# with it, both halves of what pam_gnome_keyring does, since wlshare opens no
+# PAM session.
+set -eu
+XDG_RUNTIME_DIR="/run/user/$(id -u)"
+DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"
+export XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS
+
+# A daemon already holding the Secret Service: an earlier login unlocked it.
+owner=$(busctl --user list --no-legend 2>/dev/null |
+    awk '$1 == "org.freedesktop.secrets" && $2 != "-" { print $2 }')
+[ -z "$owner" ] || exit 0
+
+# In a scope of its own, so that restarting wlshare does not take it down.
+systemd-run --user --scope --quiet --collect --unit=gnome-keyring-login \\
+    /usr/bin/gnome-keyring-daemon --daemonize --login --components=pkcs11,secrets
+
+# --start only once that daemon listens, or it starts a second one.
+i=0
+while [ ! -S "$XDG_RUNTIME_DIR/keyring/control" ] && [ "$i" -lt 50 ]; do
+    i=$((i + 1)); sleep 0.1
+done
+[ -S "$XDG_RUNTIME_DIR/keyring/control" ] || exit 0
+exec /usr/bin/gnome-keyring-daemon --start >/dev/null 2>&1`}</code>
+          </pre>
+          <p>把它安装到上面那一行指定的位置，同时安装密钥环的软件包，并屏蔽守护进程的按需激活：</p>
+          <pre>
+            <code>{`sudo apt install gnome-keyring libpam-gnome-keyring
+sudo install -D -m 755 unlock-keyring /usr/local/lib/wlshare/unlock-keyring
+systemctl --user mask gnome-keyring-daemon.socket gnome-keyring-daemon.service`}</code>
+          </pre>
           <p>
             设为 <code>optional</code>，这样打不开的密钥环只会让会话内多一个提示框，而不会让 VNC 登录失败。屏蔽（mask）<code>gnome-keyring-daemon.socket</code> 和 <code>.service</code>，以免某个由激活启动的守护进程在持有密码的那个守护进程之前占用 Secret Service。用 <code>passwd</code> 更改账户密码，它会通过 PAM 重新加密密钥环；以其他方式写入{" "}
             <code>/etc/shadow</code> 的哈希会让密钥环仍停留在旧密码之下。

@@ -529,7 +529,9 @@ ol.steps > li > p:first-child { padding-top: .2rem; }
   .guide-cards { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* wlshare: the hero's picture, and the page's sections at the guide's width */
+/* wlshare: the hero's picture, and its sections' prose no wider than the guide's; their cards,
+   figures and code keep the page's width */
+.wlshare-section > p { max-width: 50rem; }
 .hero-still { margin: 0; }
 .hero-still img {
   display: block; width: 100%; height: auto; border-radius: 10px;
