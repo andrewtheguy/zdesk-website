@@ -19,7 +19,8 @@ const text: WlshareText = {
   rolling: "wlshare 采用滚动发布：最新发布就是当前版本。",
   packages: (
     <>
-      适用于 Debian trixie 的、打过补丁的 sway、labwc 和 wlroots 0.19 来自它自己的 <a href="#install">APT 仓库</a>。
+      在 Debian trixie 上，它需要 wlroots 0.19 以及基于它构建的 sway 或 labwc，来自它自己的{" "}
+      <a href="#install">APT 仓库</a>：0.19 让指针不进入画面，仓库中的补丁让 labwc 的指针落在正确的输出上。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度通过 wlshare 显示 Sway，正在播放一段视频。",

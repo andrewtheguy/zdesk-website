@@ -75,8 +75,17 @@ const guide: GuideText = {
           <p>
             Debian trixie 隨附以 wlroots 0.18 為基礎的 sway 1.10 和 labwc 0.8.3。wlshare 自己的已簽署 APT
             套件庫提供 sway 1.11、labwc 0.9.7 和 wlroots 0.19，以 Debian 的打包方式為 trixie 重新建置，支援 amd64 和
-            arm64。它們的版本號排序高於 trixie 的版本，因此不需要設定釘選（pin）：
+            arm64，各自的用途如下：
           </p>
+          <Table
+            head={["套件", "用途"]}
+            rows={[
+              [<>wlroots 0.19</>, "在無頭輸出上讓指標不進入畫面，由 wlshare 另外傳送；0.18 會把指標畫進每一次擷取。wlshare 的套件相依於它，沒有它就無法安裝。"],
+              [<>wlroots 的修補</>, "在 labwc 上，讓用戶端的指標落在它指定的位置，即使輸出不在版面配置的原點，例如第二個輸出或螢幕旁的無頭輸出；未套用修補時，指標會落到別處。sway 不需要這個修補也能正確放置。"],
+              [<>sway 1.11、labwc 0.9.7</>, "以 wlroots 0.19 建置的版本：trixie 的 sway 1.10 和 labwc 0.8.3 連結的是 0.18。"],
+            ]}
+          />
+          <p>它們的版本號排序高於 trixie 的版本，因此不需要設定釘選（pin）：</p>
           <pre>
             <code>{`sudo mkdir -p /etc/apt/keyrings
 sudo curl -fsSL -o /etc/apt/keyrings/wlshare.gpg https://andrewtheguy.github.io/wlshare/wlshare.gpg

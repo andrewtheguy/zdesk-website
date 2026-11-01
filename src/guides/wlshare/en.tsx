@@ -76,9 +76,18 @@ const guide: GuideText = {
           </p>
           <p>
             Debian trixie ships sway 1.10 and labwc 0.8.3 on wlroots 0.18. wlshare's own signed APT repository has
-            sway 1.11, labwc 0.9.7 and wlroots 0.19 rebuilt for trixie from Debian's packaging, for amd64 and arm64.
-            Their versions sort above trixie's, so no pin is needed:
+            sway 1.11, labwc 0.9.7 and wlroots 0.19 rebuilt for trixie from Debian's packaging, for amd64 and arm64,
+            and this is what needs each:
           </p>
+          <Table
+            head={["Package", "What needs it"]}
+            rows={[
+              [<>wlroots 0.19</>, "The pointer kept out of the picture on a headless output, for wlshare to send apart; 0.18 paints it into every capture. wlshare's package depends on it, and does not install without it."],
+              [<>wlroots' one patch</>, "On labwc, the client's pointer where it is put on an output away from the layout's origin, such as a second output or a headless one beside a monitor; unpatched, it lands elsewhere. sway places it right without the patch."],
+              [<>sway 1.11, labwc 0.9.7</>, "The releases built against wlroots 0.19: trixie's sway 1.10 and labwc 0.8.3 link 0.18."],
+            ]}
+          />
+          <p>Their versions sort above trixie's, so no pin is needed:</p>
           <pre>
             <code>{`sudo mkdir -p /etc/apt/keyrings
 sudo curl -fsSL -o /etc/apt/keyrings/wlshare.gpg https://andrewtheguy.github.io/wlshare/wlshare.gpg

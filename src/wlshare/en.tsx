@@ -21,8 +21,9 @@ const text: WlshareText = {
   rolling: "wlshare is on a rolling release: the latest release is the current one.",
   packages: (
     <>
-      Patched sway, labwc and wlroots 0.19 for Debian trixie come from its own{" "}
-      <a href="#install">APT repository</a>.
+      On Debian trixie it needs wlroots 0.19 and the sway or labwc built on it, from its own{" "}
+      <a href="#install">APT repository</a>: 0.19 keeps the pointer out of the picture, and a patch there keeps
+      labwc's pointer on the right output.
     </>
   ),
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",

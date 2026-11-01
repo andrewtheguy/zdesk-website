@@ -67,8 +67,17 @@ const guide: GuideText = {
             <code>/usr/share/doc/wlshare/wlshare.example.toml</code> 检查你的配置。
           </p>
           <p>
-            Debian trixie 提供基于 wlroots 0.18 的 sway 1.10 和 labwc 0.8.3。wlshare 自己的签名 APT 仓库提供依据 Debian 的打包为 trixie 重新构建的 sway 1.11、labwc 0.9.7 和 wlroots 0.19，支持 amd64 和 arm64。它们的版本号排在 trixie 的版本之上，因此无需设置 pin：
+            Debian trixie 提供基于 wlroots 0.18 的 sway 1.10 和 labwc 0.8.3。wlshare 自己的签名 APT 仓库提供依据 Debian 的打包为 trixie 重新构建的 sway 1.11、labwc 0.9.7 和 wlroots 0.19，支持 amd64 和 arm64，各自的用途如下：
           </p>
+          <Table
+            head={["软件包", "用途"]}
+            rows={[
+              [<>wlroots 0.19</>, "在无头输出上让指针不进入画面，由 wlshare 单独发送；0.18 会把指针画进每一次捕获。wlshare 的软件包依赖它，没有它就无法安装。"],
+              [<>wlroots 的补丁</>, "在 labwc 上，让客户端的指针落在它所指的位置，即使输出不在布局的原点，例如第二个输出或显示器旁的无头输出；不打补丁时，指针会落到别处。sway 不需要这个补丁也能正确放置。"],
+              [<>sway 1.11、labwc 0.9.7</>, "基于 wlroots 0.19 构建的版本：trixie 的 sway 1.10 和 labwc 0.8.3 链接的是 0.18。"],
+            ]}
+          />
+          <p>它们的版本号排在 trixie 的版本之上，因此无需设置 pin：</p>
           <pre>
             <code>{`sudo mkdir -p /etc/apt/keyrings
 sudo curl -fsSL -o /etc/apt/keyrings/wlshare.gpg https://andrewtheguy.github.io/wlshare/wlshare.gpg
