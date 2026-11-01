@@ -4,6 +4,8 @@ import siteStylesheet from "./site.css?url";
 import { localeForPath } from "./content";
 
 export const links: Route.LinksFunction = () => [
+  // The ICO, rendered from the SVG at 16, 32 and 48 pixels, for what takes no SVG icon.
+  { rel: "icon", href: "/favicon.ico", sizes: "16x16 32x32 48x48" },
   { rel: "icon", type: "image/svg+xml", href: "/logo.svg" },
   { rel: "stylesheet", href: siteStylesheet },
 ];
