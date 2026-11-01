@@ -2,7 +2,7 @@ import Flow from "../Flow";
 import { pagePath, REPO } from "../content";
 import ICON from "./icons";
 import { repo, type GuideText } from "./links";
-import { Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
+import { Clip, Compare, Groups, Keys, Mark, Options, Part, Routes, Still, Table, Tag, TwoDisplays } from "./visuals";
 
 const guide: GuideText = {
   intro: (
@@ -724,9 +724,9 @@ password_ref = "mac"`}</code>
               一樣，拖過兩個分頁之間邊緣的視窗會出現在另一個顯示器上；不建議在只有一個實體顯示器的用戶端上使用第二個顯示器的分頁，手機或平板上也不支援。
             </li>
           </ul>
-          <Still
+          <Clip
             name="mac-two-displays"
-            caption="高效能模式 Mac 的兩個虛擬顯示器顯示在 Windows 上的兩個 Chrome 分頁中，一個視窗正從第一個顯示器的分頁拖到第二個。"
+            caption="高效能模式 Mac 的兩個虛擬顯示器顯示在 Windows 上的兩個 Chrome 分頁中，一個視窗從第一個顯示器的分頁拖到第二個，再拖回來。"
           />
           <ul>
             <li>
