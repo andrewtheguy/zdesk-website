@@ -512,8 +512,8 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "clients",
-      title: "客户端",
+      id: "through-zdesk",
+      title: "通过 zDesk 使用",
       body: (
         <>
           <p>
@@ -540,9 +540,16 @@ password_ref = "wayland"
           <p>
             会话以哪些选项启动，见 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
           </p>
-          <h3 id="vnc-client">用 VNC 客户端连接</h3>
+        </>
+      ),
+    },
+    {
+      id: "vnc-client",
+      title: "用 VNC 客户端连接",
+      body: (
+        <>
           <p>
-            任何其他列出 Cursor 伪编码并能绘制 Raw 矩形的 RFB 3.8 客户端都可以连接，按输出自身的像素显示，没有声音。之所以需要 Cursor，是因为指针从不出现在帧缓冲区中；不列出 wlshare 扩展的客户端不会收到这些扩展。TigerVNC 的查看器（1.13 或更高版本）就是其中之一，因为它支持 RSA-AES。它的 <code>vncviewer</code> 在两个冒号之后写端口；只写一个冒号时，后面是从 5900 起算的显示编号：
+            除 zDesk 外，任何列出 Cursor 伪编码并能绘制 Raw 矩形的 RFB 3.8 客户端都可以连接，按输出自身的像素显示，没有声音。之所以需要 Cursor，是因为指针从不出现在帧缓冲区中；不列出 wlshare 扩展的客户端不会收到这些扩展。TigerVNC 的查看器（1.13 或更高版本）就是其中之一，因为它支持 RSA-AES。它的 <code>vncviewer</code> 在两个冒号之后写端口；只写一个冒号时，后面是从 5900 起算的显示编号：
           </p>
           <pre>
             <code>{`sudo apt install tigervnc-viewer   # Debian, Ubuntu

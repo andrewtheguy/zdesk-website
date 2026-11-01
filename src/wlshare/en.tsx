@@ -209,6 +209,24 @@ const text: WlshareText = {
       ),
     },
     {
+      id: "vnc-client",
+      title: "With another VNC client",
+      body: (
+        <>
+          <p>
+            wlshare is a standard RFB 3.8 server as well, so TigerVNC or another VNC client connects with the same
+            login, at the output's own pixels and without sound, the camera or the microphone. Behind a login the
+            client must speak RSA-AES; one that offers only classic VncAuth is refused.{" "}
+            <a href={`${guide}#vnc-client`}>How</a>
+          </p>
+          <Still
+            name="wlshare-tigervnc"
+            caption="TigerVNC logged in under the system login: the headless output resized to the viewer's window, at scale 1."
+          />
+        </>
+      ),
+    },
+    {
       id: "install",
       title: "Install",
       body: (

@@ -572,8 +572,8 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "clients",
-      title: "用戶端",
+      id: "through-zdesk",
+      title: "透過 zDesk",
       body: (
         <>
           <p>
@@ -602,9 +602,16 @@ password_ref = "wayland"
           <p>
             工作階段以哪些選項啟動，請見 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
           </p>
-          <h3 id="vnc-client">以 VNC 用戶端連線</h3>
+        </>
+      ),
+    },
+    {
+      id: "vnc-client",
+      title: "以 VNC 用戶端連線",
+      body: (
+        <>
           <p>
-            任何其他列出 Cursor 偽編碼並能繪製 Raw 矩形的 RFB 3.8
+            除了 zDesk，任何列出 Cursor 偽編碼並能繪製 Raw 矩形的 RFB 3.8
             用戶端都可以連線，以輸出本身的像素顯示，沒有聲音。之所以需要 Cursor，是因為指標永遠不在影格緩衝區中；沒有列出
             wlshare 擴充的用戶端不會收到它們。TigerVNC 的檢視器（1.13 或更新版本）就是其中之一，因為它支援
             RSA-AES。它的 <code>vncviewer</code> 在兩個冒號之後寫連接埠；只寫一個冒號時，後面是從 5900 起算的顯示編號：

@@ -602,8 +602,8 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "clients",
-      title: "Clients",
+      id: "through-zdesk",
+      title: "Through zDesk",
       body: (
         <>
           <p>
@@ -632,9 +632,16 @@ password_ref = "wayland"
           <p>
             See <a href={`${zdeskGuide}#wlshare`}>wlshare</a> in the zDesk guide for what a session is started with.
           </p>
-          <h3 id="vnc-client">Connecting with a VNC client</h3>
+        </>
+      ),
+    },
+    {
+      id: "vnc-client",
+      title: "Connecting with a VNC client",
+      body: (
+        <>
           <p>
-            Any other RFB 3.8 client that lists the Cursor pseudo-encoding and draws Raw rectangles can connect, at the
+            Besides zDesk, any RFB 3.8 client that lists the Cursor pseudo-encoding and draws Raw rectangles can connect, at the
             output's own pixels and without sound. Cursor is required because the pointer is never in the framebuffer;
             a client that does not list wlshare's extensions is not sent them. TigerVNC's viewer, 1.13 or later, is
             one, since it speaks RSA-AES. Its <code>vncviewer</code> takes the port after two colons; after one, a
