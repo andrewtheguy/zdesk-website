@@ -179,7 +179,7 @@ const text: WlshareText = {
               { name: "wlshare-sway", caption: "設定子類型：縮放比例 2 的輸出以 2x 顯示，完整呈現在視窗中。" },
               {
                 name: "wlshare-plain-vnc",
-                caption: "不設定子類型：同樣的像素以 1x 顯示，尺寸變為兩倍：捲動到影片處，視窗中只看得到桌面的四分之一。",
+                caption: "不設定子類型：同樣的像素以 1x 顯示，尺寸變為兩倍，視窗中只看得到桌面的四分之一。",
               },
             ]}
           />

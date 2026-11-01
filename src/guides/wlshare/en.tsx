@@ -512,7 +512,7 @@ layout = "swayvnc"`}</code>
                 caption: (
                   <>
                     The same desktop as plain VNC, without <code>subtype = "wlshare"</code>: its pixels at 1x, twice
-                    the size: scrolled to the video, the window holds a quarter of it.
+                    the size, a quarter of it in the window.
                   </>
                 ),
               },

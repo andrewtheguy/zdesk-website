@@ -439,7 +439,7 @@ layout = "swayvnc"`}</code>
                 name: "wlshare-plain-vnc",
                 caption: (
                   <>
-                    同一桌面作为普通 VNC，没有 <code>subtype = "wlshare"</code>：其像素按 1x 显示，尺寸变为两倍：滚动到视频处，窗口中只能显示四分之一。
+                    同一桌面作为普通 VNC，没有 <code>subtype = "wlshare"</code>：其像素按 1x 显示，尺寸变为两倍，窗口中只能显示四分之一。
                   </>
                 ),
               },

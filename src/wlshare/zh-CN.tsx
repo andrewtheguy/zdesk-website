@@ -165,7 +165,7 @@ const text: WlshareText = {
               { name: "wlshare-sway", caption: "设置子类型：缩放为 2 的输出按 2x 显示，完整显示在窗口中。" },
               {
                 name: "wlshare-plain-vnc",
-                caption: "不设置：同样的像素按 1x 显示，尺寸变为两倍：滚动到视频处，窗口中只能显示桌面的四分之一。",
+                caption: "不设置：同样的像素按 1x 显示，尺寸变为两倍，窗口中只能显示桌面的四分之一。",
               },
             ]}
           />
