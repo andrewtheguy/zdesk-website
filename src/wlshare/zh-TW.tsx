@@ -21,6 +21,8 @@ const text: WlshareText = {
   seeInAction: "觀看實際效果",
   source: "原始碼",
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度透過 wlshare 顯示 Sway，畫面上正在播放影片。",
+  demoHeading: "示範",
+  demoIntro: "從 Mac 上的 Chrome 錄製的 zDesk 工作階段，未安裝任何用戶端：sway 桌面上的 wlshare。",
   features: [
     {
       icon: "size",

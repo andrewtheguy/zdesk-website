@@ -1,10 +1,13 @@
+import { DemoVideo } from "./Demo";
 import Shell from "./Shell";
-import { pagePath, type Locale } from "./content";
+import { demos, pagePath, type Locale } from "./content";
 import ICONS from "./guides/icons";
 import { wlshareText } from "./wlshare/text";
 
 const SOURCE = "https://github.com/andrewtheguy/wlshare";
 const HERO = { name: "wlshare-sway", width: 3456, height: 2234 };
+// The demo recorded through wlshare, which the zDesk demo page shows too.
+const DEMO = demos.find((d) => d.id === "mac-to-linux")!;
 
 export default function Wlshare({ locale }: { locale: Locale }) {
   const t = wlshareText[locale];
@@ -29,7 +32,7 @@ export default function Wlshare({ locale }: { locale: Locale }) {
                 </a>
               </li>
               <li>
-                <a href={`${pagePath(locale, "demo")}#mac-to-linux`}>{t.seeInAction}</a>
+                <a href="#demo">{t.seeInAction}</a>
               </li>
               <li>
                 <a className="external" href={SOURCE}>
@@ -73,6 +76,11 @@ export default function Wlshare({ locale }: { locale: Locale }) {
             </section>
           ))}
         </div>
+        <section id="demo" className="wlshare-section">
+          <h2 className="section">{t.demoHeading}</h2>
+          <p>{t.demoIntro}</p>
+          <DemoVideo demo={DEMO} locale={locale} heading="h3" />
+        </section>
         {t.sections.map((s) => (
           <section key={s.id} id={s.id} className="wlshare-section">
             <h2 className="section">{s.title}</h2>

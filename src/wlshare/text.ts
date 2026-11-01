@@ -16,6 +16,9 @@ export interface WlshareText {
   seeInAction: string;
   source: string;
   heroCaption: ReactNode;
+  // The page's own demo: its heading and the line under it.
+  demoHeading: string;
+  demoIntro: ReactNode;
   features: { icon: IconName; title: string; body: ReactNode }[];
   sections: { id: string; title: ReactNode; body: ReactNode }[];
 }

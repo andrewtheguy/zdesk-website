@@ -243,6 +243,8 @@ h2.section, .demo h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom:
 .demo-next p { margin: 0; }
 .demo { display: flex; flex-direction: column; margin: 0 0 3rem; scroll-margin-top: 1rem; }
 .demo h2 { font-size: 1.35rem; margin-bottom: .35rem; }
+/* A recording under another heading, as on the wlshare page */
+.demo h3 { font-size: 1.2rem; margin: 1.25rem 0 .35rem; }
 .demo p { color: var(--muted); margin: 0 0 .75rem; max-width: 48rem; }
 .demo .demo-meta { display: flex; gap: 1rem; align-items: center; font-size: .9rem; font-variant-numeric: tabular-nums; }
 /* A recording fills the column, but no taller than most of the screen; side by side, the pair

@@ -22,6 +22,8 @@ const text: WlshareText = {
   seeInAction: "See It in Action",
   source: "Source Code",
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",
+  demoHeading: "Demo",
+  demoIntro: "A zDesk session recorded from Chrome on a Mac, with no client installed: wlshare on a sway desktop.",
   features: [
     {
       icon: "size",
