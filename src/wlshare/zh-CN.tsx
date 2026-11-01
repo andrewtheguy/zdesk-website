@@ -20,9 +20,8 @@ const text: WlshareText = {
   packages: (
     <>
       wlshare 需要 wlroots 0.19 或更高版本，缺少它提供的指针图像捕获就无法启动。在 Debian trixie 上，wlroots 以及基于它构建的
-      sway 或 labwc 来自它自己的 <a href="#install">APT 仓库</a>；其中的 wlroots 带有一个补丁：共享两个输出（例如第二个浏览器标签页）时，
-      sway 或 labwc 重新加载配置之后，它让客户端的指针仍留在自己的输出上。wlshare 自己也会在一两次移动之内纠正这一点，
-      所以使用原版的 wlroots 0.19 或更高版本即可，Ubuntu 26.04 自带的就是如此。
+      sway 或 labwc 来自它自己的 <a href="#install">APT 仓库</a>，原样重新构建；在其他系统上，使用原版的 wlroots 0.19
+      或更高版本即可，Ubuntu 26.04 自带的就是如此。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度通过 wlshare 显示 Sway，正在播放一段视频。",
