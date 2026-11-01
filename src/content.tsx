@@ -139,6 +139,7 @@ export const demos: Demo[] = [
   { id: "mac-to-windows", video: "mac-to-windows-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 99, captions: true },
   { id: "mac-to-linux", video: "mac-to-linux-wlshare-hidpi-audio.mp4", width: 3456, height: 2234, seconds: 85, captions: true },
   { id: "linux-to-windows", video: "linux-to-windows.mp4", width: 1920, height: 1080, seconds: 61 },
+  { id: "linux-to-mac", video: "linux-to-mac.mp4", width: 1920, height: 1080, seconds: 59 },
 ];
 
 export type FeatureIcon = "monitor" | "terminal" | "globe" | "sharp" | "play" | "code";
@@ -343,7 +344,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "Demo",
     demoDescription:
-      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including Claude Code and Codex in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, a Mac to Windows and to Linux at Retina/HiDPI density with sound, and Linux to Windows.",
+      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including Claude Code and Codex in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, a Mac to Windows and to Linux at Retina/HiDPI density with sound, and Linux to Windows and to a Mac.",
     demoIntro: (
       <><a href={pagePath("en", "home")}>zDesk</a> puts your remote desktops in a browser tab: a lightweight gateway you run yourself, with no client to install. Below are zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux. The wlshare recordings are zDesk sessions too, zDesk being the only client of wlshare's private extensions; wlshare itself has <a href={en.wlshare}>a page of its own</a>.</>
     ),
@@ -393,6 +394,11 @@ export const content: Record<Locale, Content> = {
         title: "Linux → Windows",
         caption:
           "Chromium on Debian Linux under sway connected to Windows' own Remote Desktop at the browser window's size, typing in Notepad, dragging its window and drawing a spiral in Paint.",
+      },
+      "linux-to-mac": {
+        title: "Linux → Mac",
+        caption:
+          "Chromium on Debian Linux under sway connected to a Mac's Screen Sharing on a virtual display at the browser window's size, opening TextEdit from Spotlight, typing in it and dragging its window, then scrolling in Finder.",
       },
     },
     guidesTitle: "Guides",
@@ -543,7 +549,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "演示",
     demoDescription:
-      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux，以及 Linux 连接 Windows。",
+      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux，以及 Linux 连接 Windows 和 Mac。",
     demoIntro: (
       <><a href={pagePath("zh-CN", "home")}>zDesk</a> 把你的远程桌面放进浏览器标签页：一个由你自行运行的轻量网关，无需安装客户端。以下是从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。其中的 wlshare 录像同样是 zDesk 会话，因为 zDesk 是 wlshare 私有扩展的唯一客户端；wlshare 本身另有<a href={zhCN.wlshare}>专门的页面</a>。</>
     ),
@@ -586,6 +592,10 @@ export const content: Record<Locale, Content> = {
       "linux-to-windows": {
         title: "Linux → Windows",
         caption: "Debian Linux 的 sway 中的 Chromium 以浏览器窗口的大小连接 Windows 自带的远程桌面，在记事本中输入、拖动它的窗口，并在画图中画一个螺旋。",
+      },
+      "linux-to-mac": {
+        title: "Linux → Mac",
+        caption: "Debian Linux 的 sway 中的 Chromium 以浏览器窗口的大小连接 Mac 屏幕共享的虚拟显示器，从聚焦搜索打开文本编辑，在其中输入并拖动它的窗口，再在访达中滚动。",
       },
     },
     guidesTitle: "指南",
@@ -736,7 +746,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "示範",
     demoDescription:
-      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux，以及 Linux 連線到 Windows。",
+      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux，以及 Linux 連線到 Windows 和 Mac。",
     demoIntro: (
       <><a href={pagePath("zh-TW", "home")}>zDesk</a> 把你的遠端桌面放進瀏覽器分頁：一個由你自行執行的輕量閘道，不需要安裝用戶端。以下是從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。其中的 wlshare 錄影同樣是 zDesk 工作階段，因為 zDesk 是 wlshare 私有擴充的唯一用戶端；wlshare 本身另有<a href={zhTW.wlshare}>專屬頁面</a>。</>
     ),
@@ -779,6 +789,10 @@ export const content: Record<Locale, Content> = {
       "linux-to-windows": {
         title: "Linux → Windows",
         caption: "Debian Linux 的 sway 中的 Chromium 以瀏覽器視窗的大小連線到 Windows 內建的遠端桌面，在記事本中輸入、拖曳它的視窗，並在小畫家中畫一個螺旋。",
+      },
+      "linux-to-mac": {
+        title: "Linux → Mac",
+        caption: "Debian Linux 的 sway 中的 Chromium 以瀏覽器視窗的大小連線到 Mac 螢幕共享的虛擬顯示器，從 Spotlight 打開「文字編輯」，在其中輸入並拖曳它的視窗，再在 Finder 中捲動。",
       },
     },
     guidesTitle: "指南",
