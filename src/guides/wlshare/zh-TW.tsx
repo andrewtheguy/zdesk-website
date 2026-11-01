@@ -268,6 +268,43 @@ systemctl --user mask gnome-keyring-daemon.socket gnome-keyring-daemon.service`}
       ),
     },
     {
+      id: "through-zdesk",
+      title: "透過 zDesk 連線",
+      body: (
+        <>
+          <p>
+            zDesk 以設定 <code>subtype = "wlshare"</code> 的 <code>vnc</code> 目標連線 wlshare，這會讓閘道向
+            wlshare 要求密度、輸出、畫面、聲音、攝影機和麥克風：
+          </p>
+          <pre>
+            <code>{`[[targets]]
+name = "wayland"
+protocol = "vnc"
+subtype = "wlshare"
+host = "192.0.2.12"
+username = "me"          # leave out under [password]
+password_ref = "wayland"
+# virtual_displays = 2   # on sway, a second headless output`}</code>
+          </pre>
+          <Still
+            name="wlshare-picker"
+            caption={
+              <>
+                <code>wlshare</code> 目標上的選擇器：尺寸跟隨視窗、聲音可選 Opus 或 FLAC、攝影機和麥克風，以及 wlshare
+                的四種畫面。
+              </>
+            }
+          />
+          <p>
+            工作階段以哪些選項啟動，請見 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
+          </p>
+          <p>
+            沒有 zDesk 時，也可以用其他 VNC 用戶端作為備用方式連線：請見 <a href="#vnc-client">以 VNC 用戶端連線</a>。
+          </p>
+        </>
+      ),
+    },
+    {
       id: "headless",
       title: "開機即啟動的無頭桌面",
       body: (
@@ -572,46 +609,12 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "through-zdesk",
-      title: "透過 zDesk",
-      body: (
-        <>
-          <p>
-            zDesk 以設定 <code>subtype = "wlshare"</code> 的 <code>vnc</code> 目標連線 wlshare，這會讓閘道向
-            wlshare 要求密度、輸出、畫面、聲音、攝影機和麥克風：
-          </p>
-          <pre>
-            <code>{`[[targets]]
-name = "wayland"
-protocol = "vnc"
-subtype = "wlshare"
-host = "192.0.2.12"
-username = "me"          # leave out under [password]
-password_ref = "wayland"
-# virtual_displays = 2   # on sway, a second headless output`}</code>
-          </pre>
-          <Still
-            name="wlshare-picker"
-            caption={
-              <>
-                <code>wlshare</code> 目標上的選擇器：尺寸跟隨視窗、聲音可選 Opus 或 FLAC、攝影機和麥克風，以及 wlshare
-                的四種畫面。
-              </>
-            }
-          />
-          <p>
-            工作階段以哪些選項啟動，請見 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
-          </p>
-        </>
-      ),
-    },
-    {
       id: "vnc-client",
       title: "以 VNC 用戶端連線",
       body: (
         <>
           <p>
-            除了 zDesk，任何列出 Cursor 偽編碼並能繪製 Raw 矩形的 RFB 3.8
+            手邊沒有 zDesk 時，任何其他列出 Cursor 偽編碼並能繪製 Raw 矩形的 RFB 3.8
             用戶端都可以連線，以輸出本身的像素顯示，沒有聲音。之所以需要 Cursor，是因為指標永遠不在影格緩衝區中；沒有列出
             wlshare 擴充的用戶端不會收到它們。TigerVNC 的檢視器（1.13 或更新版本）就是其中之一，因為它支援
             RSA-AES。它的 <code>vncviewer</code> 在兩個冒號之後寫連接埠；只寫一個冒號時，後面是從 5900 起算的顯示編號：

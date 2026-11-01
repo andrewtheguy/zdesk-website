@@ -281,6 +281,44 @@ systemctl --user mask gnome-keyring-daemon.socket gnome-keyring-daemon.service`}
       ),
     },
     {
+      id: "through-zdesk",
+      title: "Connecting through zDesk",
+      body: (
+        <>
+          <p>
+            zDesk reaches wlshare as a <code>vnc</code> target with <code>subtype = "wlshare"</code>, which makes the
+            gateway ask for wlshare's density, outputs, pictures, sound, camera and microphone:
+          </p>
+          <pre>
+            <code>{`[[targets]]
+name = "wayland"
+protocol = "vnc"
+subtype = "wlshare"
+host = "192.0.2.12"
+username = "me"          # leave out under [password]
+password_ref = "wayland"
+# virtual_displays = 2   # on sway, a second headless output`}</code>
+          </pre>
+          <Still
+            name="wlshare-picker"
+            caption={
+              <>
+                The picker on a <code>wlshare</code> target: the size following the window, sound as Opus or FLAC, the
+                camera and microphone, and wlshare's four pictures.
+              </>
+            }
+          />
+          <p>
+            See <a href={`${zdeskGuide}#wlshare`}>wlshare</a> in the zDesk guide for what a session is started with.
+          </p>
+          <p>
+            Without zDesk, another VNC client can connect as a fallback: see{" "}
+            <a href="#vnc-client">Connecting with a VNC client</a>.
+          </p>
+        </>
+      ),
+    },
+    {
       id: "headless",
       title: "A headless desktop, up at boot",
       body: (
@@ -602,46 +640,12 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "through-zdesk",
-      title: "Through zDesk",
-      body: (
-        <>
-          <p>
-            zDesk reaches wlshare as a <code>vnc</code> target with <code>subtype = "wlshare"</code>, which makes the
-            gateway ask for wlshare's density, outputs, pictures, sound, camera and microphone:
-          </p>
-          <pre>
-            <code>{`[[targets]]
-name = "wayland"
-protocol = "vnc"
-subtype = "wlshare"
-host = "192.0.2.12"
-username = "me"          # leave out under [password]
-password_ref = "wayland"
-# virtual_displays = 2   # on sway, a second headless output`}</code>
-          </pre>
-          <Still
-            name="wlshare-picker"
-            caption={
-              <>
-                The picker on a <code>wlshare</code> target: the size following the window, sound as Opus or FLAC, the
-                camera and microphone, and wlshare's four pictures.
-              </>
-            }
-          />
-          <p>
-            See <a href={`${zdeskGuide}#wlshare`}>wlshare</a> in the zDesk guide for what a session is started with.
-          </p>
-        </>
-      ),
-    },
-    {
       id: "vnc-client",
       title: "Connecting with a VNC client",
       body: (
         <>
           <p>
-            Besides zDesk, any RFB 3.8 client that lists the Cursor pseudo-encoding and draws Raw rectangles can connect, at the
+            Where zDesk is not at hand, any other RFB 3.8 client that lists the Cursor pseudo-encoding and draws Raw rectangles can connect, at the
             output's own pixels and without sound. Cursor is required because the pointer is never in the framebuffer;
             a client that does not list wlshare's extensions is not sent them. TigerVNC's viewer, 1.13 or later, is
             one, since it speaks RSA-AES. Its <code>vncviewer</code> takes the port after two colons; after one, a

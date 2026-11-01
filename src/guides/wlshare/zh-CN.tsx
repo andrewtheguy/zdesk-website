@@ -240,6 +240,41 @@ systemctl --user mask gnome-keyring-daemon.socket gnome-keyring-daemon.service`}
       ),
     },
     {
+      id: "through-zdesk",
+      title: "通过 zDesk 连接",
+      body: (
+        <>
+          <p>
+            zDesk 以带 <code>subtype = "wlshare"</code> 的 <code>vnc</code> 目标连接 wlshare，这让网关请求 wlshare 的密度、输出、画面、声音、摄像头和麦克风：
+          </p>
+          <pre>
+            <code>{`[[targets]]
+name = "wayland"
+protocol = "vnc"
+subtype = "wlshare"
+host = "192.0.2.12"
+username = "me"          # leave out under [password]
+password_ref = "wayland"
+# virtual_displays = 2   # on sway, a second headless output`}</code>
+          </pre>
+          <Still
+            name="wlshare-picker"
+            caption={
+              <>
+                <code>wlshare</code> 目标上的选择器：跟随窗口的尺寸、Opus 或 FLAC 的声音、摄像头和麦克风，以及 wlshare 的四种画面。
+              </>
+            }
+          />
+          <p>
+            会话以哪些选项启动，见 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
+          </p>
+          <p>
+            没有 zDesk 时，也可以用其他 VNC 客户端作为备用方式连接：见 <a href="#vnc-client">用 VNC 客户端连接</a>。
+          </p>
+        </>
+      ),
+    },
+    {
       id: "headless",
       title: "开机即启动的无头桌面",
       body: (
@@ -512,44 +547,12 @@ layout = "swayvnc"`}</code>
       ),
     },
     {
-      id: "through-zdesk",
-      title: "通过 zDesk 使用",
-      body: (
-        <>
-          <p>
-            zDesk 以带 <code>subtype = "wlshare"</code> 的 <code>vnc</code> 目标连接 wlshare，这让网关请求 wlshare 的密度、输出、画面、声音、摄像头和麦克风：
-          </p>
-          <pre>
-            <code>{`[[targets]]
-name = "wayland"
-protocol = "vnc"
-subtype = "wlshare"
-host = "192.0.2.12"
-username = "me"          # leave out under [password]
-password_ref = "wayland"
-# virtual_displays = 2   # on sway, a second headless output`}</code>
-          </pre>
-          <Still
-            name="wlshare-picker"
-            caption={
-              <>
-                <code>wlshare</code> 目标上的选择器：跟随窗口的尺寸、Opus 或 FLAC 的声音、摄像头和麦克风，以及 wlshare 的四种画面。
-              </>
-            }
-          />
-          <p>
-            会话以哪些选项启动，见 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
-          </p>
-        </>
-      ),
-    },
-    {
       id: "vnc-client",
       title: "用 VNC 客户端连接",
       body: (
         <>
           <p>
-            除 zDesk 外，任何列出 Cursor 伪编码并能绘制 Raw 矩形的 RFB 3.8 客户端都可以连接，按输出自身的像素显示，没有声音。之所以需要 Cursor，是因为指针从不出现在帧缓冲区中；不列出 wlshare 扩展的客户端不会收到这些扩展。TigerVNC 的查看器（1.13 或更高版本）就是其中之一，因为它支持 RSA-AES。它的 <code>vncviewer</code> 在两个冒号之后写端口；只写一个冒号时，后面是从 5900 起算的显示编号：
+            手边没有 zDesk 时，任何其他列出 Cursor 伪编码并能绘制 Raw 矩形的 RFB 3.8 客户端都可以连接，按输出自身的像素显示，没有声音。之所以需要 Cursor，是因为指针从不出现在帧缓冲区中；不列出 wlshare 扩展的客户端不会收到这些扩展。TigerVNC 的查看器（1.13 或更高版本）就是其中之一，因为它支持 RSA-AES。它的 <code>vncviewer</code> 在两个冒号之后写端口；只写一个冒号时，后面是从 5900 起算的显示编号：
           </p>
           <pre>
             <code>{`sudo apt install tigervnc-viewer   # Debian, Ubuntu

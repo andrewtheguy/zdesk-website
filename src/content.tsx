@@ -402,7 +402,7 @@ export const content: Record<Locale, Content> = {
       wlshare: {
         title: "Setting up wlshare",
         description:
-          "Setting up wlshare on a wlroots desktop: installing it, who may connect, a headless desktop up at boot, outputs, a desktop at the console too, sound, the camera and microphone, the keyboard, the picture, and connecting through zDesk or another VNC client.",
+          "Setting up wlshare on a wlroots desktop: installing it, who may connect, connecting through zDesk, a headless desktop up at boot, outputs, a desktop at the console too, sound, the camera and microphone, the keyboard, the picture, and another VNC client as a fallback.",
       },
     },
     readGuide: "Read the Guide",
@@ -591,7 +591,7 @@ export const content: Record<Locale, Content> = {
       wlshare: {
         title: "设置 wlshare",
         description:
-          "在 wlroots 桌面上设置 wlshare：安装、谁可以连接、开机即启动的无头桌面、输出、也在控制台使用的桌面、声音、摄像头和麦克风、键盘、画面，以及通过 zDesk 或其他 VNC 客户端连接。",
+          "在 wlroots 桌面上设置 wlshare：安装、谁可以连接、通过 zDesk 连接、开机即启动的无头桌面、输出、也在控制台使用的桌面、声音、摄像头和麦克风、键盘、画面，以及作为备用的其他 VNC 客户端。",
       },
     },
     readGuide: "阅读指南",
@@ -780,7 +780,7 @@ export const content: Record<Locale, Content> = {
       wlshare: {
         title: "設定 wlshare",
         description:
-          "在 wlroots 桌面上設定 wlshare：安裝、誰可以連線、開機即啟動的無頭桌面、輸出、主控台上的桌面、聲音、攝影機和麥克風、鍵盤、畫面，以及透過 zDesk 或其他 VNC 用戶端連線。",
+          "在 wlroots 桌面上設定 wlshare：安裝、誰可以連線、透過 zDesk 連線、開機即啟動的無頭桌面、輸出、主控台上的桌面、聲音、攝影機和麥克風、鍵盤、畫面，以及作為備用的其他 VNC 用戶端。",
       },
     },
     readGuide: "閱讀指南",
