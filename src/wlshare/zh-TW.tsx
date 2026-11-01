@@ -17,6 +17,12 @@ const text: WlshareText = {
       <a href={`${WLSHARE}/blob/main/LICENSE`}>MIT 授權條款</a>。
     </>
   ),
+  rolling: "wlshare 採用滾動發行：最新發行版就是目前的版本。",
+  packages: (
+    <>
+      適用於 Debian trixie 並已套用修補的 sway、labwc 和 wlroots 0.19，來自它自己的 <a href="#install">APT 套件庫</a>。
+    </>
+  ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度透過 wlshare 顯示 Sway，畫面上正在播放影片。",
   demoHeading: "示範",
   demoIntro: "從 Mac 上的 Chrome 錄製的 zDesk 工作階段，未安裝任何用戶端：sway 桌面上的 wlshare。",

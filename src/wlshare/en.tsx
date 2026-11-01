@@ -18,6 +18,13 @@ const text: WlshareText = {
       <a href={`${WLSHARE}/blob/main/LICENSE`}>MIT licence</a>.
     </>
   ),
+  rolling: "wlshare is on a rolling release: the latest release is the current one.",
+  packages: (
+    <>
+      Patched sway, labwc and wlroots 0.19 for Debian trixie come from its own{" "}
+      <a href="#install">APT repository</a>.
+    </>
+  ),
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",
   demoHeading: "Demo",
   demoIntro: "A zDesk session recorded from Chrome on a Mac, with no client installed: wlshare on a sway desktop.",
