@@ -23,8 +23,9 @@ const text: WlshareText = {
     <>
       It needs wlroots 0.19 or later, whose cursor capture it does not start without. On Debian trixie that
       and the sway or labwc built on it come from its own <a href="#install">APT repository</a>, whose wlroots
-      carries one patch, for labwc reloading its configuration while two outputs are shared, as in a second
-      browser tab; where that is not needed, a stock wlroots 0.19 or later is enough, as Ubuntu 26.04's own is.
+      carries one patch, which keeps the client's pointer on its output when sway or labwc reloads its
+      configuration while two outputs are shared, as in a second browser tab; wlshare puts that right itself
+      within a motion or two, so a stock wlroots 0.19 or later is enough, as Ubuntu 26.04's own is.
     </>
   ),
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",

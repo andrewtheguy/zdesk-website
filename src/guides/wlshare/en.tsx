@@ -83,7 +83,7 @@ const guide: GuideText = {
             head={["Package", "What needs it"]}
             rows={[
               [<>wlroots 0.19</>, "The cursor capture, ext-image-copy-capture, that wlshare does not start without, and the pointer kept out of a headless output's picture, which 0.18 paints into every capture. The wlshare package depends on it."],
-              [<>wlroots' one patch</>, "On labwc with two outputs, the client's pointer where it is put after labwc reloads its configuration (labwc --reconfigure). labwc then maps every pointer back to the output it names, which wlshare's has none of, and stretches its positions across the whole layout, on both outputs, until the outputs are next laid out anew; wlshare makes its pointer again on every change to the layout, on any wlroots, but a reload changes none. A desktop with one output, and sway, need no patch: a stock wlroots 0.19 or later is enough."],
+              [<>wlroots' one patch</>, "With two outputs, the client's pointer where it is put after sway or labwc reloads its configuration (swaymsg reload, labwc --reconfigure). Each then maps every pointer back to the output it names, which wlshare's has none of, and stretches its positions across the whole layout, on both outputs; wlshare makes its pointer again on every change to the layout, on any wlroots, but a reload changes none. Without the patch, wlshare finds the pointer stretched from where the cursor lands and makes it again, so a reload costs the motion or two that find it; only an output that draws its cursor in software reports nowhere for it to look, and keeps the pointer stretched until the outputs are next laid out anew. A desktop with one output needs no patch: a stock wlroots 0.19 or later is enough."],
               [<>sway 1.11, labwc 0.9.7</>, "The releases built against wlroots 0.19, rebuilt unchanged: trixie's sway 1.10 and labwc 0.8.3 link 0.18, which wlshare does not start on."],
             ]}
           />
@@ -103,9 +103,10 @@ sudo apt update && sudo apt install sway  # or labwc`}</code>
           <p>
             Ubuntu 26.04 (resolute) ships sway 1.11 and labwc 0.9.3 on wlroots 0.19.2, which wlshare runs on as they
             are, so the repository has nothing for it: install sway or labwc from Ubuntu. Its wlroots does not carry the
-            patch above, so on labwc with two outputs a reload leaves the pointer stretched across the layout until the
-            outputs are next laid out anew, as when a client resizes one; sway, and labwc with one output, are as on
-            trixie.
+            patch above, so with two outputs a reload of sway's or labwc's configuration costs the motion or two that
+            wlshare takes to find the pointer stretched and make it again, and an output that draws its cursor in
+            software keeps it stretched until the outputs are next laid out anew, as when a client resizes one; one
+            output is as on trixie.
           </p>
           <p>
             The wlshare package itself is on its <a href={RELEASES}>releases</a>, not in the repository, one for each:{" "}
