@@ -27,6 +27,8 @@ export default function Wlshare({ locale }: { locale: Locale }) {
             </h1>
             <p className="tagline">{t.tagline}</p>
             <p>{t.intro}</p>
+            <p className="rolling">{t.rolling}</p>
+            <p className="rolling">{t.packages}</p>
             <ul className="links">
               <li>
                 <a className="primary" href="#install">
@@ -48,8 +50,6 @@ export default function Wlshare({ locale }: { locale: Locale }) {
                 </a>
               </li>
             </ul>
-            <p className="rolling">{t.rolling}</p>
-            <p className="rolling">{t.packages}</p>
             <GuideLink href={pagePath(locale, "wlshare-guide")} label={c.readGuide} />
           </div>
           <figure className="hero-still">

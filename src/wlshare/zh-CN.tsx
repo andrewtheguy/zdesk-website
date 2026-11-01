@@ -19,8 +19,9 @@ const text: WlshareText = {
   rolling: "wlshare 采用滚动发布：最新发布就是当前版本。",
   packages: (
     <>
-      wlshare 需要 wlroots 0.19，缺少它提供的指针图像捕获就无法启动；在 Debian trixie 上，wlroots 0.19 以及基于它构建的 sway 或
-      labwc 来自它自己的 <a href="#install">APT 仓库</a>。仓库中唯一的补丁在 wlroots 里，只对 labwc 的第二个输出（例如第二个浏览器标签页）有影响。
+      wlshare 需要 wlroots 0.19 或更高版本，缺少它提供的指针图像捕获就无法启动。在 Debian trixie 上，wlroots 以及基于它构建的
+      sway 或 labwc 来自它自己的 <a href="#install">APT 仓库</a>；其中的 wlroots 带有一个补丁，只用于 labwc
+      的第二个输出（例如第二个浏览器标签页），不需要这一用法时，使用原版的 wlroots 0.19 或更高版本即可。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度通过 wlshare 显示 Sway，正在播放一段视频。",

@@ -83,7 +83,7 @@ const guide: GuideText = {
             head={["Package", "What needs it"]}
             rows={[
               [<>wlroots 0.19</>, "The cursor capture, ext-image-copy-capture, that wlshare does not start without, and the pointer kept out of a headless output's picture, which 0.18 paints into every capture. wlshare's package depends on it."],
-              [<>wlroots' one patch</>, "On labwc with two outputs: the client's pointer where it is put on the second, shown in a browser tab of its own or chosen from the list, rather than off by that output's place in the layout. A desktop with one output, and sway, need no patch: an unpatched wlroots 0.19 is enough."],
+              [<>wlroots' one patch</>, "On labwc with two outputs: the client's pointer where it is put on the second, shown in a browser tab of its own or chosen from the list, rather than off by that output's place in the layout. A desktop with one output, and sway, need no patch: a stock wlroots 0.19 or later is enough."],
               [<>sway 1.11, labwc 0.9.7</>, "The releases built against wlroots 0.19, rebuilt unchanged: trixie's sway 1.10 and labwc 0.8.3 link 0.18, which wlshare does not start on."],
             ]}
           />
