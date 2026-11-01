@@ -23,8 +23,8 @@ const text: WlshareText = {
     <>
       It needs wlroots 0.19 or later, whose cursor capture it does not start without. On Debian trixie that
       and the sway or labwc built on it come from its own <a href="#install">APT repository</a>, whose wlroots
-      carries one patch, for labwc's second output, as in a second browser tab; where that is not needed, a stock
-      wlroots 0.19 or later is enough.
+      carries one patch, for labwc reloading its configuration while two outputs are shared, as in a second
+      browser tab; where that is not needed, a stock wlroots 0.19 or later is enough.
     </>
   ),
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",

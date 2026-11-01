@@ -21,8 +21,8 @@ const text: WlshareText = {
   packages: (
     <>
       wlshare 需要 wlroots 0.19 或更新版本，缺少它提供的指標影像擷取就無法啟動。在 Debian trixie 上，wlroots 以及以它建置的
-      sway 或 labwc 來自它自己的 <a href="#install">APT 套件庫</a>；其中的 wlroots 帶有一個修補，只用於 labwc
-      的第二個輸出（例如第二個瀏覽器分頁），不需要這種用法時，使用原版的 wlroots 0.19 或更新版本即可。
+      sway 或 labwc 來自它自己的 <a href="#install">APT 套件庫</a>；其中的 wlroots 帶有一個修補，只用於共享兩個輸出（例如第二個瀏覽器分頁）時
+      labwc 重新載入設定的情況，不需要這種用法時，使用原版的 wlroots 0.19 或更新版本即可。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度透過 wlshare 顯示 Sway，畫面上正在播放影片。",
