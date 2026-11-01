@@ -22,7 +22,7 @@ const text: WlshareText = {
     <>
       wlshare 需要 wlroots 0.19 或更新版本，缺少它提供的指標影像擷取就無法啟動。在 Debian trixie 上，wlroots 以及以它建置的
       sway 或 labwc 來自它自己的 <a href="#install">APT 套件庫</a>；其中的 wlroots 帶有一個修補，只用於共享兩個輸出（例如第二個瀏覽器分頁）時
-      labwc 重新載入設定的情況，不需要這種用法時，使用原版的 wlroots 0.19 或更新版本即可。
+      labwc 重新載入設定的情況，不需要這種用法時，使用原版的 wlroots 0.19 或更新版本即可，Ubuntu 26.04 內建的就是如此。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度透過 wlshare 顯示 Sway，畫面上正在播放影片。",
@@ -94,7 +94,7 @@ const text: WlshareText = {
       body: (
         <>
           sway、labwc 或其他提供 wlroots 協定的合成器，無論是無頭還是接著顯示器。指標不在畫面中，由用戶端繪製；wlshare
-          的 APT 套件庫為 Debian trixie 提供了 wlroots 0.19，能讓指標在無頭輸出上也不進入畫面。
+          的 APT 套件庫為 Debian trixie 提供了 wlroots 0.19，能讓指標在無頭輸出上也不進入畫面，Ubuntu 26.04 則內建。
         </>
       ),
     },
@@ -219,6 +219,13 @@ EOF
 sudo apt update && sudo apt install sway
 curl -fsSLO ${WLSHARE}/releases/download/v0.0.x/wlshare-trixie-amd64.deb
 sudo apt install ./wlshare-trixie-amd64.deb
+systemctl --user enable --now wlshare.service`}</code>
+          </pre>
+          <p>在 Ubuntu 26.04（amd64 或 arm64）上：從 Ubuntu 本身安裝 sway 或 labwc，再安裝 wlshare 為它準備的套件：</p>
+          <pre>
+            <code>{`sudo apt update && sudo apt install sway
+curl -fsSLO ${WLSHARE}/releases/download/v0.0.x/wlshare-resolute-amd64.deb
+sudo apt install ./wlshare-resolute-amd64.deb
 systemctl --user enable --now wlshare.service`}</code>
           </pre>
           <p>

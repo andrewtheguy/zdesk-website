@@ -99,15 +99,23 @@ EOF
 sudo apt update && sudo apt install sway  # or labwc`}</code>
           </pre>
           <p>
-            wlshare 本身是放在其<a href={RELEASES}>發行版清單</a>中的套件，不在套件庫裡。以版本號碼取代{" "}
-            <code>0.0.x</code>，在 arm64 主機上則以 <code>arm64</code> 取代 <code>amd64</code>：
+            Ubuntu 26.04（resolute）內建以 wlroots 0.19.2 為基礎的 sway 1.11 和 labwc 0.9.3，wlshare
+            可以直接在其上執行，因此套件庫沒有為它提供任何套件：從 Ubuntu 安裝 sway 或 labwc 即可。它的 wlroots
+            不帶上述修補，因此在有兩個輸出的 labwc 上，重新載入設定之後，指標會被拉伸到整個版面配置上，直到下一次重新排列輸出為止，例如用戶端調整某個輸出的大小時；sway
+            以及只有一個輸出的 labwc 與在 trixie 上相同。
+          </p>
+          <p>
+            wlshare 本身是放在其<a href={RELEASES}>發行版清單</a>中的套件，不在套件庫裡，每個發行版各有一個：
+            <code>trixie</code> 和 <code>resolute</code>，各自相依於自己發行版的函式庫。以版本號碼取代{" "}
+            <code>0.0.x</code>，在 Ubuntu 26.04 上以 <code>resolute</code> 取代 <code>trixie</code>，在 arm64
+            主機上則以 <code>arm64</code> 取代 <code>amd64</code>：
           </p>
           <pre>
             <code>{`curl -fsSLO ${RELEASES}/download/v0.0.x/wlshare-trixie-amd64.deb
 sudo apt install ./wlshare-trixie-amd64.deb`}</code>
           </pre>
           <p>
-            它相依於上述套件庫提供的 <code>libwlroots-0.19</code>，以及 <code>pipewire</code>、
+            它相依於 <code>libwlroots-0.19</code>（在 trixie 上由上述套件庫提供，Ubuntu 則內建），以及 <code>pipewire</code>、
             <code>wireplumber</code> 和 <code>pipewire-pulse</code>。它建議安裝{" "}
             <code>xdg-desktop-portal-gtk</code>，讓桌面上的瀏覽器能找到用戶端的攝影機，以及{" "}
             <code>va-driver-all</code>，用於主機的硬體 H.264 編碼器。

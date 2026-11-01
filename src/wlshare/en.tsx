@@ -24,7 +24,7 @@ const text: WlshareText = {
       It needs wlroots 0.19 or later, whose cursor capture it does not start without. On Debian trixie that
       and the sway or labwc built on it come from its own <a href="#install">APT repository</a>, whose wlroots
       carries one patch, for labwc reloading its configuration while two outputs are shared, as in a second
-      browser tab; where that is not needed, a stock wlroots 0.19 or later is enough.
+      browser tab; where that is not needed, a stock wlroots 0.19 or later is enough, as Ubuntu 26.04's own is.
     </>
   ),
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",
@@ -101,7 +101,7 @@ const text: WlshareText = {
         <>
           sway, labwc or another compositor offering wlroots' protocols, headless or on a monitor. The pointer stays
           out of the picture and the client draws it; wlshare's APT repository has the wlroots 0.19 that keeps it out
-          on a headless output, for Debian trixie.
+          on a headless output, for Debian trixie, and Ubuntu 26.04 ships it.
         </>
       ),
     },
@@ -231,6 +231,13 @@ EOF
 sudo apt update && sudo apt install sway
 curl -fsSLO ${WLSHARE}/releases/download/v0.0.x/wlshare-trixie-amd64.deb
 sudo apt install ./wlshare-trixie-amd64.deb
+systemctl --user enable --now wlshare.service`}</code>
+          </pre>
+          <p>On Ubuntu 26.04, amd64 or arm64: sway or labwc from Ubuntu itself, then wlshare's package for it:</p>
+          <pre>
+            <code>{`sudo apt update && sudo apt install sway
+curl -fsSLO ${WLSHARE}/releases/download/v0.0.x/wlshare-resolute-amd64.deb
+sudo apt install ./wlshare-resolute-amd64.deb
 systemctl --user enable --now wlshare.service`}</code>
           </pre>
           <p>

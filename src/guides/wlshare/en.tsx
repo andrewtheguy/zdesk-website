@@ -101,15 +101,25 @@ EOF
 sudo apt update && sudo apt install sway  # or labwc`}</code>
           </pre>
           <p>
-            The wlshare package itself is on its <a href={RELEASES}>releases</a>, not in the repository. Put the version
-            in place of <code>0.0.x</code>, and <code>arm64</code> for <code>amd64</code> on an arm64 host:
+            Ubuntu 26.04 (resolute) ships sway 1.11 and labwc 0.9.3 on wlroots 0.19.2, which wlshare runs on as they
+            are, so the repository has nothing for it: install sway or labwc from Ubuntu. Its wlroots does not carry the
+            patch above, so on labwc with two outputs a reload leaves the pointer stretched across the layout until the
+            outputs are next laid out anew, as when a client resizes one; sway, and labwc with one output, are as on
+            trixie.
+          </p>
+          <p>
+            The wlshare package itself is on its <a href={RELEASES}>releases</a>, not in the repository, one for each:{" "}
+            <code>trixie</code> and <code>resolute</code>, each naming its own distribution's libraries. Put the version
+            in place of <code>0.0.x</code>, <code>resolute</code> for <code>trixie</code> on Ubuntu 26.04, and{" "}
+            <code>arm64</code> for <code>amd64</code> on an arm64 host:
           </p>
           <pre>
             <code>{`curl -fsSLO ${RELEASES}/download/v0.0.x/wlshare-trixie-amd64.deb
 sudo apt install ./wlshare-trixie-amd64.deb`}</code>
           </pre>
           <p>
-            It depends on <code>libwlroots-0.19</code>, which the repository above provides, and on{" "}
+            It depends on <code>libwlroots-0.19</code>, which the repository above provides on trixie and Ubuntu
+            ships itself, and on{" "}
             <code>pipewire</code>, <code>wireplumber</code> and <code>pipewire-pulse</code>. It recommends{" "}
             <code>xdg-desktop-portal-gtk</code>, for a browser on the desktop to find the client's camera, and{" "}
             <code>va-driver-all</code>, for the host's hardware H.264 encoder.
