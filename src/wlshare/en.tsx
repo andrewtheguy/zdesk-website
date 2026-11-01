@@ -21,9 +21,9 @@ const text: WlshareText = {
   rolling: "wlshare is on a rolling release: the latest release is the current one.",
   packages: (
     <>
-      On Debian trixie it needs wlroots 0.19 and the sway or labwc built on it, from its own{" "}
-      <a href="#install">APT repository</a>: 0.19 keeps the pointer out of the picture, and a patch there keeps the
-      pointer on the right output when labwc shows two, one in each browser tab.
+      wlshare needs wlroots 0.19, whose cursor capture it does not start without; on Debian trixie that and the sway
+      or labwc built on it come from its own <a href="#install">APT repository</a>. The one patch there, in wlroots,
+      matters only for labwc's second output, as in a second browser tab.
     </>
   ),
   heroCaption: "Sway through wlshare at a Mac's Retina density, in Chrome, with a video playing.",

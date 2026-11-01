@@ -20,8 +20,8 @@ const text: WlshareText = {
   rolling: "wlshare 採用滾動發行：最新發行版就是目前的版本。",
   packages: (
     <>
-      在 Debian trixie 上，它需要 wlroots 0.19 以及以它建置的 sway 或 labwc，來自它自己的{" "}
-      <a href="#install">APT 套件庫</a>：0.19 讓指標不進入畫面；當 labwc 顯示兩個輸出、每個瀏覽器分頁各顯示一個時，套件庫中的修補讓指標落在正確的輸出上。
+      wlshare 需要 wlroots 0.19，缺少它提供的指標影像擷取就無法啟動；在 Debian trixie 上，wlroots 0.19 以及以它建置的 sway 或
+      labwc 來自它自己的 <a href="#install">APT 套件庫</a>。套件庫中唯一的修補在 wlroots 裡，只對 labwc 的第二個輸出（例如第二個瀏覽器分頁）有影響。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度透過 wlshare 顯示 Sway，畫面上正在播放影片。",
