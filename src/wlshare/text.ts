@@ -11,10 +11,6 @@ export interface WlshareText {
   description: string;
   tagline: string;
   intro: ReactNode;
-  // The hero's links: to the guide, to the demo, and to the source.
-  setUp: string;
-  seeInAction: string;
-  source: string;
   heroCaption: ReactNode;
   // The page's own demo: its heading and the line under it.
   demoHeading: string;

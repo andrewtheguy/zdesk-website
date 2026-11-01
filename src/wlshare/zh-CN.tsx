@@ -16,9 +16,6 @@ const text: WlshareText = {
       <a href={`${WLSHARE}/blob/main/LICENSE`}>MIT 许可证</a>。
     </>
   ),
-  setUp: "开始设置",
-  seeInAction: "查看实际效果",
-  source: "源代码",
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度通过 wlshare 显示 Sway，正在播放一段视频。",
   demoHeading: "演示",
   demoIntro: "从 Mac 上的 Chrome 录制的 zDesk 会话，未安装任何客户端：sway 桌面上的 wlshare。",

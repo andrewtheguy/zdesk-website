@@ -80,6 +80,9 @@ export default function Home({ locale }: { locale: Locale }) {
                 </a>
               </li>
               <li>
+                <a href={pagePath(locale, "zdesk-guide")}>{c.readGuide}</a>
+              </li>
+              <li>
                 <a href={pagePath(locale, "demo")}>{c.seeInAction}</a>
               </li>
               <li>

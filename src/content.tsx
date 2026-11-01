@@ -187,7 +187,7 @@ export interface Content {
   guidesIntro: string;
   // Each guide's title and description, on its own page and on the index.
   guides: Record<Guide, { title: string; description: string }>;
-  // The index's link into a guide.
+  // A link into a guide: on the index, and on the home and wlshare pages.
   readGuide: string;
   // Heads a guide's table of contents.
   guideContents: string;
@@ -403,7 +403,7 @@ export const content: Record<Locale, Content> = {
           "Setting up wlshare on a wlroots desktop: installing it, who may connect, a headless desktop up at boot, outputs, a desktop at the console too, sound, the camera and microphone, the keyboard, the picture, and its clients.",
       },
     },
-    readGuide: "Read the guide",
+    readGuide: "Read the Guide",
     guideContents: "On this page",
   },
   "zh-CN": {
