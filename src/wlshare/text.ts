@@ -11,7 +11,7 @@ export interface WlshareText {
   description: string;
   tagline: string;
   intro: ReactNode;
-  // Under the hero's buttons: its rolling release, and its patched packages for Debian.
+  // Under the hero's buttons: its rolling release, and its packages for Debian.
   rolling: string;
   packages: ReactNode;
   heroCaption: ReactNode;

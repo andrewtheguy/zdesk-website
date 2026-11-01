@@ -74,15 +74,14 @@ const guide: GuideText = {
           </p>
           <p>
             Debian trixie 隨附以 wlroots 0.18 為基礎的 sway 1.10 和 labwc 0.8.3。wlshare 自己的已簽署 APT
-            套件庫提供 sway 1.11、labwc 0.9.7 和 wlroots 0.19，以 Debian 的打包方式為 trixie 重新建置，支援 amd64 和
+            套件庫提供 sway 1.11、labwc 0.9.7 和 wlroots 0.19，以 Debian 的打包方式為 trixie 原樣重新建置，支援 amd64 和
             arm64，各自的用途如下：
           </p>
           <Table
             head={["套件", "用途"]}
             rows={[
               [<>wlroots 0.19</>, "wlshare 缺少就無法啟動的指標影像擷取（ext-image-copy-capture），以及在無頭輸出上讓指標不進入畫面，0.18 會把指標畫進每一次擷取。wlshare 的套件相依於它。"],
-              [<>wlroots 的修補</>, "在有兩個輸出的 labwc 上：labwc 重新載入設定（labwc --reconfigure）之後，讓用戶端的指標仍落在它指定的位置。labwc 屆時會把每個指標重新對應到它所指名的輸出，而 wlshare 的指標沒有指名任何輸出，於是它的位置被拉伸到整個版面配置上，兩個輸出都受影響，直到下一次重新排列輸出為止；wlshare 在任何 wlroots 上都會在版面配置每次變更時重新建立它的指標，但重新載入設定並不會變更版面配置。只有一個輸出的桌面以及 sway 都不需要這個修補：原版的 wlroots 0.19 或更新版本就足夠了。"],
-              [<>sway 1.11、labwc 0.9.7</>, "以 wlroots 0.19 建置的版本，原樣重新建置：trixie 的 sway 1.10 和 labwc 0.8.3 連結的是 0.18，wlshare 無法在其上啟動。"],
+              [<>sway 1.11、labwc 0.9.7</>, "以 wlroots 0.19 建置的版本：trixie 的 sway 1.10 和 labwc 0.8.3 連結的是 0.18，wlshare 無法在其上啟動。"],
             ]}
           />
           <p>它們的版本號排序高於 trixie 的版本，因此不需要設定釘選（pin）：</p>
@@ -100,9 +99,10 @@ sudo apt update && sudo apt install sway  # or labwc`}</code>
           </pre>
           <p>
             Ubuntu 26.04（resolute）內建以 wlroots 0.19.2 為基礎的 sway 1.11 和 labwc 0.9.3，wlshare
-            可以直接在其上執行，因此套件庫沒有為它提供任何套件：從 Ubuntu 安裝 sway 或 labwc 即可。它的 wlroots
-            不帶上述修補，因此在有兩個輸出的 labwc 上，重新載入設定之後，指標會被拉伸到整個版面配置上，直到下一次重新排列輸出為止，例如用戶端調整某個輸出的大小時；sway
-            以及只有一個輸出的 labwc 與在 trixie 上相同。
+            可以直接在其上執行，因此套件庫沒有為它提供任何套件：從 Ubuntu 安裝 sway 或 labwc 即可。
+          </p>
+          <p>
+            無論在 trixie 還是 Ubuntu 26.04 上，有兩個輸出時，sway 或 labwc 重新載入設定（<code>swaymsg reload</code>、<code>labwc --reconfigure</code>）都會把每個指標重新對應到它所指名的輸出，而 wlshare 的指標沒有指名任何輸出，於是它的位置被拉伸到整個版面配置上。wlshare 會從游標落下的位置察覺這件事並重新建立指標，因此一次重新載入只會讓察覺到它的那一兩次移動落在錯誤的位置；以軟體繪製游標的輸出不會回報游標的位置，指標會一直維持拉伸，直到下一次重新排列輸出為止，例如用戶端調整某個輸出的大小時。只有一個輸出的桌面不受影響。
           </p>
           <p>
             wlshare 本身是放在其<a href={RELEASES}>發行版清單</a>中的套件，不在套件庫裡，每個發行版各有一個：

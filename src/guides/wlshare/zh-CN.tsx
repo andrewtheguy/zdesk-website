@@ -67,14 +67,13 @@ const guide: GuideText = {
             <code>/usr/share/doc/wlshare/wlshare.example.toml</code> 检查你的配置。
           </p>
           <p>
-            Debian trixie 提供基于 wlroots 0.18 的 sway 1.10 和 labwc 0.8.3。wlshare 自己的签名 APT 仓库提供依据 Debian 的打包为 trixie 重新构建的 sway 1.11、labwc 0.9.7 和 wlroots 0.19，支持 amd64 和 arm64，各自的用途如下：
+            Debian trixie 提供基于 wlroots 0.18 的 sway 1.10 和 labwc 0.8.3。wlshare 自己的签名 APT 仓库提供依据 Debian 的打包为 trixie 原样重新构建的 sway 1.11、labwc 0.9.7 和 wlroots 0.19，支持 amd64 和 arm64，各自的用途如下：
           </p>
           <Table
             head={["软件包", "用途"]}
             rows={[
               [<>wlroots 0.19</>, "wlshare 缺少就无法启动的指针图像捕获（ext-image-copy-capture），以及在无头输出上让指针不进入画面，0.18 会把指针画进每一次捕获。wlshare 的软件包依赖它。"],
-              [<>wlroots 的补丁</>, "在有两个输出的 labwc 上：labwc 重新加载配置（labwc --reconfigure）之后，让客户端的指针仍落在它所指的位置。labwc 届时会把每个指针重新映射到它所指明的输出，而 wlshare 的指针没有指明任何输出，于是它的位置被拉伸到整个布局上，两个输出都受影响，直到下一次重新排列输出为止；wlshare 在任何 wlroots 上都会在布局每次变化时重新创建它的指针，但重新加载配置并不改变布局。只有一个输出的桌面以及 sway 都不需要这个补丁：原版的 wlroots 0.19 或更高版本就够了。"],
-              [<>sway 1.11、labwc 0.9.7</>, "基于 wlroots 0.19 构建的版本，原样重新构建：trixie 的 sway 1.10 和 labwc 0.8.3 链接的是 0.18，wlshare 在其上无法启动。"],
+              [<>sway 1.11、labwc 0.9.7</>, "基于 wlroots 0.19 构建的版本：trixie 的 sway 1.10 和 labwc 0.8.3 链接的是 0.18，wlshare 在其上无法启动。"],
             ]}
           />
           <p>它们的版本号排在 trixie 的版本之上，因此无需设置 pin：</p>
@@ -91,7 +90,10 @@ EOF
 sudo apt update && sudo apt install sway  # or labwc`}</code>
           </pre>
           <p>
-            Ubuntu 26.04（resolute）自带基于 wlroots 0.19.2 的 sway 1.11 和 labwc 0.9.3，wlshare 可以直接在其上运行，因此该仓库没有为它提供任何软件包：从 Ubuntu 安装 sway 或 labwc 即可。它的 wlroots 不带上面的补丁，因此在有两个输出的 labwc 上，重新加载配置之后，指针会被拉伸到整个布局上，直到下一次重新排列输出为止，例如客户端调整某个输出的大小时；sway 以及只有一个输出的 labwc 与在 trixie 上相同。
+            Ubuntu 26.04（resolute）自带基于 wlroots 0.19.2 的 sway 1.11 和 labwc 0.9.3，wlshare 可以直接在其上运行，因此该仓库没有为它提供任何软件包：从 Ubuntu 安装 sway 或 labwc 即可。
+          </p>
+          <p>
+            无论在 trixie 还是 Ubuntu 26.04 上，有两个输出时，sway 或 labwc 重新加载配置（<code>swaymsg reload</code>、<code>labwc --reconfigure</code>）都会把每个指针重新映射到它所指明的输出，而 wlshare 的指针没有指明任何输出，于是它的位置被拉伸到整个布局上。wlshare 会从光标落下的位置发现这一点并重新创建指针，因此一次重新加载只会让发现它的那一两次移动落错位置；用软件绘制光标的输出不报告光标的位置，指针会一直被拉伸，直到下一次重新排列输出为止，例如客户端调整某个输出的大小时。只有一个输出的桌面不受影响。
           </p>
           <p>
             wlshare 本身是其<a href={RELEASES}>发布页面</a>上的软件包，不在该仓库中，每个发行版各有一个：<code>trixie</code> 和 <code>resolute</code>，各自依赖自己发行版的库。把 <code>0.0.x</code> 换成实际版本；在 Ubuntu 26.04 上，把 <code>trixie</code> 换成 <code>resolute</code>；在 arm64 主机上，把 <code>amd64</code> 换成 <code>arm64</code>：
