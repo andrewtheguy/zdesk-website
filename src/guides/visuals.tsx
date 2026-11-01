@@ -224,6 +224,9 @@ const STILLS = {
   "wlshare-plain-vnc": [3456, 2234],
   "wlshare-lxqt": [3456, 2234],
   "wlshare-picker": [940, 820],
+  "wlshare-tigervnc": [3456, 2234],
+  "wlshare-tigervnc-fingerprint": [1280, 600],
+  "wlshare-tigervnc-login": [1280, 600],
 } as const;
 
 export type StillName = keyof typeof STILLS;

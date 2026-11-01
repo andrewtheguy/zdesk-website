@@ -538,8 +538,55 @@ password_ref = "wayland"
             }
           />
           <p>
-            任何其他列出 Cursor 伪编码并能绘制 Raw 矩形的 RFB 3.8 客户端都可以连接，按输出自身的像素显示，没有声音：例如支持 RSA-AES 的 TigerVNC。之所以需要 Cursor，是因为指针从不出现在帧缓冲区中。不列出 wlshare 扩展的客户端不会收到这些扩展。会话以哪些选项启动，见 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
+            会话以哪些选项启动，见 zDesk 指南中的 <a href={`${zdeskGuide}#wlshare`}>wlshare</a>。
           </p>
+          <h3 id="vnc-client">用 VNC 客户端连接</h3>
+          <p>
+            任何其他列出 Cursor 伪编码并能绘制 Raw 矩形的 RFB 3.8 客户端都可以连接，按输出自身的像素显示，没有声音。之所以需要 Cursor，是因为指针从不出现在帧缓冲区中；不列出 wlshare 扩展的客户端不会收到这些扩展。TigerVNC 的查看器（1.13 或更高版本）就是其中之一，因为它支持 RSA-AES。它的 <code>vncviewer</code> 在两个冒号之后写端口；只写一个冒号时，后面是从 5900 起算的显示编号：
+          </p>
+          <pre>
+            <code>{`sudo apt install tigervnc-viewer   # Debian, Ubuntu
+vncviewer 192.0.2.12::5900`}</code>
+          </pre>
+          <p>
+            在 <code>[pam]</code> 或 <code>[password]</code> 下，它会先显示服务器密钥的指纹，该指纹应与 wlshare 启动时记入日志的相同。随后，在 <code>[pam]</code> 下它询问账户的用户名和密码，在 <code>[password]</code> 下只询问密码。
+          </p>
+          <StillPair
+            items={[
+              {
+                name: "wlshare-tigervnc-fingerprint",
+                caption: <>TigerVNC 显示的指纹：即 wlshare 生成密钥时记入日志的那个。</>,
+              },
+              {
+                name: "wlshare-tigervnc-login",
+                caption: (
+                  <>
+                    <code>[pam]</code> 下询问账户的用户名和密码，此时连接已由 RSA-AES 加密。
+                  </>
+                ),
+              },
+            ]}
+          />
+          <p>
+            两个表都未设置时，TigerVNC 不询问任何内容就连接，且不加密，因此应通过 SSH 连接位于回环地址上的 <code>listen</code>。<code>-via</code> 会建立隧道并经由它连接，其后的主机名按隧道远端看到的来解析，所以 <code>localhost</code> 指的是桌面所在的机器：
+          </p>
+          <pre>
+            <code>{`vncviewer -via me@192.0.2.12 localhost::5900`}</code>
+          </pre>
+          <p>
+            只提供经典 VncAuth 的客户端找不到共同的安全类型，会在任何登录之前被拒绝：限定为 VncAuth 的 TigerVNC 会报告 <em>No matching security types</em>。
+          </p>
+          <p>
+            连接之后，TigerVNC 会请求与其窗口相同的尺寸，wlshare 将无头输出调整到该尺寸，缩放为 1。剪贴板双向互通。客户端只看到一个输出（见 <a href="#outputs">输出</a>），没有声音、摄像头和麦克风。和任何客户端一样，它在登录完成后就从当前持有者手中接管桌面。
+          </p>
+          <Still
+            name="wlshare-tigervnc"
+            caption={
+              <>
+                X 桌面上的 TigerVNC，以 <code>[pam]</code> 登录：sway 的无头输出已调整为查看器窗口的尺寸，1520×940、缩放为 1，wlshare 的日志中记有查看器显示的指纹。
+              </>
+            }
+          />
         </>
       ),
     },

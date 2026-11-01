@@ -630,12 +630,69 @@ password_ref = "wayland"
             }
           />
           <p>
-            Any other RFB 3.8 client that lists the Cursor pseudo-encoding and draws Raw rectangles can connect, at the
-            output's own pixels and without sound: TigerVNC, for one, which speaks RSA-AES. Cursor is
-            required because the pointer is never in the framebuffer. A client that does not list wlshare's
-            extensions is not sent them. See <a href={`${zdeskGuide}#wlshare`}>wlshare</a> in the zDesk guide for
-            what a session is started with.
+            See <a href={`${zdeskGuide}#wlshare`}>wlshare</a> in the zDesk guide for what a session is started with.
           </p>
+          <h3 id="vnc-client">Connecting with a VNC client</h3>
+          <p>
+            Any other RFB 3.8 client that lists the Cursor pseudo-encoding and draws Raw rectangles can connect, at the
+            output's own pixels and without sound. Cursor is required because the pointer is never in the framebuffer;
+            a client that does not list wlshare's extensions is not sent them. TigerVNC's viewer, 1.13 or later, is
+            one, since it speaks RSA-AES. Its <code>vncviewer</code> takes the port after two colons; after one, a
+            display number counted from 5900:
+          </p>
+          <pre>
+            <code>{`sudo apt install tigervnc-viewer   # Debian, Ubuntu
+vncviewer 192.0.2.12::5900`}</code>
+          </pre>
+          <p>
+            Under <code>[pam]</code> or <code>[password]</code> it first shows the server key's fingerprint, which
+            should be the one wlshare logged when it started. It then asks for the account's username and password
+            under <code>[pam]</code>, or for the password alone under <code>[password]</code>.
+          </p>
+          <StillPair
+            items={[
+              {
+                name: "wlshare-tigervnc-fingerprint",
+                caption: <>The fingerprint TigerVNC shows: the one wlshare logged when it made its key.</>,
+              },
+              {
+                name: "wlshare-tigervnc-login",
+                caption: (
+                  <>
+                    Under <code>[pam]</code>, the account's username and password, asked once RSA-AES has
+                    encrypted the connection.
+                  </>
+                ),
+              },
+            ]}
+          />
+          <p>
+            With neither table set, TigerVNC connects without asking anything, in the clear, so reach a{" "}
+            <code>listen</code> on loopback through SSH. <code>-via</code> opens the tunnel and connects through it, and
+            the host after it is named as the far end sees it, so <code>localhost</code> is the desktop's machine:
+          </p>
+          <pre>
+            <code>{`vncviewer -via me@192.0.2.12 localhost::5900`}</code>
+          </pre>
+          <p>
+            A client that offers only classic VncAuth finds no security type in common and is refused before any
+            login: TigerVNC held to it reports <em>No matching security types</em>.
+          </p>
+          <p>
+            Once in, TigerVNC asks for its window's size, and wlshare resizes a headless output to it at scale 1.
+            The clipboard goes both ways. The client sees one output (see <a href="#outputs">Outputs</a>), and has no
+            sound, camera or microphone. Like any client, it takes the desktop from whoever holds it once its login is
+            done.
+          </p>
+          <Still
+            name="wlshare-tigervnc"
+            caption={
+              <>
+                TigerVNC on an X desktop, logged in under <code>[pam]</code>: sway's headless output resized to the
+                viewer's window, 1520×940 at scale 1, and wlshare's log naming the fingerprint the viewer showed.
+              </>
+            }
+          />
         </>
       ),
     },
