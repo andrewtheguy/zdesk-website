@@ -148,6 +148,20 @@ export function Compare({
   );
 }
 
+// Short cards in a grid, each a title over a few lines.
+export function Cards({ items }: { items: { title: ReactNode; body: ReactNode }[] }) {
+  return (
+    <div className="cards">
+      {items.map((item, i) => (
+        <section key={i}>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </section>
+      ))}
+    </div>
+  );
+}
+
 // Keys and what each does.
 export function Keys({ rows, head }: { head: [ReactNode, ReactNode]; rows: [string[], ReactNode][] }) {
   return (
@@ -198,7 +212,7 @@ export function TwoDisplays({ first, second, drag }: { first: ReactNode; second:
   );
 }
 
-// A frame from one of the demo recordings, taken from the original at its full size. A frame
+// A frame from one of the demo recordings, or a capture of a session, at its full size. A frame
 // wider than 1600 pixels has a copy that wide beside it, `<name>-1600.webp`, for a 1x screen.
 const STILLS = {
   "ipad-soft-keyboard": [2266, 1488],
@@ -206,27 +220,53 @@ const STILLS = {
   "windows-retina": [3456, 2234],
   "wlshare-retina": [3456, 2234],
   "local-instance": [3456, 2234],
+  "wlshare-sway": [3456, 2234],
+  "wlshare-plain-vnc": [3456, 2234],
+  "wlshare-lxqt": [3456, 2234],
+  "wlshare-picker": [940, 820],
 } as const;
 
-export function Still({ name, caption }: { name: keyof typeof STILLS; caption: ReactNode }) {
+export type StillName = keyof typeof STILLS;
+
+function StillImage({ name, sizes }: { name: StillName; sizes: string }) {
   const [width, height] = STILLS[name];
   const src = `/images/${name}.webp`;
   return (
+    <img
+      src={src}
+      srcSet={width > 1600 ? `/images/${name}-1600.webp 1600w, ${src} ${width}w` : undefined}
+      sizes={width > 1600 ? sizes : undefined}
+      alt=""
+      width={width}
+      height={height}
+      loading="lazy"
+      decoding="async"
+      // Every frame is a 2x screen's, so it is shown no wider than half its pixels.
+      style={{ "--ratio": width / height, maxWidth: `min(100%, ${width / 2}px)` } as CSSProperties}
+    />
+  );
+}
+
+export function Still({ name, caption }: { name: StillName; caption: ReactNode }) {
+  return (
     <figure className="still">
-      <img
-        src={src}
-        srcSet={width > 1600 ? `/images/${name}-1600.webp 1600w, ${src} ${width}w` : undefined}
-        sizes={width > 1600 ? "(max-width: 60rem) 100vw, 50rem" : undefined}
-        alt=""
-        width={width}
-        height={height}
-        loading="lazy"
-        decoding="async"
-        // Every frame is a 2x screen's, so it is shown no wider than half its pixels.
-        style={{ "--ratio": width / height, maxWidth: `min(100%, ${width / 2}px)` } as CSSProperties}
-      />
+      <StillImage name={name} sizes="(max-width: 60rem) 100vw, 50rem" />
       <figcaption>{caption}</figcaption>
     </figure>
+  );
+}
+
+// Two frames side by side, each with its caption; one above the other on a narrow screen.
+export function StillPair({ items }: { items: [{ name: StillName; caption: ReactNode }, { name: StillName; caption: ReactNode }] }) {
+  return (
+    <div className="still-pair">
+      {items.map((item) => (
+        <figure className="still" key={item.name}>
+          <StillImage name={item.name} sizes="(max-width: 40rem) 100vw, 36rem" />
+          <figcaption>{item.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
   );
 }
 
@@ -235,6 +275,7 @@ export function Still({ name, caption }: { name: keyof typeof STILLS; caption: R
 // asks for reduced motion, who gets its controls instead.
 const CLIPS = {
   "mac-two-displays": [3840, 1080],
+  "wlshare-two-outputs": [3456, 1116],
 } as const;
 
 export function Clip({ name, caption }: { name: keyof typeof CLIPS; caption: ReactNode }) {
