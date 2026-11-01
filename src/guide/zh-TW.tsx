@@ -404,7 +404,8 @@ password_ref = "workstation"`}</code>
           <pre>
             <code>{`zdesk password master create -c zdesk.toml   # 一次：寫入主密碼檔案，輸出 [master]
 zdesk password master show -c zdesk.toml     # 之後每個設定：輸出該主密碼下的 [master]
-zdesk password encrypt -c zdesk.toml         # 輸出 [passwords] 的一個值`}</code>
+zdesk password encrypt -c zdesk.toml         # 輸出 [passwords] 的一個值
+zdesk password hash -c zdesk.toml            # 輸出網頁登入的 [server].site_passwd_hash`}</code>
           </pre>
           <pre>
             <code>{`[master]
@@ -428,14 +429,14 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             <code>[master]</code> 或主密碼。
           </p>
           <p>
-            獨立閘道的網頁登入也以同樣方式保存：<code>[server].site_username</code> 指定唯一的使用者，
-            <code>[server].site_passwd_enc</code> 保存其密碼，值為 <code>password encrypt</code> 輸出的內容，貼在那裡而不是{" "}
-            <code>[passwords]</code> 下。它用同一個 <code>[master]</code> 開啟，因此獨立閘道的設定一定需要主密碼。
+            獨立閘道的網頁登入也保存在同一個 <code>[master]</code> 之下，但因為閘道只需要驗證它，保存的是單向雜湊：
+            <code>[server].site_username</code> 指定唯一的使用者，<code>[server].site_passwd_hash</code> 保存{" "}
+            <code>password hash</code> 輸出的雜湊。沒有主密碼，持有設定的人也無法用它驗證猜測的密碼，因此獨立閘道的設定一定需要主密碼。
           </p>
           <h3>主密碼</h3>
           <p>
-            其他所有值都用 AES-256-GCM 加密，金鑰由你的<strong>主密碼</strong>和設定自己的 salt
-            衍生。獨立閘道從 <code>[server].master_password_file</code> 指定的檔案讀取主密碼：可以是容器的
+            <code>[passwords]</code> 中的每個值都用 AES-256-GCM 加密，網頁登入的雜湊則用 HMAC-SHA256，金鑰都由你的
+            <strong>主密碼</strong>和設定自己的 salt 衍生。獨立閘道從 <code>[server].master_password_file</code> 指定的檔案讀取主密碼：可以是容器的
             secret、systemd 的 credential，或只有閘道帳號能讀取的檔案。該檔案只包含主密碼；結尾的換行會被忽略。
             <code>password master create</code> 寫入該檔案，只有其使用者能讀取；檔案已存在時拒絕取代，除非指定{" "}
             <code>--force</code>，取代後用舊主密碼加密的每個值都無法再開啟；<code>password master show</code>{" "}

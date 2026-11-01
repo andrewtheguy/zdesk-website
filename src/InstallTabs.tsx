@@ -66,7 +66,7 @@ export default function InstallTabs({
               </pre>
               <p className="install-note">{serve.edit}</p>
               <pre>
-                <code>{"zdesk password master create\nzdesk password encrypt"}</code>
+                <code>{"zdesk password master create\nzdesk password hash\nzdesk password encrypt"}</code>
               </pre>
               <p className="install-note">{serve.secrets}</p>
               <pre>

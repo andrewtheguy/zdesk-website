@@ -421,7 +421,8 @@ password_ref = "workstation"`}</code>
           <pre>
             <code>{`zdesk password master create -c zdesk.toml   # once: writes the master password file, prints [master]
 zdesk password master show -c zdesk.toml     # each further config: prints [master] under it
-zdesk password encrypt -c zdesk.toml         # prints one value for [passwords]`}</code>
+zdesk password encrypt -c zdesk.toml         # prints one value for [passwords]
+zdesk password hash -c zdesk.toml            # prints the web login's [server].site_passwd_hash`}</code>
           </pre>
           <pre>
             <code>{`[master]
@@ -445,15 +446,16 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             config whose names are all placeholders needs no <code>[master]</code> or master password.
           </p>
           <p>
-            A served gateway's web login is kept the same way. <code>[server].site_username</code> names the one user,
-            and <code>[server].site_passwd_enc</code> holds its password as a value <code>password encrypt</code> prints,
-            pasted there rather than under <code>[passwords]</code>. It opens under the same <code>[master]</code>, so a
-            served config always needs its master password.
+            A served gateway's web login is kept under the same <code>[master]</code>, but as a one-way hash, since the
+            gateway only checks it. <code>[server].site_username</code> names the one user, and{" "}
+            <code>[server].site_passwd_hash</code> holds the hash <code>password hash</code> prints. Nobody holding the
+            config can test a guess against it without the master password, so a served config always needs its master
+            password.
           </p>
           <h3>The master password</h3>
           <p>
-            Every other value is AES-256-GCM under a key derived from your <strong>master password</strong> and the
-            config's own salt. A served gateway reads it from a file named by{" "}
+            Every <code>[passwords]</code> value is AES-256-GCM, and the web login's hash HMAC-SHA256, under a key
+            derived from your <strong>master password</strong> and the config's own salt. A served gateway reads it from a file named by{" "}
             <code>[server].master_password_file</code>: a container secret, a systemd credential, or a file only the
             gateway's account can read. The file holds the master password alone; a trailing newline is ignored.{" "}
             <code>password master create</code> writes it, readable by its user alone, and refuses to replace one that
