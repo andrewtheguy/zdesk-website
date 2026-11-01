@@ -12,9 +12,9 @@ const zdeskGuide = pagePath("en", "zdesk-guide");
 const guide: GuideText = {
   intro: (
     <>
-      Setting up <a href={pagePath("en", "wlshare")}>wlshare</a>, the VNC server zDesk reaches a Linux desktop
-      through, on a wlroots compositor such as sway or labwc: what it needs, who may connect, a desktop that is up
-      at boot with nobody logged in, and what it carries. Every setting is in the annotated{" "}
+      Setting up and using <a href={pagePath("en", "wlshare")}>wlshare</a>, the VNC server zDesk reaches a Linux
+      desktop through, on a wlroots compositor such as sway or labwc: what it needs, who may connect, connecting
+      through zDesk or another VNC client, a desktop that is up at boot with nobody logged in, and what it carries. Every setting is in the annotated{" "}
       <a href={wl("wlshare.example.toml")}>
         <code>wlshare.example.toml</code>
       </a>

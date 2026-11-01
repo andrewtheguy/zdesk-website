@@ -12,8 +12,8 @@ const zdeskGuide = pagePath("zh-TW", "zdesk-guide");
 const guide: GuideText = {
   intro: (
     <>
-      在 sway 或 labwc 等 wlroots 合成器上設定 <a href={pagePath("zh-TW", "wlshare")}>wlshare</a>，也就是 zDesk
-      用來連線 Linux 桌面的 VNC 伺服器：它需要什麼、誰可以連線、不需要任何人登入就在開機時啟動的桌面，以及它傳送的內容。所有設定項都在附註解的{" "}
+      在 sway 或 labwc 等 wlroots 合成器上設定和使用 <a href={pagePath("zh-TW", "wlshare")}>wlshare</a>，也就是 zDesk
+      用來連線 Linux 桌面的 VNC 伺服器：它需要什麼、誰可以連線、透過 zDesk 或其他 VNC 用戶端連線、不需要任何人登入就在開機時啟動的桌面，以及它傳送的內容。所有設定項都在附註解的{" "}
       <a href={wl("wlshare.example.toml")}>
         <code>wlshare.example.toml</code>
       </a>
