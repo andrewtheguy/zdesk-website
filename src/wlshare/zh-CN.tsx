@@ -21,7 +21,7 @@ const text: WlshareText = {
     <>
       wlshare 需要 wlroots 0.19 或更高版本，缺少它提供的指针图像捕获就无法启动。在 Debian trixie 上，wlroots 以及基于它构建的
       sway 或 labwc 来自它自己的 <a href="#install">APT 仓库</a>；其中的 wlroots 带有一个补丁，只用于共享两个输出（例如第二个浏览器标签页）时
-      labwc 重新加载配置的情况，不需要这一用法时，使用原版的 wlroots 0.19 或更高版本即可。
+      labwc 重新加载配置的情况，不需要这一用法时，使用原版的 wlroots 0.19 或更高版本即可，Ubuntu 26.04 自带的就是如此。
     </>
   ),
   heroCaption: "在 Chrome 中以 Mac 的 Retina 密度通过 wlshare 显示 Sway，正在播放一段视频。",
@@ -87,7 +87,7 @@ const text: WlshareText = {
       title: "任何 wlroots 合成器",
       body: (
         <>
-          sway、labwc 或其他提供 wlroots 协议的合成器，无头运行或接显示器均可。指针不在画面中，由客户端绘制；wlshare 的 APT 仓库为 Debian trixie 提供了 wlroots 0.19，它在无头输出上也让指针留在画面之外。
+          sway、labwc 或其他提供 wlroots 协议的合成器，无头运行或接显示器均可。指针不在画面中，由客户端绘制；wlshare 的 APT 仓库为 Debian trixie 提供了 wlroots 0.19，它在无头输出上也让指针留在画面之外，Ubuntu 26.04 则自带。
         </>
       ),
     },
@@ -208,6 +208,13 @@ EOF
 sudo apt update && sudo apt install sway
 curl -fsSLO ${WLSHARE}/releases/download/v0.0.x/wlshare-trixie-amd64.deb
 sudo apt install ./wlshare-trixie-amd64.deb
+systemctl --user enable --now wlshare.service`}</code>
+          </pre>
+          <p>在 Ubuntu 26.04（amd64 或 arm64）上：从 Ubuntu 本身安装 sway 或 labwc，再安装 wlshare 为它准备的软件包：</p>
+          <pre>
+            <code>{`sudo apt update && sudo apt install sway
+curl -fsSLO ${WLSHARE}/releases/download/v0.0.x/wlshare-resolute-amd64.deb
+sudo apt install ./wlshare-resolute-amd64.deb
 systemctl --user enable --now wlshare.service`}</code>
           </pre>
           <p>
