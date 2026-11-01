@@ -238,7 +238,7 @@ export const content: Record<Locale, Content> = {
         icon: "terminal",
         title: "Linux through wlshare",
         body: (
-          <><a href={en.wlshare}>wlshare</a> is our own VNC server for wlroots compositors, and it gives zDesk what plain VNC lacks: screen density, sound and a choice of outputs. Other RDP and VNC servers connect through each protocol's baseline.</>
+          <>Our own VNC server for wlroots compositors, <a href={en.wlshare}>wlshare</a>, gives zDesk what plain VNC lacks: screen density, sound and a choice of outputs. Other RDP and VNC servers connect through each protocol's baseline.</>
         ),
       },
       {
@@ -386,7 +386,7 @@ export const content: Record<Locale, Content> = {
       "mac-to-linux": {
         title: "Mac → Linux (wlshare on Sway) at Retina/HiDPI density with audio",
         caption:
-          "wlshare on Sway shown at the Mac's Retina/HiDPI density, with the remote's sound, and the remote desktop resizing to follow the browser into and out of immersive full screen.",
+          "Sway through wlshare, shown at the Mac's Retina/HiDPI density, with the remote's sound, and the remote desktop resizing to follow the browser into and out of immersive full screen.",
       },
     },
     guidesTitle: "Guides",

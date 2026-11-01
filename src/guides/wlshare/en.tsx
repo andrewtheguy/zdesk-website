@@ -28,7 +28,7 @@ const guide: GuideText = {
       body: (
         <>
           <p>
-            wlshare runs inside the Wayland session it shares, as the user who owns it, and speaks to the compositor
+            The wlshare daemon runs inside the Wayland session it shares, as the user who owns it, and speaks to the compositor
             through wlroots' public protocols. Any wlroots compositor that offers them is the same kind of peer:
           </p>
           <Table
@@ -75,14 +75,14 @@ const guide: GuideText = {
             <code>/usr/share/doc/wlshare/wlshare.example.toml</code> against your config when you upgrade.
           </p>
           <p>
-            Debian trixie ships sway 1.10 and labwc 0.8.3 on wlroots 0.18. wlshare's own signed APT repository has
+            Debian trixie ships sway 1.10 and labwc 0.8.3 on wlroots 0.18, and wlshare's own signed APT repository has
             sway 1.11, labwc 0.9.7 and wlroots 0.19 rebuilt for trixie from Debian's packaging, for amd64 and arm64,
             and this is what needs each:
           </p>
           <Table
             head={["Package", "What needs it"]}
             rows={[
-              [<>wlroots 0.19</>, "The cursor capture, ext-image-copy-capture, that wlshare does not start without, and the pointer kept out of a headless output's picture, which 0.18 paints into every capture. wlshare's package depends on it."],
+              [<>wlroots 0.19</>, "The cursor capture, ext-image-copy-capture, that wlshare does not start without, and the pointer kept out of a headless output's picture, which 0.18 paints into every capture. The wlshare package depends on it."],
               [<>wlroots' one patch</>, "On labwc with two outputs: the client's pointer where it is put on the second, shown in a browser tab of its own or chosen from the list, rather than off by that output's place in the layout. A desktop with one output, and sway, need no patch: a stock wlroots 0.19 or later is enough."],
               [<>sway 1.11, labwc 0.9.7</>, "The releases built against wlroots 0.19, rebuilt unchanged: trixie's sway 1.10 and labwc 0.8.3 link 0.18, which wlshare does not start on."],
             ]}
@@ -101,7 +101,7 @@ EOF
 sudo apt update && sudo apt install sway  # or labwc`}</code>
           </pre>
           <p>
-            wlshare itself is a package on its <a href={RELEASES}>releases</a>, not in the repository. Put the version
+            The wlshare package itself is on its <a href={RELEASES}>releases</a>, not in the repository. Put the version
             in place of <code>0.0.x</code>, and <code>arm64</code> for <code>amd64</code> on an arm64 host:
           </p>
           <pre>
@@ -374,8 +374,7 @@ systemctl --user enable --now sway-headless.service wlshare.service`}</code>
         <>
           <p>
             A desktop on a real monitor can be handed to a client as a headless output of its own size and density,
-            with the monitors dark while it is watched from elsewhere and back when it is left. wlshare says whether a
-            client is on the desktop on <code>state_socket</code>, and <code>wlshare watch</code> follows that from a
+            with the monitors dark while it is watched from elsewhere and back when it is left. The daemon says whether a client is on the desktop on <code>state_socket</code>, and <code>wlshare watch</code> follows that from a
             process of its own and runs a command for each:
           </p>
           <pre>
@@ -506,7 +505,7 @@ layout = "swayvnc"`}</code>
       body: (
         <>
           <p>
-            wlshare tells a client that asks the density the framebuffer is drawn at, which standard RFB cannot, and
+            To a client that asks, wlshare gives the density the framebuffer is drawn at, which standard RFB cannot, and
             takes the client's density as the output's scale: a 2x browser gets a scale 2 output shown sharp at its
             true size. A plain VNC client is sent the same pixels with no density, and shows them at 1x.
           </p>

@@ -860,7 +860,7 @@ password_ref = "wayland"`}</code>
             Setting up wlshare itself, from installing it to a headless desktop up at boot, is in the{" "}
             <a href={pagePath("en", "wlshare-guide")}>wlshare guide</a>.
           </p>
-          <Still name="wlshare-retina" caption={<>wlshare on Sway at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
+          <Still name="wlshare-retina" caption={<>Sway through wlshare at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
           <h3>The picture</h3>
           <p>
             The picker's Picture group has four, all passed through, so no label says so, and no key tunes any of them:
@@ -870,7 +870,7 @@ password_ref = "wayland"`}</code>
             items={[
               {
                 title: "Adaptive video",
-                sub: "The default. wlshare's H.264 of the whole desktop, 4:2:0, at the quality wlshare decides.",
+                sub: "The default. The whole desktop as wlshare's H.264, 4:2:0, at the quality wlshare decides.",
                 rows: [
                   ["On a slower link", "Fewer frames rather than coarser ones"],
                   ["Host's processor", "The lighter; the host's hardware encoder where it has one"],
@@ -937,8 +937,7 @@ password_ref = "wayland"`}</code>
           <p>
             The example uses the account wlshare runs as, checked through PAM over RSA-AES. If wlshare instead uses its{" "}
             <code>[password]</code> table, keep that password under <code>password_ref</code> and omit{" "}
-            <code>username</code>: RSA-AES then sends the password alone. wlshare does not offer classic VNC
-            authentication, so <code>vnc_password_ref</code> does not apply to it.
+            <code>username</code>: RSA-AES then sends the password alone. Since wlshare offers no classic VNC authentication, <code>vnc_password_ref</code> does not apply to it.
           </p>
           <p>
             The gateway and wlshare must speak the same version of wlshare's protocol; <code>wlshare --version</code>{" "}

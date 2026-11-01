@@ -8,20 +8,20 @@ const guide = pagePath("en", "wlshare-guide");
 const text: WlshareText = {
   title: "wlshare",
   description:
-    "wlshare is a VNC server for wlroots Wayland desktops such as sway and labwc, built for zDesk: the browser's pixel density, H.264 or lossless tiles, sound, the camera and microphone through PipeWire, and one or two outputs.",
+    "A VNC server for wlroots Wayland desktops such as sway and labwc, built for zDesk: wlshare carries the browser's pixel density, H.264 or lossless tiles, sound, the camera and microphone through PipeWire, and one or two outputs.",
   tagline: "A VNC server for wlroots desktops, built for zDesk.",
   intro: (
     <>
-      wlshare shares a sway, labwc or other wlroots desktop over RFB, and gives zDesk what plain VNC cannot carry:
+      It shares a sway, labwc or other wlroots desktop over RFB, and gives zDesk what plain VNC cannot carry:
       the browser's pixel density, a picture fitted to the link, the desktop's sound, the browser's camera and
       microphone, and a second output in a tab of its own. It is free and open source under the{" "}
       <a href={`${WLSHARE}/blob/main/LICENSE`}>MIT licence</a>.
     </>
   ),
-  rolling: "wlshare is on a rolling release: the latest release is the current one.",
+  rolling: "Like zDesk, wlshare is on a rolling release: the latest release is the current one.",
   packages: (
     <>
-      wlshare needs wlroots 0.19 or later, whose cursor capture it does not start without. On Debian trixie that
+      It needs wlroots 0.19 or later, whose cursor capture it does not start without. On Debian trixie that
       and the sway or labwc built on it come from its own <a href="#install">APT repository</a>, whose wlroots
       carries one patch, for labwc's second output, as in a second browser tab; where that is not needed, a stock
       wlroots 0.19 or later is enough.
@@ -130,8 +130,7 @@ const text: WlshareText = {
                 body: (
                   <>
                     sway or labwc as a systemd user service on wlroots' headless backend, started at boot under
-                    lingering with nobody logged in. wlshare starts with the session and sizes the headless output
-                    for each client. <a href={`${guide}#headless`}>How</a>
+                    lingering with nobody logged in. The session starts wlshare, which sizes the headless output for each client. <a href={`${guide}#headless`}>How</a>
                   </>
                 ),
               },
