@@ -161,6 +161,11 @@ h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 .75rem; letter-spacing: 
 .links .github { width: 1.1em; height: 1.1em; fill: currentColor; margin-right: .1rem; }
 .links a.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
 .rolling { color: var(--muted); font-size: .9rem; }
+.source-link { margin: 0 0 .75rem; font-size: .95rem; }
+.source-link a { display: inline-flex; align-items: center; gap: .4rem; color: var(--fg); text-decoration: none; }
+.source-link a:hover { color: var(--accent); text-decoration: underline; }
+.source-link .github { width: 1.1em; height: 1.1em; fill: currentColor; }
+.source-link .out { width: .85em; height: .85em; fill: none; stroke: var(--muted); stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
 /* The buttons stack once the text column cannot hold them in a row */
 @container (max-width: 32rem) {
   .links { flex-direction: column; }
