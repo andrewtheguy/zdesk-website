@@ -1063,7 +1063,14 @@ vnc_password_ref = "workstation-vnc"`}</code>
               [["a"], "啟動所有已停止的執行個體"],
               [["o"], "在瀏覽器中開啟執行中的執行個體"],
               [["Enter"], "顯示其設定"],
-              [["R"], "重新掃描執行個體目錄"],
+              [["R"], "重新掃描執行個體目錄，並重新載入 TUI 設定"],
+              [["d"], "在檔案管理員中開啟執行個體目錄"],
+              [
+                ["E"],
+                <>
+                  編輯 TUI 設定 <code>tui.toml</code>，儲存後即生效
+                </>,
+              ],
               [["P"], "為下一個瀏覽器顯示新的登入 PIN，並重新開始計時"],
               [["?"], "列出所有按鍵"],
               [["q", "Esc"], "停止所有執行個體並離開"],
@@ -1090,6 +1097,13 @@ vnc_password_ref = "workstation-vnc"`}</code>
             <code>[branding]</code> 和 <code>[[targets]]</code>，但沒有 <code>[server]</code> 區塊：TUI
             占用連接埠，並把每個子網域代理到該執行個體私有的 Unix 通訊端或具名管道。
           </p>
+          <p>
+            TUI 本身的設定存放在執行個體根目錄中的 <code>tui.toml</code>。其中的 <code>order</code>{" "}
+            依名稱列出執行個體：TUI 和首頁先依此順序顯示這些執行個體，其餘的依名稱排在後面。
+          </p>
+          <pre>
+            <code>order = ["work", "home"]</code>
+          </pre>
           <p>
             指明了加密密碼的設定需要主密碼才能啟動（請見<a href="#target-passwords">目標密碼</a>）。TUI
             從鑰匙圈中取得主密碼，第一次時在那裡產生，然後只把每個 worker

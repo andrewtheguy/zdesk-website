@@ -1120,7 +1120,14 @@ vnc_password_ref = "workstation-vnc"`}</code>
               [["a"], "start every stopped one"],
               [["o"], "open a running one in the browser"],
               [["Enter"], "show its settings"],
-              [["R"], "rescan the instances directory"],
+              [["R"], "rescan the instances directory and reload the TUI settings"],
+              [["d"], "open the instances directory in the file manager"],
+              [
+                ["E"],
+                <>
+                  edit the TUI settings, <code>tui.toml</code>, which apply when saved
+                </>,
+              ],
               [["P"], "show a new login PIN for the next browser, its time started again"],
               [["?"], "list every key"],
               [["q", "Esc"], "stop every instance and quit"],
@@ -1147,6 +1154,14 @@ vnc_password_ref = "workstation-vnc"`}</code>
             gateway's and no <code>[server]</code> block: the TUI owns the port and proxies each subdomain to that
             instance's private Unix socket or named pipe.
           </p>
+          <p>
+            The TUI's own settings are <code>tui.toml</code> in the instances root. Its <code>order</code> lists
+            instances by name: the TUI and the landing page show those first, in that order, and the rest by name after
+            them.
+          </p>
+          <pre>
+            <code>order = ["work", "home"]</code>
+          </pre>
           <p>
             A config that names encrypted passwords needs the master password to start (see{" "}
             <a href="#target-passwords">Target passwords</a>). The TUI takes it from the keychain, generating one there
