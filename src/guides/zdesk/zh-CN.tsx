@@ -871,7 +871,14 @@ vnc_password_ref = "workstation-vnc"`}</code>
               [["a"], "启动所有已停止的实例"],
               [["o"], "在浏览器中打开运行中的实例"],
               [["Enter"], "显示其设置"],
-              [["R"], "重新扫描实例目录"],
+              [["R"], "重新扫描实例目录，并重新加载 TUI 设置"],
+              [["d"], "在文件管理器中打开实例目录"],
+              [
+                ["E"],
+                <>
+                  编辑 TUI 设置 <code>tui.toml</code>，保存后即生效
+                </>,
+              ],
               [["P"], "为下一个浏览器显示新的登录 PIN，并重新开始计时"],
               [["?"], "列出所有按键"],
               [["q", "Esc"], "停止所有实例并退出"],
@@ -895,6 +902,13 @@ vnc_password_ref = "workstation-vnc"`}</code>
           <p>
             <code>--instances-dir</code> 可以指定其他目录。根目录只有你的账户能访问，因为配置中包含凭据。实例的配置与网关的配置有相同的 <code>[branding]</code> 和 <code>[[targets]]</code>，但没有 <code>[server]</code> 块：TUI 占用端口，并把每个子域名代理到该实例私有的 Unix 套接字或命名管道。
           </p>
+          <p>
+            TUI 自身的设置保存在实例根目录下的 <code>tui.toml</code> 中。其中的 <code>order</code>{" "}
+            按名称列出实例：TUI 和首页先按此顺序显示这些实例，其余实例按名称排在后面。
+          </p>
+          <pre>
+            <code>order = ["work", "home"]</code>
+          </pre>
           <p>
             引用了加密密码的配置需要主密码才能启动（见<a href="#target-passwords">目标密码</a>）。TUI 从钥匙串中获取主密码，首次时在那里生成，然后只把每个 worker 自己配置的密钥交给它。从另一个账户的钥匙串复制来的实例配置在本账户下打不开：删除其 <code>[master]</code> 和 <code>[passwords]</code>，再用 <kbd>p</kbd> 重新设置每个密码。
           </p>
