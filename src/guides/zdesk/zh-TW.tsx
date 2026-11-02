@@ -607,8 +607,9 @@ password_ref = "workstation"`}</code>
           <p>
             無損的代價很高，因為主機也會無損繪製移動中的內容：光是開啟時的桌面就約 7.6 MB，視窗中的影片約每秒 19
             MB，這還是主機自身壓縮之前的數字；該壓縮隨資料一起到達瀏覽器，可讓 planar
-            繪製減少約三分之一，捲動減少約一半。這適合區域網路。在這樣的主機上，自適應 H.264 不會改變任何東西：Lossless
-            下它不繪製 H.264。測量資料請見{" "}
+            繪製減少約三分之一，捲動減少約一半。這適合區域網路。這樣的主機在 Lossless 下不繪製 H.264，因此以{" "}
+            <em>H.264 full screen</em> 或 <em>H.264 region</em> 啟動的工作階段會在第一個畫格結束，並提示改以 High quality
+            啟動。測量資料請見{" "}
             <a href={repo("docs/rdp-client.md#lossless-by-the-hosts-policy")}>Lossless, by the host's policy</a>。
           </p>
           <p>
