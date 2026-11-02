@@ -330,8 +330,11 @@ const guide: GuideText = {
             items={[
               {
                 title: "High quality",
-                sub: "The default. The pipeline's codecs without H.264, composed by the page, fitted to the link by frame rate.",
-                rows: [["On a slow link", "Fewer frames, none of them coarser"]],
+                sub: "The default. The pipeline's codecs without H.264, composed by the page, adaptive by frame rate.",
+                rows: [
+                  ["On a slow link", "Fewer frames, none of them coarser"],
+                  ["Picture", "Exact where the host's policy is Lossless, and otherwise sharpened once still"],
+                ],
               },
               {
                 title: "H.264 full screen",
