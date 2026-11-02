@@ -497,7 +497,7 @@ password_ref = "workstation"`}</code>
             </li>
           </ol>
           <p>
-            无损的代价很高，因为主机也会无损绘制运动的内容：仅打开时的桌面就约 7.6 MB，窗口中的视频约每秒 19 MB，这还是主机自身压缩之前的数字；该压缩随数据一起到达浏览器，可让 planar 绘制减少约三分之一，滚动减少约一半。这适合局域网。在这样的主机上，自适应 H.264 不会改变任何东西：Lossless 下它不绘制 H.264。测量数据见{" "}
+            无损的代价很高，因为主机也会无损绘制运动的内容：仅打开时的桌面就约 7.6 MB，窗口中的视频约每秒 19 MB，这还是主机自身压缩之前的数字；该压缩随数据一起到达浏览器，可让 planar 绘制减少约三分之一，滚动减少约一半。这适合局域网。这样的主机在 Lossless 下不绘制 H.264，所以以 <em>H.264 full screen</em> 或 <em>H.264 region</em> 启动的会话会在其第一帧结束，并提示改用 High quality 启动。测量数据见{" "}
             <a href={repo("docs/rdp-client.md#lossless-by-the-hosts-policy")}>Lossless, by the host's policy</a>。
           </p>
           <p>

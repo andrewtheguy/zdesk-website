@@ -638,7 +638,8 @@ password_ref = "workstation"`}</code>
             Lossless is costly, because the host draws what moves losslessly too: the opening desktop alone is about 7.6
             MB, and a video in a window about 19 MB a second, before the host's own compression, which reaches the
             browser with them and takes about a third off planar drawing and half off scrolling. That suits a LAN.
-            Adaptive H.264 changes nothing on such a host: it draws no H.264 under Lossless. See{" "}
+            Such a host draws no H.264 under Lossless, so a session started with <em>H.264 full screen</em> or{" "}
+            <em>H.264 region</em> ends at its first frame and says to start it High quality. See{" "}
             <a href={repo("docs/rdp-client.md#lossless-by-the-hosts-policy")}>Lossless, by the host's policy</a> for
             what was measured.
           </p>
