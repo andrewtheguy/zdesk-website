@@ -1064,6 +1064,12 @@ vnc_password_ref = "workstation-vnc"`}</code>
               [["o"], "在瀏覽器中開啟執行中的執行個體"],
               [["Enter"], "顯示其設定"],
               [["R"], "重新掃描執行個體目錄，並重新載入 TUI 設定"],
+              [
+                ["K", "J"],
+                <>
+                  在清單中上移或下移該執行個體，順序存放在 <code>tui.toml</code> 中
+                </>,
+              ],
               [["d"], "在檔案管理員中開啟執行個體目錄"],
               [
                 ["E"],
@@ -1099,7 +1105,8 @@ vnc_password_ref = "workstation-vnc"`}</code>
           </p>
           <p>
             TUI 本身的設定存放在執行個體根目錄中的 <code>tui.toml</code>。其中的 <code>order</code>{" "}
-            依名稱列出執行個體：TUI 和首頁先依此順序顯示這些執行個體，其餘的依名稱排在後面。
+            依名稱列出執行個體：TUI 和首頁先依此順序顯示這些執行個體，其餘的依名稱排在後面。<kbd>K</kbd> 和{" "}
+            <kbd>J</kbd> 移動執行個體時會寫入它，因此很少需要手動編輯。
           </p>
           <pre>
             <code>order = ["work", "home"]</code>
