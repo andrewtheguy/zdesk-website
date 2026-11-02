@@ -344,7 +344,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "Demo",
     demoDescription:
-      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including Claude Code and Codex in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, a Mac to Windows and to Linux at Retina/HiDPI density with sound, and Linux to Windows and to a Mac.",
+      "zDesk sessions recorded from a browser: Windows to a Mac on one or two virtual displays, iOS to Windows, including AI coding agents in Visual Studio Code, and to a Mac, an iPad to Windows at Retina/HiDPI density, a Mac to Windows and to Linux at Retina/HiDPI density with sound, and Linux to Windows and to a Mac.",
     demoIntro: (
       <><a href={pagePath("en", "home")}>zDesk</a> puts your remote desktops in a browser tab: a lightweight gateway you run yourself, with no client to install. Below are zDesk sessions recorded from a browser, to Windows' own Remote Desktop, a Mac's Screen Sharing and wlshare on Linux. The wlshare recordings are zDesk sessions too, zDesk being the only client of wlshare's private extensions; wlshare itself has <a href={en.wlshare}>a page of its own</a>.</>
     ),
@@ -371,9 +371,9 @@ export const content: Record<Locale, Content> = {
           "Safari on iOS connected to a Mac's High Performance Screen Sharing, scrolling horizontally, with the network throughput meter shown.",
       },
       "ios-to-windows-vscode": {
-        title: "iOS → Windows with Claude Code and Codex in Visual Studio Code",
+        title: "iOS → Windows with AI coding agents in Visual Studio Code",
         caption:
-          "Safari on iOS connected to Windows' own Remote Desktop, typing on the soft keyboard into Claude Code and then Codex in Visual Studio Code's terminal.",
+          "Safari on iOS connected to Windows' own Remote Desktop, typing on the soft keyboard into the AI agents Claude Code and then Codex in Visual Studio Code's terminal.",
       },
       "ipad-to-windows": {
         title: "iPad → Windows at Retina/HiDPI density",
@@ -549,7 +549,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "演示",
     demoDescription:
-      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux，以及 Linux 连接 Windows 和 Mac。",
+      "从浏览器录制的 zDesk 会话：Windows 连接带一个或两个虚拟显示器的 Mac，iOS 连接 Windows（包括在 Visual Studio Code 中使用 AI 编程智能体）和 Mac，iPad 以 Retina/HiDPI 密度连接 Windows，Mac 以 Retina/HiDPI 密度带声音连接 Windows 和 Linux，以及 Linux 连接 Windows 和 Mac。",
     demoIntro: (
       <><a href={pagePath("zh-CN", "home")}>zDesk</a> 把你的远程桌面放进浏览器标签页：一个由你自行运行的轻量网关，无需安装客户端。以下是从浏览器录制的 zDesk 会话，连接 Windows 自带的远程桌面、Mac 的屏幕共享，以及 Linux 上的 wlshare。其中的 wlshare 录像同样是 zDesk 会话，因为 zDesk 是 wlshare 私有扩展的唯一客户端；wlshare 本身另有<a href={zhCN.wlshare}>专门的页面</a>。</>
     ),
@@ -573,8 +573,8 @@ export const content: Record<Locale, Content> = {
         caption: "iOS 上的 Safari 连接 Mac 的高性能模式屏幕共享，支持水平滚动，并显示网络吞吐量指示。",
       },
       "ios-to-windows-vscode": {
-        title: "iOS → Windows，在 Visual Studio Code 中使用 Claude Code 和 Codex",
-        caption: "iOS 上的 Safari 连接 Windows 自带的远程桌面，用软键盘在 Visual Studio Code 的终端中先后向 Claude Code 和 Codex 输入。",
+        title: "iOS → Windows，在 Visual Studio Code 中使用 AI 编程智能体",
+        caption: "iOS 上的 Safari 连接 Windows 自带的远程桌面，用软键盘在 Visual Studio Code 的终端中先后向 AI 智能体 Claude Code 和 Codex 输入。",
       },
       "ipad-to-windows": {
         title: "iPad → Windows，Retina/HiDPI 密度",
@@ -746,7 +746,7 @@ export const content: Record<Locale, Content> = {
     ),
     demoTitle: "示範",
     demoDescription:
-      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 Claude Code 和 Codex）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux，以及 Linux 連線到 Windows 和 Mac。",
+      "從瀏覽器錄製的 zDesk 工作階段：Windows 連線到有一個或兩個虛擬顯示器的 Mac，iOS 連線到 Windows（包括在 Visual Studio Code 中使用 AI 程式設計代理程式）和 Mac，iPad 以 Retina/HiDPI 密度連線到 Windows，Mac 以 Retina/HiDPI 密度帶聲音連線到 Windows 和 Linux，以及 Linux 連線到 Windows 和 Mac。",
     demoIntro: (
       <><a href={pagePath("zh-TW", "home")}>zDesk</a> 把你的遠端桌面放進瀏覽器分頁：一個由你自行執行的輕量閘道，不需要安裝用戶端。以下是從瀏覽器錄製的 zDesk 工作階段，連線到 Windows 內建的遠端桌面、Mac 的螢幕共享，以及 Linux 上的 wlshare。其中的 wlshare 錄影同樣是 zDesk 工作階段，因為 zDesk 是 wlshare 私有擴充的唯一用戶端；wlshare 本身另有<a href={zhTW.wlshare}>專屬頁面</a>。</>
     ),
@@ -770,8 +770,8 @@ export const content: Record<Locale, Content> = {
         caption: "iOS 上的 Safari 連線到 Mac 的高效能模式螢幕共享，支援水平捲動，並顯示網路傳輸量指示。",
       },
       "ios-to-windows-vscode": {
-        title: "iOS → Windows，在 Visual Studio Code 中使用 Claude Code 和 Codex",
-        caption: "iOS 上的 Safari 連線到 Windows 內建的遠端桌面，用螢幕鍵盤在 Visual Studio Code 的終端機中先後向 Claude Code 和 Codex 輸入。",
+        title: "iOS → Windows，在 Visual Studio Code 中使用 AI 程式設計代理程式",
+        caption: "iOS 上的 Safari 連線到 Windows 內建的遠端桌面，用螢幕鍵盤在 Visual Studio Code 的終端機中先後向 AI 代理程式 Claude Code 和 Codex 輸入。",
       },
       "ipad-to-windows": {
         title: "iPad → Windows，Retina/HiDPI 密度",
