@@ -532,9 +532,11 @@ password_ref = "workstation"`}</code>
             <li>
               The host draws through the graphics pipeline (MS-RDPEGFX), which every session passes to the browser to
               compose. That takes nearly all of the picture's work off the gateway. It needs WebGL 2 and a cross-origin
-              isolated page, which a proxy that drops the gateway's two isolation headers undoes; a browser without them
-              cannot start the target. How the host draws the pipeline, high quality or adaptive H.264 (alpha), is
-              chosen at the picker.
+              isolated page, which a proxy that drops the gateway's two isolation headers undoes. How the host draws the
+              pipeline, high quality or adaptive H.264 (alpha), is chosen at the picker. <em>H.264 full screen</em> is
+              played as video and composed by nothing, so it needs only a browser that decodes H.264: a browser that
+              cannot compose starts the target that way, with the other choices greyed, and one that can do neither
+              cannot start it.
             </li>
             <li>
               <code>egfx = false</code> makes the host draw with bitmap updates instead, which the gateway sends as
