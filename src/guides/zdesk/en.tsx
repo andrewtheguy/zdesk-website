@@ -333,7 +333,7 @@ const guide: GuideText = {
                 sub: "The default. The pipeline's codecs without H.264, composed by the page, adaptive by frame rate.",
                 rows: [
                   ["On a slow link", "Fewer frames, none of them coarser"],
-                  ["Picture", "Exact where the host's policy is Lossless, and otherwise sharpened once still"],
+                  ["Picture", "Exact where the host's policy is Lossless, and otherwise mostly at full quality at once, the rest sharpened within a moment of going still"],
                 ],
               },
               {
