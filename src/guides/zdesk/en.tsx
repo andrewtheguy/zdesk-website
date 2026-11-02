@@ -91,8 +91,8 @@ const guide: GuideText = {
           <p>
             The page asks the browser's decoder beforehand about the Mac's HEVC and the RDP host's H.264: the picker
             greys them, with the reason, where the decoder refuses them. It asks about wlshare's H.264 too, in both
-            profiles wlshare codes: where the decoder refuses either, a <code>wlshare</code> target's Adaptive video and
-            its tiles with motion are greyed, leaving its progressive tiles, which the page decodes itself. The Mac's
+            profiles wlshare codes: where the decoder refuses either, a <code>wlshare</code> target's <em>Video</em> and{" "}
+            <em>Settles to lossless</em> are greyed, leaving its tiles, which the page decodes itself. The Mac's
             H.264 is not asked about: it is offered to every browser with <code>VideoDecoder</code> and greyed without
             one, and a decoder that refuses it says so in the session, by its error. <code>AudioDecoder</code> plays
             Opus, a Mac's AAC-ELD and FLAC; a browser without it (Safari 16.4 to 18) plays no sound, and a later Safari,
@@ -108,7 +108,10 @@ const guide: GuideText = {
           <p>
             The desktop is shown at 100%, never scaled to fit: a larger desktop scrolls, and in a session started with
             resize the window drives the remote's size instead. A phone or tablet fits to width and pinch-zooms, with
-            fingers as a trackpad and a soft keyboard.
+            fingers as a trackpad and a soft keyboard. On a phone or tablet, start an RDP host with{" "}
+            <strong>Graphics</strong> on <em>H.264 full screen</em>, which takes the least memory (see{" "}
+            <a href="#graphics">Graphics</a>), and leave a <code>wlshare</code> target's picture on{" "}
+            <em>Adaptive</em>.
           </p>
           <Still
             name="ipad-soft-keyboard"
@@ -168,7 +171,7 @@ const guide: GuideText = {
                 <Mark value="yes">yes</Mark>,
                 "off, Opus or FLAC",
                 "the graphics pipeline, always passed",
-                "high quality or adaptive H.264",
+                "High quality, H.264 full screen (alpha) or H.264 region (alpha)",
               ],
               [
                 <>
@@ -186,7 +189,7 @@ const guide: GuideText = {
                 </>,
                 <Mark value="yes">yes</Mark>,
                 "off, Opus or FLAC",
-                "its H.264 video, its progressive tiles (alpha), or its tiles with motion, always passed",
+                "adaptive, its video or its tiles (alpha), or lossless, settling or fully (experimental), always passed",
                 <Mark value="none" />,
               ],
               [
@@ -254,7 +257,7 @@ const guide: GuideText = {
             <code>VideoDecoder</code> and needs no HEVC decoder in the page. On an <code>rdp</code> target with the
             pipeline on it is no choice: the picker says it is always passed, with no box to tick, and a browser that
             cannot compose the pipeline cannot start the target. A passed RDP pipeline follows the browser's link: the
-            Windows host draws fewer frames for a browser that falls behind, and under Adaptive coarser ones too. A
+            Windows host draws fewer frames for a browser that falls behind, and under either H.264 choice coarser ones too. A
             Mac's passed stream does not: the Mac sends at its own rate, little on a still screen and much with motion.
           </p>
           <p>
@@ -289,10 +292,12 @@ const guide: GuideText = {
           <p>Apple's Adaptive is greyed under Combined Display (below), which is the gateway's tiles too.</p>
           <p>
             On a <code>wlshare</code> target every picture is wlshare's own and passed through, which the labels leave
-            unsaid: the Picture group is <em>Adaptive video</em>, the default, wlshare's H.264 of the whole desktop,{" "}
-            <em>Progressive tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264,{" "}
-            <em>Tiles with motion (LAN)</em>, wlshare's own tiles, for a LAN, or <em>Lossless tiles (experimental)</em>,
-            every tile lossless as a Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
+            unsaid. The Picture group is chosen kind first, and then a picture under the kind: <em>Adaptive</em>, paced
+            to the link and never lossless, is <em>Video</em>, the default, wlshare's H.264 of the whole desktop, or{" "}
+            <em>Tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264;{" "}
+            <em>Lossless</em>, for a LAN and not recommended on a phone or tablet, is <em>Settles to lossless</em>,
+            wlshare's own tiles, lossless once still, or <em>Fully lossless (experimental)</em>, every tile lossless as a
+            Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
           </p>
 
           <Part id="displays" icon="displays">
@@ -316,28 +321,36 @@ const guide: GuideText = {
             Graphics
           </Part>
           <p>
-            How an RDP host draws its pipeline. Adaptive is greyed in a browser whose <code>VideoDecoder</code> cannot
-            decode the host's H.264. See <a href="#a-lossless-picture">A lossless picture</a> for having the host draw
+            How an RDP host draws its pipeline, one of three. The two in H.264 are greyed in a browser whose{" "}
+            <code>VideoDecoder</code> cannot decode the host's H.264. On a phone or tablet, choose{" "}
+            <em>H.264 full screen</em>. See <a href="#a-lossless-picture">A lossless picture</a> for having the host draw
             losslessly.
           </p>
           <Compare
             items={[
               {
                 title: "High quality",
-                sub: "The default. The pipeline's codecs without H.264, for a LAN.",
+                sub: "The default. The pipeline's codecs without H.264, composed by the page, fitted to the link by frame rate.",
                 rows: [["On a slow link", "Fewer frames, none of them coarser"]],
               },
               {
-                title: "Adaptive",
+                title: "H.264 full screen",
                 tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "H.264 the host fits to the browser's link.",
+                sub: "The whole desktop in H.264, rate-controlled to the browser's link, played as video by the browser's own decoder, with nothing composed in the page.",
                 rows: [
                   ["On a slow link", "Coarser on a slow link, finer on a fast one"],
-                  [
-                    "H.264 full screen",
-                    "The default: the whole desktop in H.264, decoded as video, which picks up again after the decoder fails",
-                  ],
-                  ["H.264 region", "Only what moves like video, the rest as High quality draws it: text stays sharp, but it adapts less"],
+                  ["Memory", "The least of the three: recommended on a phone or tablet"],
+                  ["Decoder failure", "Picks up again from the next keyframe"],
+                ],
+              },
+              {
+                title: "H.264 region",
+                tag: <Tag kind="alpha">alpha</Tag>,
+                sub: "H.264 where the desktop moves like video and the pipeline's other codecs elsewhere, composed by the page beside a video decoder.",
+                rows: [
+                  ["On a slow link", "The H.264 by its rate, the rest coarser first while the link is behind"],
+                  ["Text", "Stays sharp"],
+                  ["Memory", "The most of the three: not recommended on a phone or tablet"],
                 ],
               },
             ]}
@@ -533,10 +546,12 @@ password_ref = "workstation"`}</code>
               The host draws through the graphics pipeline (MS-RDPEGFX), which every session passes to the browser to
               compose. That takes nearly all of the picture's work off the gateway. It needs WebGL 2 and a cross-origin
               isolated page, which a proxy that drops the gateway's two isolation headers undoes. How the host draws the
-              pipeline, high quality or adaptive H.264 (alpha), is chosen at the picker. <em>H.264 full screen</em> is
-              played as video and composed by nothing, so it needs only a browser that decodes H.264: a browser that
-              cannot compose starts the target that way, with the other choices greyed, and one that can do neither
-              cannot start it.
+              pipeline, <em>High quality</em>, <em>H.264 full screen</em> (alpha) or <em>H.264 region</em> (alpha), is
+              chosen at the picker. <em>H.264 full screen</em> is played as video and composed by nothing, so it needs
+              only a browser that decodes H.264: a browser that cannot compose starts the target that way, with the other
+              choices greyed, and one that can do neither cannot start it. A page that fails to compose the pipeline, its
+              WebGL context lost among the causes, says so and points to <em>H.264 full screen</em>, which needs less
+              memory.
             </li>
             <li>
               <code>egfx = false</code> makes the host draw with bitmap updates instead, which the gateway sends as
@@ -871,14 +886,15 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>Sway through wlshare at a Mac's Retina density: <code>wlr-randr</code> reports its headless output at scale 2, resized from 3456×1802 to 3456×2168 as the browser went into immersive full screen.</>} />
           <h3>The picture</h3>
           <p>
-            The picker's Picture group has four, all passed through, so no label says so, and no key tunes any of them:
-            wlshare codes each one way.
+            The picker's Picture group has four, in two kinds: <em>Adaptive</em>, paced to the link and never lossless,
+            and <em>Lossless</em>, for a LAN and not recommended on a phone or tablet. All four are passed through, so no
+            label says so, and no key tunes any of them: wlshare codes each one way.
           </p>
           <Compare
             items={[
               {
-                title: "Adaptive video",
-                sub: "The default. The whole desktop as wlshare's H.264, 4:2:0, at the quality wlshare decides.",
+                title: "Video",
+                sub: "Adaptive, and the default. The whole desktop as wlshare's H.264, 4:2:0, at the quality wlshare decides.",
                 rows: [
                   ["On a slower link", "Fewer frames rather than coarser ones"],
                   ["Host's processor", "The lighter; the host's hardware encoder where it has one"],
@@ -887,9 +903,9 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Progressive tiles",
+                title: "Tiles",
                 tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "For a link that is not always wide: every tile RemoteFX Progressive, as a Windows host draws over RDP without H.264.",
+                sub: "Adaptive, for a link that is not always wide: every tile RemoteFX Progressive, as a Windows host draws over RDP without H.264.",
                 rows: [
                   ["On a slower link", "Coarser first passes and fewer frames"],
                   ["Host's processor", "More than the video, coded in software"],
@@ -898,9 +914,8 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Tiles with motion",
-                tag: <span className="tag">LAN</span>,
-                sub: "What is still as lossless PNG, and a video stream of its own for each region that moves.",
+                title: "Settles to lossless",
+                sub: "Lossless, for a LAN: what is still as lossless PNG, and a video stream of its own for each region that moves.",
                 rows: [
                   ["Link", "Room to spare: several times the video's bytes, tens of Mbit/s while something large moves"],
                   ["Moving regions", "H.264 from the host's hardware encoder or libx264"],
@@ -909,12 +924,12 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Lossless tiles",
+                title: "Fully lossless",
                 tag: <Tag kind="experimental">experimental</Tag>,
-                sub: "For a LAN: every tile lossless, still or moving, as a Windows host draws over RDP under its Lossless policy.",
+                sub: "Lossless, for a LAN: every tile lossless, still or moving, as a Windows host draws over RDP under its Lossless policy.",
                 rows: [
                   ["Link", "A LAN: a quarter of a PNG's bytes or less on a still desktop, hundreds of Mbit/s while a video plays"],
-                  ["Host's processor", "More than the tiles with motion while something moves, coded in software"],
+                  ["Host's processor", "More than Settles to lossless while something moves, coded in software"],
                   ["Text", "Lossless"],
                   ["Lossless", <Mark value="yes">always</Mark>],
                 ],
@@ -922,12 +937,13 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            Progressive tiles are coarse first and refined in place once still, what moves sent as the change from what
-            the page holds. The page decodes them itself, as it composes an RDP host's pipeline, so they need no video
-            decoder, and are greyed where the page cannot compose one. Tiles with motion send each region that moves
-            lossless again once it stops. Lossless tiles send every tile that changes losslessly, in RDP's planar codec, and a
-            slower link gets fewer of them, never coarser ones; the page decodes them as it does the progressive tiles,
-            and they are greyed where those are.
+            Adaptive's <em>Tiles</em> are RemoteFX Progressive: coarse first and refined in place once still, what moves
+            sent as the change from what the page holds. The page decodes them itself, as it composes an RDP host's
+            pipeline, so they need no video decoder, and are greyed where the page cannot compose one.{" "}
+            <em>Settles to lossless</em> sends each region that moves lossless again once it stops.{" "}
+            <em>Fully lossless</em> sends every tile that changes losslessly, in RDP's planar codec, and a slower link
+            gets fewer of them, never coarser ones; the page decodes them as it does Adaptive's tiles, and they are
+            greyed where those are.
           </p>
           <h3>
             Two outputs <Tag kind="beta">beta</Tag>

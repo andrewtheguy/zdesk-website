@@ -86,8 +86,8 @@ const guide: GuideText = {
           <p>
             頁面會事先詢問瀏覽器的解碼器能否解碼 Mac 的 HEVC 和 RDP 主機的
             H.264：解碼器拒絕時，選擇器會將其變灰並說明原因。它也會詢問 wlshare 的 H.264，涵蓋 wlshare
-            編碼的兩種設定檔（profile）：解碼器拒絕其中任何一種時，<code>wlshare</code> 目標的 Adaptive video
-            和帶移動視訊的圖塊會變灰，只剩下由頁面自行解碼的漸進式圖塊。Mac 的 H.264 不事先詢問：它提供給所有具備{" "}
+            編碼的兩種設定檔（profile）：解碼器拒絕其中任何一種時，<code>wlshare</code> 目標的 <em>Video</em> 和{" "}
+            <em>Settles to lossless</em> 會變灰，只剩下由頁面自行解碼的圖塊。Mac 的 H.264 不事先詢問：它提供給所有具備{" "}
             <code>VideoDecoder</code> 的瀏覽器，沒有時變灰；解碼器不接受它時，會在工作階段中以解碼器的錯誤說明。
             <code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；沒有它的瀏覽器（Safari 16.4 到
             18）不播放聲音，較新的 Safari 的 <code>AudioDecoder</code> 無法解碼 FLAC，但可以播放 Opus 和 Mac 的聲音。
@@ -101,7 +101,9 @@ const guide: GuideText = {
           </p>
           <p>
             桌面以 100%
-            顯示，從不縮放以符合視窗：較大的桌面會捲動；而在啟用調整尺寸的工作階段中，則由視窗決定遠端的尺寸。手機或平板會符合寬度並支援雙指縮放，手指作為觸控板，並提供螢幕鍵盤。
+            顯示，從不縮放以符合視窗：較大的桌面會捲動；而在啟用調整尺寸的工作階段中，則由視窗決定遠端的尺寸。手機或平板會符合寬度並支援雙指縮放，手指作為觸控板，並提供螢幕鍵盤。在手機或平板上啟動
+            RDP 主機時，請把 <strong>Graphics</strong> 設為 <em>H.264 full screen</em>，它占用的記憶體最少（請見
+            <a href="#graphics">圖形</a>），<code>wlshare</code> 目標的畫面則保持在 <em>Adaptive</em>。
           </p>
           <Still
             name="ipad-soft-keyboard"
@@ -162,7 +164,7 @@ const guide: GuideText = {
                 <Mark value="yes">是</Mark>,
                 "關閉、Opus 或 FLAC",
                 "圖形管線，一律直通",
-                "高品質或自適應 H.264",
+                "High quality、H.264 full screen（alpha）或 H.264 region（alpha）",
               ],
               [
                 <>
@@ -180,7 +182,7 @@ const guide: GuideText = {
                 </>,
                 <Mark value="yes">是</Mark>,
                 "關閉、Opus 或 FLAC",
-                "其 H.264 視訊、其漸進式圖塊（alpha）或其帶移動視訊的圖塊，一律直通",
+                "自適應：其視訊或其圖塊（alpha）；或無損：逐步無損或完全無損（實驗性），一律直通",
                 <Mark value="none" />,
               ],
               [
@@ -244,7 +246,7 @@ const guide: GuideText = {
             的畫面一律直通，可以選擇的是哪一路串流：其 HEVC，瀏覽器無法接收時會變灰；或其 H.264（beta），它提供給所有具備{" "}
             <code>VideoDecoder</code> 的瀏覽器，頁面中不需要 HEVC 解碼器。在啟用管線的 <code>rdp</code>{" "}
             目標上，這不是一個選項：選擇器會說明它一律直通，沒有可勾選的方塊，無法合成管線的瀏覽器不能啟動該目標。直通的 RDP
-            管線會跟隨瀏覽器的連線：瀏覽器跟不上時，Windows 主機會繪製較少的影格，在 Adaptive 下還會較粗糙。Mac
+            管線會跟隨瀏覽器的連線：瀏覽器跟不上時，Windows 主機會繪製較少的影格，選擇任一種 H.264 方式時還會較粗糙。Mac
             直通的串流則不會：Mac 依自己的速率傳送，靜止畫面時很少，有移動時很多。
           </p>
           <p>
@@ -279,11 +281,12 @@ const guide: GuideText = {
           <p>在 Combined Display（請見下文）下 Apple's Adaptive 會變灰，因為 Combined Display 同樣是閘道的圖塊。</p>
           <p>
             在 <code>wlshare</code> 目標上，每種畫面都是 wlshare
-            自己的，而且一律直通，因此標籤不再註明：Picture 群組為 <em>Adaptive video</em>（預設），即 wlshare
-            針對整個桌面編碼的 H.264；<em>Progressive tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有
-            H.264 時那樣繪製；<em>Tiles with motion (LAN)</em>，即 wlshare 自己的圖塊，適用於區域網路；或{" "}
-            <em>Lossless tiles (experimental)</em>，即像 Windows 主機在其 Lossless 原則下那樣，每個圖塊都無損：請見{" "}
-            <a href="#wlshare">wlshare</a>。
+            自己的，而且一律直通，因此標籤不再註明。Picture 群組先選類別，再選該類別下的畫面：<em>Adaptive</em>{" "}
+            依連線調整，永不無損，包括 <em>Video</em>（預設），即 wlshare 針對整個桌面編碼的 H.264，以及{" "}
+            <em>Tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有 H.264 時那樣繪製；<em>Lossless</em>{" "}
+            適用於區域網路，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
+            自己的圖塊，靜止後無損，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
+            原則下那樣，每個圖塊都無損：請見 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -306,24 +309,35 @@ const guide: GuideText = {
             圖形（Graphics）
           </Part>
           <p>
-            RDP 主機如何繪製其管線。在 <code>VideoDecoder</code> 無法解碼主機 H.264 的瀏覽器中，Adaptive
-            會變灰。要讓主機無損繪製，請見<a href="#a-lossless-picture">無損畫面</a>。
+            RDP 主機如何繪製其管線，三者擇一。在 <code>VideoDecoder</code> 無法解碼主機 H.264
+            的瀏覽器中，兩種 H.264 方式會變灰。在手機或平板上，請選擇 <em>H.264 full screen</em>。要讓主機無損繪製，請見
+            <a href="#a-lossless-picture">無損畫面</a>。
           </p>
           <Compare
             items={[
               {
                 title: "High quality",
-                sub: "預設。管線中除了 H.264 以外的編碼，適用於區域網路。",
+                sub: "預設。管線中除了 H.264 以外的編碼，由頁面合成，依影格速率配合連線。",
                 rows: [["在慢速連線上", "影格較少，但都不會較粗糙"]],
               },
               {
-                title: "Adaptive",
+                title: "H.264 full screen",
                 tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "主機依瀏覽器連線調整的 H.264。",
+                sub: "整個桌面使用 H.264，位元速率依瀏覽器的連線控制，由瀏覽器自己的解碼器以視訊播放，頁面中不合成任何內容。",
                 rows: [
                   ["在慢速連線上", "慢速連線較粗糙，快速連線較精細"],
-                  ["H.264 full screen", "預設：用 H.264 繪製整個桌面，以視訊解碼，解碼器出錯後會自行恢復"],
-                  ["H.264 region", "只有像影片那樣移動的部分用 H.264，其餘依 High quality 的方式繪製：文字保持清晰，但自適應較少"],
+                  ["記憶體", "三者中最少：建議在手機或平板上使用"],
+                  ["解碼器出錯", "從下一個關鍵影格自行恢復"],
+                ],
+              },
+              {
+                title: "H.264 region",
+                tag: <Tag kind="alpha">alpha</Tag>,
+                sub: "像影片那樣移動的部分用 H.264，其他部分用管線的其他編碼，由頁面在視訊解碼器之外一併合成。",
+                rows: [
+                  ["在慢速連線上", "H.264 依位元速率調整，其餘部分在連線跟不上時先以較粗糙的方式傳送"],
+                  ["文字", "保持清晰"],
+                  ["記憶體", "三者中最多：不建議在手機或平板上使用"],
                 ],
               },
             ]}
@@ -505,9 +519,11 @@ password_ref = "workstation"`}</code>
             <li>
               主機透過圖形管線（MS-RDPEGFX）繪製，每個工作階段都把它直通給瀏覽器合成。這幾乎把畫面的所有工作都從閘道上拿走了。它需要
               WebGL 2
-              和跨來源隔離（cross-origin isolated）的頁面；如果代理伺服器丟掉了閘道的兩個隔離回應標頭，就會破壞這一點。主機如何繪製管線，高品質或自適應
-              H.264（alpha），在選擇器中選擇。<em>H.264 full screen</em>{" "}
-              以視訊播放，不經過合成，因此只需要瀏覽器能解碼 H.264：無法合成的瀏覽器會以這種方式啟動該目標，其他選項會變成灰色；兩者都做不到的瀏覽器則無法啟動它。
+              和跨來源隔離（cross-origin isolated）的頁面；如果代理伺服器丟掉了閘道的兩個隔離回應標頭，就會破壞這一點。主機如何繪製管線，<em>High quality</em>、
+              <em>H.264 full screen</em>（alpha）或 <em>H.264 region</em>（alpha），在選擇器中選擇。
+              <em>H.264 full screen</em>{" "}
+              以視訊播放，不經過合成，因此只需要瀏覽器能解碼 H.264：無法合成的瀏覽器會以這種方式啟動該目標，其他選項會變成灰色；兩者都做不到的瀏覽器則無法啟動它。頁面無法合成管線時（WebGL
+              繪圖環境（context）遺失也是原因之一），會說明這一點，並建議改用占用記憶體較少的 <em>H.264 full screen</em>。
             </li>
             <li>
               <code>egfx = false</code>{" "}
@@ -816,14 +832,15 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度顯示：<code>wlr-randr</code> 回報其無頭輸出的縮放比例為 2，瀏覽器進入沉浸式全螢幕後，尺寸從 3456×1802 變為 3456×2168。</>} />
           <h3>畫面</h3>
           <p>
-            選擇器的 Picture 群組有四種，全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
+            選擇器的 Picture 群組有四種，分為兩類：<em>Adaptive</em> 依連線調整，永不無損；<em>Lossless</em>{" "}
+            適用於區域網路，不建議在手機或平板上使用。四種全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
             對每一種都只有一種編碼方式。
           </p>
           <Compare
             items={[
               {
-                title: "Adaptive video",
-                sub: "預設。wlshare 針對整個桌面編碼的 H.264，4:2:0，品質由 wlshare 決定。",
+                title: "Video",
+                sub: "屬於 Adaptive，預設。wlshare 針對整個桌面編碼的 H.264，4:2:0，品質由 wlshare 決定。",
                 rows: [
                   ["在較慢的連線上", "影格較少，而不是較粗糙"],
                   ["主機處理器", "負擔較輕；主機有硬體編碼器時由硬體編碼"],
@@ -832,9 +849,9 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Progressive tiles",
+                title: "Tiles",
                 tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "適用於頻寬並非一直充裕的連線：每個圖塊都是 RemoteFX Progressive，就像 Windows 主機在沒有 H.264 時透過 RDP 繪製的那樣。",
+                sub: "屬於 Adaptive，適用於頻寬並非一直充裕的連線：每個圖塊都是 RemoteFX Progressive，就像 Windows 主機在沒有 H.264 時透過 RDP 繪製的那樣。",
                 rows: [
                   ["在較慢的連線上", "首遍較粗糙，影格也較少"],
                   ["主機處理器", "比視訊多，以軟體編碼"],
@@ -843,9 +860,8 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Tiles with motion",
-                tag: <span className="tag">區域網路</span>,
-                sub: "靜止的部分為無損的 PNG，每個移動的區域有自己的一路視訊串流。",
+                title: "Settles to lossless",
+                sub: "屬於 Lossless，適用於區域網路：靜止的部分為無損的 PNG，每個移動的區域有自己的一路視訊串流。",
                 rows: [
                   ["連線", "需要充裕的頻寬：位元組數是視訊的數倍，大面積移動時達每秒數十 Mbit"],
                   ["移動的區域", "由主機硬體編碼器或 libx264 編碼的 H.264"],
@@ -854,12 +870,12 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Lossless tiles",
+                title: "Fully lossless",
                 tag: <Tag kind="experimental">實驗性</Tag>,
-                sub: "適用於區域網路：每個圖塊無論靜止或移動都無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
+                sub: "屬於 Lossless，適用於區域網路：每個圖塊無論靜止或移動都無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
                 rows: [
                   ["連線", "區域網路：靜止的桌面不超過 PNG 位元組數的四分之一，播放視訊時達每秒數百 Mbit"],
-                  ["主機處理器", "有內容移動時比帶移動視訊的圖塊負擔更多，以軟體編碼"],
+                  ["主機處理器", "有內容移動時比 Settles to lossless 負擔更多，以軟體編碼"],
                   ["文字", "無損"],
                   ["無損", <Mark value="yes">一律</Mark>],
                 ],
@@ -867,10 +883,11 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            漸進式圖塊先送粗略的一遍，靜止後就地細化，移動的部分以相對於頁面所持內容的變更傳送。頁面自己解碼它們，就像它合成
+            Adaptive 的 <em>Tiles</em> 是 RemoteFX Progressive：先送粗略的一遍，靜止後就地細化，移動的部分以相對於頁面所持內容的變更傳送。頁面自己解碼它們，就像它合成
             RDP
-            主機的管線那樣，因此不需要視訊解碼器；在頁面無法合成管線時會變灰。帶移動視訊的圖塊會在每個移動區域停下後，再以無損方式重送。無損圖塊把每個變更的圖塊以
-            RDP 的 planar 編解碼器無損傳送，在較慢的連線上傳送得較少，而不會較粗糙；頁面像解碼漸進式圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。
+            主機的管線那樣，因此不需要視訊解碼器；在頁面無法合成管線時會變灰。<em>Settles to lossless</em>{" "}
+            會在每個移動區域停下後，再以無損方式重送。<em>Fully lossless</em> 把每個變更的圖塊以
+            RDP 的 planar 編解碼器無損傳送，在較慢的連線上傳送得較少，而不會較粗糙；頁面像解碼 Adaptive 的圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。
           </p>
           <h3>
             兩個輸出 <Tag kind="beta">beta</Tag>
