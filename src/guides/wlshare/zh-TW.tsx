@@ -35,6 +35,7 @@ const guide: GuideText = {
             rows={[
               [<code>wlr-screencopy</code>, "畫面，版本 2 或更新；必要"],
               [<code>ext-image-copy-capture</code>, "指標的影像，與畫面分開擷取；必要"],
+              [<code>xdg-output</code>, "每個輸出在版面配置中的位置，指標依此定位；版本 3，必要"],
               [<code>wlr-output-management</code>, "為用戶端調整無頭輸出的大小和縮放比例"],
               [
                 <>
@@ -102,7 +103,7 @@ sudo apt update && sudo apt install sway  # or labwc`}</code>
             可以直接在其上執行，因此套件庫沒有為它提供任何套件：從 Ubuntu 安裝 sway 或 labwc 即可。
           </p>
           <p>
-            無論在 trixie 還是 Ubuntu 26.04 上，有兩個輸出時，sway 或 labwc 重新載入設定（<code>swaymsg reload</code>、<code>labwc --reconfigure</code>）都會把每個指標重新對應到它所指名的輸出，而 wlshare 的指標沒有指名任何輸出，於是它的位置被拉伸到整個版面配置上。wlshare 會從游標落下的位置察覺這件事並重新建立指標，因此一次重新載入只會讓察覺到它的那一兩次移動落在錯誤的位置；以軟體繪製游標的輸出不會回報游標的位置，指標會一直維持拉伸，直到下一次重新排列輸出為止，例如用戶端調整某個輸出的大小時。只有一個輸出的桌面不受影響。
+            wlshare 的指標不綁定任何輸出，而是對整個版面配置定位，因此 sway 或 labwc 重新載入設定（<code>swaymsg reload</code>、<code>labwc --reconfigure</code>）雖然會把每個指標重新對應到它所指名的輸出、解除以輸出建立的指標的綁定，對它卻沒有任何影響，在 trixie 和 Ubuntu 26.04 上都一樣。
           </p>
           <p>
             wlshare 本身是放在其<a href={RELEASES}>發行版清單</a>中的套件，不在套件庫裡，每個發行版各有一個：

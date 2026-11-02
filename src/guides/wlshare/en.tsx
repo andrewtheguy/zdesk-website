@@ -36,6 +36,7 @@ const guide: GuideText = {
             rows={[
               [<code>wlr-screencopy</code>, "the picture, version 2 or later; required"],
               [<code>ext-image-copy-capture</code>, "the pointer's image, captured apart from the picture; required"],
+              [<code>xdg-output</code>, "where each output lies in the layout, which the pointer is aimed by; version 3, required"],
               [<code>wlr-output-management</code>, "resizing and rescaling a headless output for the client"],
               [
                 <>
@@ -104,13 +105,10 @@ sudo apt update && sudo apt install sway  # or labwc`}</code>
             are, so the repository has nothing for it: install sway or labwc from Ubuntu.
           </p>
           <p>
-            On trixie and Ubuntu 26.04 alike, with two outputs, a reload of sway's or labwc's configuration (
-            <code>swaymsg reload</code>, <code>labwc --reconfigure</code>) maps every pointer back to the output it
-            names, which wlshare's has none of, and stretches its positions across the whole layout. wlshare finds that
-            from where the cursor lands and makes the pointer again, so a reload costs the motion or two that find it;
-            an output that draws its cursor in software reports nowhere for it to look, and keeps the pointer stretched
-            until the outputs are next laid out anew, as when a client resizes one. A desktop with one output is
-            unaffected.
+            wlshare's pointer is bound to no output and aimed over the whole layout, so a reload of sway's or labwc's
+            configuration (<code>swaymsg reload</code>, <code>labwc --reconfigure</code>), which maps every pointer back
+            to the output it names and so unbinds one made with an output, changes nothing for it, on trixie and Ubuntu
+            26.04 alike.
           </p>
           <p>
             The wlshare package itself is on its <a href={RELEASES}>releases</a>, not in the repository, one for each:{" "}
