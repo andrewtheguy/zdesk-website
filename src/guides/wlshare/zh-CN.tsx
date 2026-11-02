@@ -33,6 +33,7 @@ const guide: GuideText = {
             rows={[
               [<code>wlr-screencopy</code>, "画面，版本 2 或更高；必需"],
               [<code>ext-image-copy-capture</code>, "指针的图像，与画面分开捕获；必需"],
+              [<code>xdg-output</code>, "每个输出在布局中的位置，指针按此定位；版本 3，必需"],
               [<code>wlr-output-management</code>, "为客户端调整无头输出的尺寸和缩放"],
               [
                 <>
@@ -93,7 +94,7 @@ sudo apt update && sudo apt install sway  # or labwc`}</code>
             Ubuntu 26.04（resolute）自带基于 wlroots 0.19.2 的 sway 1.11 和 labwc 0.9.3，wlshare 可以直接在其上运行，因此该仓库没有为它提供任何软件包：从 Ubuntu 安装 sway 或 labwc 即可。
           </p>
           <p>
-            无论在 trixie 还是 Ubuntu 26.04 上，有两个输出时，sway 或 labwc 重新加载配置（<code>swaymsg reload</code>、<code>labwc --reconfigure</code>）都会把每个指针重新映射到它所指明的输出，而 wlshare 的指针没有指明任何输出，于是它的位置被拉伸到整个布局上。wlshare 会从光标落下的位置发现这一点并重新创建指针，因此一次重新加载只会让发现它的那一两次移动落错位置；用软件绘制光标的输出不报告光标的位置，指针会一直被拉伸，直到下一次重新排列输出为止，例如客户端调整某个输出的大小时。只有一个输出的桌面不受影响。
+            wlshare 的指针不绑定任何输出，而是对整个布局定位，因此 sway 或 labwc 重新加载配置（<code>swaymsg reload</code>、<code>labwc --reconfigure</code>）虽然会把每个指针重新映射到它所指明的输出、解除用输出创建的指针的绑定，对它却没有任何影响，在 trixie 和 Ubuntu 26.04 上都一样。
           </p>
           <p>
             wlshare 本身是其<a href={RELEASES}>发布页面</a>上的软件包，不在该仓库中，每个发行版各有一个：<code>trixie</code> 和 <code>resolute</code>，各自依赖自己发行版的库。把 <code>0.0.x</code> 换成实际版本；在 Ubuntu 26.04 上，把 <code>trixie</code> 换成 <code>resolute</code>；在 arm64 主机上，把 <code>amd64</code> 换成 <code>arm64</code>：
