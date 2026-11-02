@@ -333,7 +333,10 @@ const guide: GuideText = {
                 sub: "H.264 the host fits to the browser's link.",
                 rows: [
                   ["On a slow link", "Coarser on a slow link, finer on a fast one"],
-                  ["H.264 full screen", "The default: the whole desktop in H.264"],
+                  [
+                    "H.264 full screen",
+                    "The default: the whole desktop in H.264, decoded as video, which picks up again after the decoder fails",
+                  ],
                   ["H.264 region", "Only what moves like video, the rest as High quality draws it: text stays sharp, but it adapts less"],
                 ],
               },
@@ -353,7 +356,8 @@ const guide: GuideText = {
           <p>
             One gateway holds one session. A reload or a dropped connection normally resumes it; an RDP session with the
             graphics pipeline on or a Standard Mac's Adaptive session instead reconnects the engine, because the
-            browser's compositor or decoder state is gone. A different browser that finds the owner attached is asked
+            browser's compositor or decoder state is gone. An RDP session in <em>H.264 full screen</em> is a video stream
+            instead, and resumes from a keyframe. A different browser that finds the owner attached is asked
             whether to take over; one arriving during the owner's reattach grace may claim the slot directly. Either
             starts at the picker with its own choices. The remote keeps its own desktop, so starting the target again
             returns to the same windows.
@@ -579,7 +583,8 @@ password_ref = "workstation"`}</code>
             offers <strong>Take it back</strong>. That tab's menu <strong>Disconnect</strong>s it, and choosing one
             display alone closes it. Opened while it is not shown, it says it is not available. With the pipeline on,
             the browser holding the session composes both displays once and shows one; the second display's tab is
-            painted from that same picture, so nothing is decoded twice. Checked against one Windows 11 host, the
+            painted from that same picture, so nothing is decoded twice. Under <em>H.264 full screen</em> each display is
+            a video stream of its own, which its tab decodes. Checked against one Windows 11 host, the
             passthrough over two displays by a headless browser's sockets only, not yet by eye.
           </p>
           <p>
