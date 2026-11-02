@@ -75,7 +75,7 @@ const guide: GuideText = {
             ]}
           />
           <p>
-            页面会事先询问浏览器的解码器能否解码 Mac 的 HEVC 和 RDP 主机的 H.264：解码器拒绝时，选择器将其置灰并说明原因。它也会询问 wlshare 的 H.264，涵盖 wlshare 编码所用的两种 profile：解码器拒绝其中任何一种时，<code>wlshare</code> 目标的 Adaptive video 和带运动视频的图块会被置灰，仍可使用它的渐进式图块，由页面自己解码。Mac 的 H.264 不事先询问：它提供给所有具备 <code>VideoDecoder</code> 的浏览器，没有 <code>VideoDecoder</code> 时置灰，解码器不接受它时会在会话中通过解码器的错误说明。<code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；没有它的浏览器（Safari 16.4 到 18）不播放声音，而更新的 Safari 的 <code>AudioDecoder</code> 无法解码 FLAC，可以播放 Opus 和 Mac 的声音。
+            页面会事先询问浏览器的解码器能否解码 Mac 的 HEVC 和 RDP 主机的 H.264：解码器拒绝时，选择器将其置灰并说明原因。它也会询问 wlshare 的 H.264，涵盖 wlshare 编码所用的两种 profile：解码器拒绝其中任何一种时，<code>wlshare</code> 目标的 <em>Video</em> 和 <em>Settles to lossless</em> 会被置灰，仍可使用它的图块，由页面自己解码。Mac 的 H.264 不事先询问：它提供给所有具备 <code>VideoDecoder</code> 的浏览器，没有 <code>VideoDecoder</code> 时置灰，解码器不接受它时会在会话中通过解码器的错误说明。<code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；没有它的浏览器（Safari 16.4 到 18）不播放声音，而更新的 Safari 的 <code>AudioDecoder</code> 无法解码 FLAC，可以播放 Opus 和 Mac 的声音。
           </p>
 
           <h3>在桌面、手机或平板上</h3>
@@ -83,7 +83,7 @@ const guide: GuideText = {
             在桌面上使用时，请在 Chrome 或 Edge 中把页面安装为应用。应用窗口会把普通标签页自己保留的组合键（⌘W、⌘T、⌘N 等）交给页面。在标签页中，<strong>Menu → Immersive full screen</strong> 也能做到这一点，并且还能拿到窗口通常拿不到的按键，例如 Super 键和 Alt+Tab。
           </p>
           <p>
-            桌面按 100% 显示，从不缩放以适应窗口：较大的桌面会滚动；而在以跟随窗口方式启动的会话中，则由窗口决定远程的尺寸。手机或平板按宽度适配并支持双指缩放，手指作为触控板，并提供软键盘。
+            桌面按 100% 显示，从不缩放以适应窗口：较大的桌面会滚动；而在以跟随窗口方式启动的会话中，则由窗口决定远程的尺寸。手机或平板按宽度适配并支持双指缩放，手指作为触控板，并提供软键盘。在手机或平板上，启动 RDP 主机时请把 <strong>Graphics</strong> 设为 <em>H.264 full screen</em>，它占用的内存最少（见<a href="#graphics">图形</a>），<code>wlshare</code> 目标的画面则保持为 <em>Adaptive</em>。
           </p>
           <Still
             name="ipad-soft-keyboard"
@@ -135,7 +135,7 @@ const guide: GuideText = {
                 <Mark value="yes">是</Mark>,
                 "关、Opus 或 FLAC",
                 "图形管道，始终直通",
-                "高质量或自适应 H.264",
+                "High quality、H.264 full screen（alpha）或 H.264 region（alpha）",
               ],
               [
                 <>
@@ -153,7 +153,7 @@ const guide: GuideText = {
                 </>,
                 <Mark value="yes">是</Mark>,
                 "关、Opus 或 FLAC",
-                "其 H.264 视频、其渐进式图块（alpha）或其带运动视频的图块，始终直通",
+                "自适应：其视频或其图块（alpha）；或无损：逐渐无损或完全无损（实验性），始终直通",
                 <Mark value="none" />,
               ],
               [
@@ -206,7 +206,7 @@ const guide: GuideText = {
             直通（Passthrough）
           </Part>
           <p>
-            把远程自己的流原样发送给浏览器，而不是由网关编码成图块。高性能模式 Mac 的画面始终直通，可以选择的是哪一路流：其 HEVC，浏览器无法接收时置灰；或其 H.264（beta），它提供给所有具备 <code>VideoDecoder</code> 的浏览器，页面中不需要 HEVC 解码器。在启用管道的 <code>rdp</code> 目标上，这不是一个选项：选择器会说明它始终直通，没有可勾选的框，无法合成管道的浏览器不能启动该目标。直通的 RDP 管道会跟随浏览器的链路：浏览器跟不上时，Windows 主机会绘制更少的帧，在 Adaptive 下还会更粗糙。Mac 直通的流则不会：Mac 按自己的速率发送，画面静止时很少，运动时很多。
+            把远程自己的流原样发送给浏览器，而不是由网关编码成图块。高性能模式 Mac 的画面始终直通，可以选择的是哪一路流：其 HEVC，浏览器无法接收时置灰；或其 H.264（beta），它提供给所有具备 <code>VideoDecoder</code> 的浏览器，页面中不需要 HEVC 解码器。在启用管道的 <code>rdp</code> 目标上，这不是一个选项：选择器会说明它始终直通，没有可勾选的框，无法合成管道的浏览器不能启动该目标。直通的 RDP 管道会跟随浏览器的链路：浏览器跟不上时，Windows 主机会绘制更少的帧，选择任一种 H.264 方式时还会更粗糙。Mac 直通的流则不会：Mac 按自己的速率发送，画面静止时很少，运动时很多。
           </p>
           <p>
             在 <code>ard</code> 目标上，Picture 组为 <em>Apple's Adaptive (beta), passed through</em>（默认）或 <em>Gateway adaptive, settles to lossless</em>。
@@ -238,7 +238,7 @@ const guide: GuideText = {
           />
           <p>在 Combined Display（见下文）下 Apple's Adaptive 会被置灰，因为 Combined Display 同样是网关的图块。</p>
           <p>
-            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明：Picture 组为 <em>Adaptive video</em>（默认），即 wlshare 对整个桌面编码的 H.264；<em>Progressive tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Tiles with motion (LAN)</em>，即 wlshare 自己的图块，适用于局域网；或 <em>Lossless tiles (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
+            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Lossless</em> 适用于局域网，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -256,23 +256,36 @@ const guide: GuideText = {
             图形（Graphics）
           </Part>
           <p>
-            RDP 主机如何绘制其管道。在 <code>VideoDecoder</code> 无法解码主机 H.264 的浏览器中，Adaptive 会被置灰。要让主机无损绘制，见<a href="#a-lossless-picture">无损画面</a>。
+            RDP 主机如何绘制其管道，三选一。在 <code>VideoDecoder</code> 无法解码主机 H.264 的浏览器中，两种 H.264 方式会被置灰。在手机或平板上，请选择 <em>H.264 full screen</em>。要让主机无损绘制，见<a href="#a-lossless-picture">无损画面</a>。
           </p>
           <Compare
             items={[
               {
                 title: "High quality",
-                sub: "默认。管道中除 H.264 以外的编码，适用于局域网。",
-                rows: [["慢速链路上", "帧更少，但每一帧都不会更粗糙"]],
+                sub: "默认。管道中除 H.264 以外的编码，由页面合成，按帧率自适应。",
+                rows: [
+                  ["慢速链路上", "帧更少，但每一帧都不会更粗糙"],
+                  ["画面", "主机策略为 Lossless 时完全无损，否则在画面静止后变清晰"],
+                ],
               },
               {
-                title: "Adaptive",
+                title: "H.264 full screen",
                 tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "主机按浏览器链路调整的 H.264。",
+                sub: "整个桌面使用 H.264，码率按浏览器的链路控制，由浏览器自己的解码器作为视频播放，页面中不合成任何内容。",
                 rows: [
                   ["慢速链路上", "慢速链路上更粗糙，快速链路上更精细"],
-                  ["H.264 full screen", "默认：用 H.264 绘制整个桌面，作为视频解码，解码器出错后会自行恢复"],
-                  ["H.264 region", "只对像视频那样运动的部分使用 H.264，其余部分按 High quality 的方式绘制：文字保持清晰，但自适应较少"],
+                  ["内存", "三者中最少：推荐在手机或平板上使用"],
+                  ["解码器出错", "从下一个关键帧自行恢复"],
+                ],
+              },
+              {
+                title: "H.264 region",
+                tag: <Tag kind="alpha">alpha</Tag>,
+                sub: "像视频那样运动的部分使用 H.264，其他部分使用管道的其他编码，由页面在视频解码器之外一并合成。",
+                rows: [
+                  ["慢速链路上", "H.264 按码率调整，其余部分在链路跟不上时先发得更粗糙"],
+                  ["文字", "保持清晰"],
+                  ["内存", "三者中最多：不建议在手机或平板上使用"],
                 ],
               },
             ]}
@@ -427,7 +440,7 @@ password_ref = "workstation"`}</code>
           />
           <ul>
             <li>
-              主机通过图形管道（MS-RDPEGFX）绘制，每个会话都把它直通给浏览器合成。这几乎把画面的全部工作都从网关上拿走了。它需要 WebGL 2 和跨源隔离（cross-origin isolated）的页面，丢掉网关两个隔离响应头的代理会破坏这一点。主机如何绘制管道，高质量或自适应 H.264（alpha），在选择器中选择。<em>H.264 full screen</em> 作为视频播放，不经过合成，因此只需要浏览器能解码 H.264：无法合成的浏览器会以这种方式启动该目标，其他选项显示为灰色；两者都做不到的浏览器则不能启动它。
+              主机通过图形管道（MS-RDPEGFX）绘制，每个会话都把它直通给浏览器合成。这几乎把画面的全部工作都从网关上拿走了。它需要 WebGL 2 和跨源隔离（cross-origin isolated）的页面，丢掉网关两个隔离响应头的代理会破坏这一点。主机如何绘制管道，<em>High quality</em>、<em>H.264 full screen</em>（alpha）或 <em>H.264 region</em>（alpha），在选择器中选择。<em>H.264 full screen</em> 作为视频播放，不经过合成，因此只需要浏览器能解码 H.264：无法合成的浏览器会以这种方式启动该目标，其他选项显示为灰色；两者都做不到的浏览器则不能启动它。页面无法合成管道时（WebGL 上下文丢失也是原因之一），会说明这一点，并建议改用占用内存更少的 <em>H.264 full screen</em>。
             </li>
             <li>
               <code>egfx = false</code> 让主机改用位图更新绘制，由网关以图块发送：适用于无法合成管道的浏览器。这时桌面保持固定尺寸：没有管道时，Windows 通过重建共享来调整尺寸，而本网关不接受这种方式。
@@ -665,13 +678,13 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度显示：<code>wlr-randr</code> 报告其无头输出的缩放为 2，浏览器进入沉浸式全屏后，尺寸从 3456×1802 变为 3456×2168。</>} />
           <h3>画面</h3>
           <p>
-            选择器的 Picture 组有四种画面，都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
+            选择器的 Picture 组有四种画面，分为两类：<em>Adaptive</em> 按链路调整，从不无损；<em>Lossless</em> 适用于局域网，不建议在手机或平板上使用。四种都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
           </p>
           <Compare
             items={[
               {
-                title: "Adaptive video",
-                sub: "默认。wlshare 对整个桌面编码的 H.264，4:2:0，质量由 wlshare 决定。",
+                title: "Video",
+                sub: "属于 Adaptive，默认。wlshare 对整个桌面编码的 H.264，4:2:0，质量由 wlshare 决定。",
                 rows: [
                   ["较慢的链路上", "帧更少，而不是更粗糙"],
                   ["主机处理器", "占用较少；主机有硬件编码器时由硬件编码"],
@@ -680,9 +693,9 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Progressive tiles",
+                title: "Tiles",
                 tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "适用于带宽并非一直充裕的链路：每个图块都是 RemoteFX Progressive，就像 Windows 主机通过 RDP 在没有 H.264 时绘制的那样。",
+                sub: "属于 Adaptive，适用于带宽并非一直充裕的链路：每个图块都是 RemoteFX Progressive，就像 Windows 主机通过 RDP 在没有 H.264 时绘制的那样。",
                 rows: [
                   ["较慢的链路上", "首遍更粗糙，帧更少"],
                   ["主机处理器", "比视频占用更多，由软件编码"],
@@ -691,9 +704,8 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Tiles with motion",
-                tag: <span className="tag">局域网</span>,
-                sub: "静止的部分为无损的 PNG，每个运动区域有自己的一路视频流。",
+                title: "Settles to lossless",
+                sub: "属于 Lossless，适用于局域网：静止的部分为无损的 PNG，每个运动区域有自己的一路视频流。",
                 rows: [
                   ["链路", "需要充裕的带宽：视频数倍的字节数，大面积运动时达每秒数十 Mbit"],
                   ["运动区域", "主机硬件编码器或 libx264 编码的 H.264"],
@@ -702,12 +714,12 @@ password_ref = "wayland"`}</code>
                 ],
               },
               {
-                title: "Lossless tiles",
+                title: "Fully lossless",
                 tag: <Tag kind="experimental">实验性</Tag>,
-                sub: "适用于局域网：每个图块无论静止还是运动都无损，就像 Windows 主机在其 Lossless 策略下通过 RDP 绘制的那样。",
+                sub: "属于 Lossless，适用于局域网：每个图块无论静止还是运动都无损，就像 Windows 主机在其 Lossless 策略下通过 RDP 绘制的那样。",
                 rows: [
                   ["链路", "局域网：静止的桌面不超过 PNG 字节数的四分之一，播放视频时达每秒数百 Mbit"],
-                  ["主机处理器", "有内容运动时比带运动视频的图块占用更多，由软件编码"],
+                  ["主机处理器", "有内容运动时比 Settles to lossless 占用更多，由软件编码"],
                   ["文字", "无损"],
                   ["无损", <Mark value="yes">始终</Mark>],
                 ],
@@ -715,7 +727,7 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            渐进式图块先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。带运动视频的图块会在每个运动区域停下后再以无损重发。无损图块把每个变化的图块以 RDP 的 planar 编解码器无损发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码渐进式图块那样解码它们，并在那些图块置灰时同样置灰。
+            Adaptive 的 <em>Tiles</em> 是 RemoteFX Progressive：先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。<em>Settles to lossless</em> 会在每个运动区域停下后再以无损重发。<em>Fully lossless</em> 把每个变化的图块以 RDP 的 planar 编解码器无损发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码 Adaptive 的图块那样解码它们，并在那些图块置灰时同样置灰。
           </p>
           <h3>
             两个输出 <Tag kind="beta">beta</Tag>
