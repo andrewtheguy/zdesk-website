@@ -345,6 +345,9 @@ const guide: GuideText = {
             工作階段則會重新連線引擎，因為瀏覽器的合成器或解碼器狀態已經遺失。另一個瀏覽器若發現擁有者仍連線中，會被詢問是否接管；在擁有者重新連線的寬限期內到達的瀏覽器可以直接占用該位置。兩種情況都從選擇器開始，使用它自己的選項。遠端會保留自己的桌面，因此再次啟動該目標會回到相同的視窗。
           </p>
           <p>
+            瀏覽器可能收回頁面用來繪製遠端桌面的圖形資源：iOS Safari 會對位於背景或記憶體不足的分頁這麼做。此時頁面會顯示 <strong>Picture lost</strong> 並離開工作階段，直到你按下 <strong>Reconnect</strong>，它會像重新載入一樣重新連線。頁面不會自行重新連線，因此即使瀏覽器再次收回圖形資源，頁面也只會等待，而不會反覆重新連線。
+          </p>
+          <p>
             請見{" "}
             <a href={repo("docs/architecture.md#what-a-session-is-started-with")}>What a session is started with</a>
             。

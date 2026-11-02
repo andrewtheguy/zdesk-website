@@ -290,6 +290,9 @@ const guide: GuideText = {
             一个网关只持有一个会话。重新加载或连接断开通常会恢复会话；启用图形管道的 RDP 会话以及标准模式 Mac 的 Adaptive 会话则会重新连接引擎，因为浏览器的合成器或解码器状态已经丢失。另一个浏览器若发现所有者仍连接着，会被询问是否接管；在所有者重新连接的宽限期内到达的浏览器可以直接占用该槽位。两种情况都从选择器开始，使用它自己的选项。远程会保留自己的桌面，因此再次启动该目标会回到相同的窗口。
           </p>
           <p>
+            浏览器可能收回页面用来绘制远程桌面的图形资源：iOS Safari 会对处于后台或内存不足的标签页这样做。此时页面显示 <strong>Picture lost</strong> 并离开会话，直到你按下 <strong>Reconnect</strong>，它会像重新加载那样重新连接。页面不会自行重新连接，因此即使浏览器再次收回图形资源，页面也只会等待，而不会反复重新连接。
+          </p>
+          <p>
             见 <a href={repo("docs/architecture.md#what-a-session-is-started-with")}>What a session is started with</a>。
           </p>
         </>

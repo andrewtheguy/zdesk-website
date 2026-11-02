@@ -359,6 +359,13 @@ const guide: GuideText = {
             returns to the same windows.
           </p>
           <p>
+            The browser can take away the graphics a page draws the remote desktop with: iOS Safari does for a tab in
+            the background or short of memory. The page then says <strong>Picture lost</strong> and leaves the session
+            until you press <strong>Reconnect</strong>, which reconnects as a reload does. It does not reconnect by
+            itself, so a browser that takes the graphics away again leaves it waiting rather than reconnecting over and
+            over.
+          </p>
+          <p>
             See{" "}
             <a href={repo("docs/architecture.md#what-a-session-is-started-with")}>What a session is started with</a>.
           </p>
