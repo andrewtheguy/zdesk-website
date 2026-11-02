@@ -1121,6 +1121,12 @@ vnc_password_ref = "workstation-vnc"`}</code>
               [["o"], "open a running one in the browser"],
               [["Enter"], "show its settings"],
               [["R"], "rescan the instances directory and reload the TUI settings"],
+              [
+                ["K", "J"],
+                <>
+                  move it up or down the list, keeping the order in <code>tui.toml</code>
+                </>,
+              ],
               [["d"], "open the instances directory in the file manager"],
               [
                 ["E"],
@@ -1157,7 +1163,7 @@ vnc_password_ref = "workstation-vnc"`}</code>
           <p>
             The TUI's own settings are <code>tui.toml</code> in the instances root. Its <code>order</code> lists
             instances by name: the TUI and the landing page show those first, in that order, and the rest by name after
-            them.
+            them. <kbd>K</kbd> and <kbd>J</kbd> write it as they move an instance, so it rarely needs editing by hand.
           </p>
           <pre>
             <code>order = ["work", "home"]</code>

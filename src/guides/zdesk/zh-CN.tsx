@@ -872,6 +872,12 @@ vnc_password_ref = "workstation-vnc"`}</code>
               [["o"], "在浏览器中打开运行中的实例"],
               [["Enter"], "显示其设置"],
               [["R"], "重新扫描实例目录，并重新加载 TUI 设置"],
+              [
+                ["K", "J"],
+                <>
+                  在列表中上移或下移该实例，顺序保存在 <code>tui.toml</code> 中
+                </>,
+              ],
               [["d"], "在文件管理器中打开实例目录"],
               [
                 ["E"],
@@ -904,7 +910,8 @@ vnc_password_ref = "workstation-vnc"`}</code>
           </p>
           <p>
             TUI 自身的设置保存在实例根目录下的 <code>tui.toml</code> 中。其中的 <code>order</code>{" "}
-            按名称列出实例：TUI 和首页先按此顺序显示这些实例，其余实例按名称排在后面。
+            按名称列出实例：TUI 和首页先按此顺序显示这些实例，其余实例按名称排在后面。<kbd>K</kbd> 和{" "}
+            <kbd>J</kbd> 移动实例时会写入它，因此很少需要手动编辑。
           </p>
           <pre>
             <code>order = ["work", "home"]</code>
