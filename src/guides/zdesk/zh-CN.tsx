@@ -75,7 +75,7 @@ const guide: GuideText = {
             ]}
           />
           <p>
-            页面会事先询问浏览器的解码器能否解码 Mac 的 HEVC 和 RDP 主机的 H.264：解码器拒绝时，选择器将其置灰并说明原因。它也会询问 wlshare 的 H.264，涵盖 wlshare 编码所用的两种 profile：解码器拒绝其中任何一种时，<code>wlshare</code> 目标的 <em>Video</em> 和 <em>Settles to lossless</em> 会被置灰，仍可使用它的图块，由页面自己解码。Mac 的 H.264 不事先询问：它提供给所有具备 <code>VideoDecoder</code> 的浏览器，没有 <code>VideoDecoder</code> 时置灰，解码器不接受它时会在会话中通过解码器的错误说明。<code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；没有它的浏览器（Safari 16.4 到 18）不播放声音，而更新的 Safari 的 <code>AudioDecoder</code> 无法解码 FLAC，可以播放 Opus 和 Mac 的声音。
+            页面会事先询问浏览器的解码器能否解码 Mac 的 HEVC 和 RDP 主机的 H.264：解码器拒绝时，选择器将其置灰并说明原因。它也会询问 wlshare 的 H.264，即 wlshare 编码所用的 High profile：解码器拒绝它时，<code>wlshare</code> 目标的 <em>Video</em> 和 <em>Settles to lossless</em> 会被置灰，仍可使用它的图块，由页面自己解码。Mac 的 H.264 不事先询问：它提供给所有具备 <code>VideoDecoder</code> 的浏览器，没有 <code>VideoDecoder</code> 时置灰，解码器不接受它时会在会话中通过解码器的错误说明。<code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；没有它的浏览器（Safari 16.4 到 18）不播放声音，而更新的 Safari 的 <code>AudioDecoder</code> 无法解码 FLAC，可以播放 Opus 和 Mac 的声音。
           </p>
 
           <h3>在桌面、手机或平板上</h3>
