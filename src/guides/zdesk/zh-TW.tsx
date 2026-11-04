@@ -164,7 +164,7 @@ const guide: GuideText = {
                 <Mark value="yes">是</Mark>,
                 "關閉、Opus 或 FLAC",
                 "圖形管線，一律直通",
-                "High quality、H.264 full screen（alpha）或 H.264 region（alpha）",
+                "High quality、H.264 full screen（beta）或 H.264 region（alpha）",
               ],
               [
                 <>
@@ -325,7 +325,7 @@ const guide: GuideText = {
               },
               {
                 title: "H.264 full screen",
-                tag: <Tag kind="alpha">alpha</Tag>,
+                tag: <Tag kind="beta">beta</Tag>,
                 sub: "整個桌面使用 H.264，位元速率依瀏覽器的連線控制，由瀏覽器自己的解碼器以視訊播放，頁面中不合成任何內容。",
                 rows: [
                   ["在慢速連線上", "慢速連線較粗糙，快速連線較精細"],
@@ -523,7 +523,7 @@ password_ref = "workstation"`}</code>
               主機透過圖形管線（MS-RDPEGFX）繪製，每個工作階段都把它直通給瀏覽器合成。這幾乎把畫面的所有工作都從閘道上拿走了。它需要
               WebGL 2
               和跨來源隔離（cross-origin isolated）的頁面；如果代理伺服器丟掉了閘道的兩個隔離回應標頭，就會破壞這一點。主機如何繪製管線，<em>High quality</em>、
-              <em>H.264 full screen</em>（alpha）或 <em>H.264 region</em>（alpha），在選擇器中選擇。
+              <em>H.264 full screen</em>（beta）或 <em>H.264 region</em>（alpha），在選擇器中選擇。
               <em>H.264 full screen</em>{" "}
               以視訊播放，不經過合成，因此只需要瀏覽器能解碼 H.264：無法合成的瀏覽器會以這種方式啟動該目標，其他選項會變成灰色；兩者都做不到的瀏覽器則無法啟動它。頁面無法合成管線時（WebGL
               繪圖環境（context）遺失也是原因之一），會說明這一點，並建議改用占用記憶體較少的 <em>H.264 full screen</em>。

@@ -135,7 +135,7 @@ const guide: GuideText = {
                 <Mark value="yes">是</Mark>,
                 "关、Opus 或 FLAC",
                 "图形管道，始终直通",
-                "High quality、H.264 full screen（alpha）或 H.264 region（alpha）",
+                "High quality、H.264 full screen（beta）或 H.264 region（alpha）",
               ],
               [
                 <>
@@ -270,7 +270,7 @@ const guide: GuideText = {
               },
               {
                 title: "H.264 full screen",
-                tag: <Tag kind="alpha">alpha</Tag>,
+                tag: <Tag kind="beta">beta</Tag>,
                 sub: "整个桌面使用 H.264，码率按浏览器的链路控制，由浏览器自己的解码器作为视频播放，页面中不合成任何内容。",
                 rows: [
                   ["慢速链路上", "慢速链路上更粗糙，快速链路上更精细"],
@@ -440,7 +440,7 @@ password_ref = "workstation"`}</code>
           />
           <ul>
             <li>
-              主机通过图形管道（MS-RDPEGFX）绘制，每个会话都把它直通给浏览器合成。这几乎把画面的全部工作都从网关上拿走了。它需要 WebGL 2 和跨源隔离（cross-origin isolated）的页面，丢掉网关两个隔离响应头的代理会破坏这一点。主机如何绘制管道，<em>High quality</em>、<em>H.264 full screen</em>（alpha）或 <em>H.264 region</em>（alpha），在选择器中选择。<em>H.264 full screen</em> 作为视频播放，不经过合成，因此只需要浏览器能解码 H.264：无法合成的浏览器会以这种方式启动该目标，其他选项显示为灰色；两者都做不到的浏览器则不能启动它。页面无法合成管道时（WebGL 上下文丢失也是原因之一），会说明这一点，并建议改用占用内存更少的 <em>H.264 full screen</em>。
+              主机通过图形管道（MS-RDPEGFX）绘制，每个会话都把它直通给浏览器合成。这几乎把画面的全部工作都从网关上拿走了。它需要 WebGL 2 和跨源隔离（cross-origin isolated）的页面，丢掉网关两个隔离响应头的代理会破坏这一点。主机如何绘制管道，<em>High quality</em>、<em>H.264 full screen</em>（beta）或 <em>H.264 region</em>（alpha），在选择器中选择。<em>H.264 full screen</em> 作为视频播放，不经过合成，因此只需要浏览器能解码 H.264：无法合成的浏览器会以这种方式启动该目标，其他选项显示为灰色；两者都做不到的浏览器则不能启动它。页面无法合成管道时（WebGL 上下文丢失也是原因之一），会说明这一点，并建议改用占用内存更少的 <em>H.264 full screen</em>。
             </li>
             <li>
               <code>egfx = false</code> 让主机改用位图更新绘制，由网关以图块发送：适用于无法合成管道的浏览器。这时桌面保持固定尺寸：没有管道时，Windows 通过重建共享来调整尺寸，而本网关不接受这种方式。

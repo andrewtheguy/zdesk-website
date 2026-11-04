@@ -171,7 +171,7 @@ const guide: GuideText = {
                 <Mark value="yes">yes</Mark>,
                 "off, Opus or FLAC",
                 "the graphics pipeline, always passed",
-                "High quality, H.264 full screen (alpha) or H.264 region (alpha)",
+                "High quality, H.264 full screen (beta) or H.264 region (alpha)",
               ],
               [
                 <>
@@ -338,7 +338,7 @@ const guide: GuideText = {
               },
               {
                 title: "H.264 full screen",
-                tag: <Tag kind="alpha">alpha</Tag>,
+                tag: <Tag kind="beta">beta</Tag>,
                 sub: "The whole desktop in H.264, rate-controlled to the browser's link, played as video by the browser's own decoder, with nothing composed in the page.",
                 rows: [
                   ["On a slow link", "Coarser on a slow link, finer on a fast one"],
@@ -549,7 +549,7 @@ password_ref = "workstation"`}</code>
               The host draws through the graphics pipeline (MS-RDPEGFX), which every session passes to the browser to
               compose. That takes nearly all of the picture's work off the gateway. It needs WebGL 2 and a cross-origin
               isolated page, which a proxy that drops the gateway's two isolation headers undoes. How the host draws the
-              pipeline, <em>High quality</em>, <em>H.264 full screen</em> (alpha) or <em>H.264 region</em> (alpha), is
+              pipeline, <em>High quality</em>, <em>H.264 full screen</em> (beta) or <em>H.264 region</em> (alpha), is
               chosen at the picker. <em>H.264 full screen</em> is played as video and composed by nothing, so it needs
               only a browser that decodes H.264: a browser that cannot compose starts the target that way, with the other
               choices greyed, and one that can do neither cannot start it. A page that fails to compose the pipeline, its
