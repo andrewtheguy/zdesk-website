@@ -535,7 +535,7 @@ layout = "swayvnc"`}</code>
             <a href={`${zdeskGuide}#wlshare`}>zDesk 指南中的 wlshare</a>）：按链路调整的整个桌面的 H.264；RemoteFX Progressive 图块；每个运动区域各有一路视频流的无损 PNG 图块；或者无论静止还是运动都无损的 planar 图块。
           </p>
           <p>
-            H.264，无论是整个桌面的还是运动区域的，在 VA-API 找到硬件编码器时由主机的硬件编码器编码，否则由 libx264 以最快的预设编码；<code>hardware_h264 = false</code> 跳过硬件。启动时的探测会先尝试 Intel 的低功耗编码器，它把 GPU 的执行单元留给桌面，并把找到的结果写入日志：
+            H.264，无论是整个桌面的还是运动区域的，在 VA-API 找到硬件编码器时由主机的硬件编码器编码，否则由 libx264 编码；<code>hardware_h264 = false</code> 跳过硬件。启动时的探测会先尝试 Intel 的低功耗编码器，它把 GPU 的执行单元留给桌面，并把找到的结果写入日志：
           </p>
           <pre>
             <code>{`journalctl --user -b -u wlshare | grep h264

@@ -85,8 +85,8 @@ const guide: GuideText = {
           />
           <p>
             頁面會事先詢問瀏覽器的解碼器能否解碼 Mac 的 HEVC 和 RDP 主機的
-            H.264：解碼器拒絕時，選擇器會將其變灰並說明原因。它也會詢問 wlshare 的 H.264，涵蓋 wlshare
-            編碼的兩種設定檔（profile）：解碼器拒絕其中任何一種時，<code>wlshare</code> 目標的 <em>Video</em> 和{" "}
+            H.264：解碼器拒絕時，選擇器會將其變灰並說明原因。它也會詢問 wlshare 的 H.264，即 wlshare
+            編碼所用的 High 設定檔（profile）：解碼器拒絕它時，<code>wlshare</code> 目標的 <em>Video</em> 和{" "}
             <em>Settles to lossless</em> 會變灰，只剩下由頁面自行解碼的圖塊。Mac 的 H.264 不事先詢問：它提供給所有具備{" "}
             <code>VideoDecoder</code> 的瀏覽器，沒有時變灰；解碼器不接受它時，會在工作階段中以解碼器的錯誤說明。
             <code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；沒有它的瀏覽器（Safari 16.4 到

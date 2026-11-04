@@ -90,8 +90,8 @@ const guide: GuideText = {
           />
           <p>
             The page asks the browser's decoder beforehand about the Mac's HEVC and the RDP host's H.264: the picker
-            greys them, with the reason, where the decoder refuses them. It asks about wlshare's H.264 too, in both
-            profiles wlshare codes: where the decoder refuses either, a <code>wlshare</code> target's <em>Video</em> and{" "}
+            greys them, with the reason, where the decoder refuses them. It asks about wlshare's H.264 too, at the High
+            profile wlshare codes: where the decoder refuses it, a <code>wlshare</code> target's <em>Video</em> and{" "}
             <em>Settles to lossless</em> are greyed, leaving its tiles, which the page decodes itself. The Mac's
             H.264 is not asked about: it is offered to every browser with <code>VideoDecoder</code> and greyed without
             one, and a decoder that refuses it says so in the session, by its error. <code>AudioDecoder</code> plays

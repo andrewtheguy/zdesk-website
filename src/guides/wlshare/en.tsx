@@ -621,7 +621,7 @@ layout = "swayvnc"`}</code>
           </p>
           <p>
             The H.264, of the whole desktop or of a moving region, is the host's hardware encoder where VA-API finds
-            one, and libx264 at its fastest preset otherwise; <code>hardware_h264 = false</code> skips the hardware.
+            one, and libx264 otherwise; <code>hardware_h264 = false</code> skips the hardware.
             The startup probe tries Intel's low-power encoder first, which leaves the GPU's execution units to the
             desktop, and logs what it found:
           </p>
