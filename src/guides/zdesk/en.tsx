@@ -295,7 +295,7 @@ const guide: GuideText = {
             unsaid. The Picture group is chosen kind first, and then a picture under the kind: <em>Adaptive</em>, paced
             to the link and never lossless, is <em>Video</em>, the default, wlshare's H.264 of the whole desktop, or{" "}
             <em>Tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264;{" "}
-            <em>Lossless</em>, for a LAN and not recommended on a phone or tablet, is <em>Settles to lossless</em>,
+            <em>Lossless (requires high bandwidth)</em>, best on a wired connection and not recommended on a phone or tablet, is <em>Settles to lossless</em>,
             wlshare's own tiles, lossless once still, or <em>Fully lossless (experimental)</em>, every tile lossless as a
             Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
           </p>
@@ -890,7 +890,7 @@ password_ref = "wayland"`}</code>
           <h3>The picture</h3>
           <p>
             The picker's Picture group has four, in two kinds: <em>Adaptive</em>, paced to the link and never lossless,
-            and <em>Lossless</em>, for a LAN and not recommended on a phone or tablet. All four are passed through, so no
+            and <em>Lossless (requires high bandwidth)</em>, best on a wired connection and not recommended on a phone or tablet. All four are passed through, so no
             label says so, and no key tunes any of them: wlshare codes each one way.
           </p>
           <Compare
@@ -918,7 +918,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "Lossless, for a LAN: what is still as lossless PNG, and a video stream of its own for each region that moves.",
+                sub: "Lossless, best on a wired connection: what is still as lossless PNG, and a video stream of its own for each region that moves.",
                 rows: [
                   ["Link", "Room to spare: several times the video's bytes, tens of Mbit/s while something large moves"],
                   ["Moving regions", "H.264 from the host's hardware encoder or libx264"],
@@ -929,7 +929,7 @@ password_ref = "wayland"`}</code>
               {
                 title: "Fully lossless",
                 tag: <Tag kind="experimental">experimental</Tag>,
-                sub: "Lossless, for a LAN: every tile lossless, still or moving, as a Windows host draws over RDP under its Lossless policy.",
+                sub: "Lossless, best on a wired connection: every tile lossless, still or moving, as a Windows host draws over RDP under its Lossless policy.",
                 rows: [
                   ["Link", "A LAN: a quarter of a PNG's bytes or less on a still desktop, hundreds of Mbit/s while a video plays"],
                   ["Host's processor", "More than Settles to lossless while something moves, coded in software"],

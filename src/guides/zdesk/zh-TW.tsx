@@ -283,8 +283,8 @@ const guide: GuideText = {
             在 <code>wlshare</code> 目標上，每種畫面都是 wlshare
             自己的，而且一律直通，因此標籤不再註明。Picture 群組先選類別，再選該類別下的畫面：<em>Adaptive</em>{" "}
             依連線調整，永不無損，包括 <em>Video</em>（預設），即 wlshare 針對整個桌面編碼的 H.264，以及{" "}
-            <em>Tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有 H.264 時那樣繪製；<em>Lossless</em>{" "}
-            適用於區域網路，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
+            <em>Tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有 H.264 時那樣繪製；<em>Lossless (requires high bandwidth)</em>{" "}
+            需要高頻寬，建議使用有線連線，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
             自己的圖塊，靜止後無損，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
             原則下那樣，每個圖塊都無損：請見 <a href="#wlshare">wlshare</a>。
           </p>
@@ -835,8 +835,8 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度顯示：<code>wlr-randr</code> 回報其無頭輸出的縮放比例為 2，瀏覽器進入沉浸式全螢幕後，尺寸從 3456×1802 變為 3456×2168。</>} />
           <h3>畫面</h3>
           <p>
-            選擇器的 Picture 群組有四種，分為兩類：<em>Adaptive</em> 依連線調整，永不無損；<em>Lossless</em>{" "}
-            適用於區域網路，不建議在手機或平板上使用。四種全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
+            選擇器的 Picture 群組有四種，分為兩類：<em>Adaptive</em> 依連線調整，永不無損；<em>Lossless (requires high bandwidth)</em>{" "}
+            需要高頻寬，建議使用有線連線，不建議在手機或平板上使用。四種全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
             對每一種都只有一種編碼方式。
           </p>
           <Compare
@@ -864,7 +864,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "屬於 Lossless，適用於區域網路：靜止的部分為無損的 PNG，每個移動的區域有自己的一路視訊串流。",
+                sub: "屬於 Lossless，建議使用有線連線：靜止的部分為無損的 PNG，每個移動的區域有自己的一路視訊串流。",
                 rows: [
                   ["連線", "需要充裕的頻寬：位元組數是視訊的數倍，大面積移動時達每秒數十 Mbit"],
                   ["移動的區域", "由主機硬體編碼器或 libx264 編碼的 H.264"],
@@ -875,7 +875,7 @@ password_ref = "wayland"`}</code>
               {
                 title: "Fully lossless",
                 tag: <Tag kind="experimental">實驗性</Tag>,
-                sub: "屬於 Lossless，適用於區域網路：每個圖塊無論靜止或移動都無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
+                sub: "屬於 Lossless，建議使用有線連線：每個圖塊無論靜止或移動都無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
                 rows: [
                   ["連線", "區域網路：靜止的桌面不超過 PNG 位元組數的四分之一，播放視訊時達每秒數百 Mbit"],
                   ["主機處理器", "有內容移動時比 Settles to lossless 負擔更多，以軟體編碼"],
