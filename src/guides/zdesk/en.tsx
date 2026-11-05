@@ -931,7 +931,7 @@ password_ref = "wayland"`}</code>
                 tag: <Tag kind="experimental">experimental</Tag>,
                 sub: "Lossless, best on a wired connection: every tile lossless, still or moving, as a Windows host draws over RDP under its Lossless policy.",
                 rows: [
-                  ["Link", "A LAN: a quarter of a PNG's bytes or less on a still desktop, hundreds of Mbit/s while a video plays"],
+                  ["Link", "A LAN: about a ninth of a PNG's bytes or less on a still desktop, hundreds of Mbit/s while a video plays"],
                   ["Host's processor", "More than Settles to lossless while something moves, coded in software"],
                   ["Text", "Lossless"],
                   ["Lossless", <Mark value="yes">always</Mark>],

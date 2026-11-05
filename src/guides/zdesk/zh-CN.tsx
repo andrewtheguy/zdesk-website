@@ -718,7 +718,7 @@ password_ref = "wayland"`}</code>
                 tag: <Tag kind="experimental">实验性</Tag>,
                 sub: "属于 Lossless，建议使用有线连接：每个图块无论静止还是运动都无损，就像 Windows 主机在其 Lossless 策略下通过 RDP 绘制的那样。",
                 rows: [
-                  ["链路", "局域网：静止的桌面不超过 PNG 字节数的四分之一，播放视频时达每秒数百 Mbit"],
+                  ["链路", "局域网：静止的桌面约为 PNG 字节数的九分之一或更少，播放视频时达每秒数百 Mbit"],
                   ["主机处理器", "有内容运动时比 Settles to lossless 占用更多，由软件编码"],
                   ["文字", "无损"],
                   ["无损", <Mark value="yes">始终</Mark>],

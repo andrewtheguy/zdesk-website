@@ -877,7 +877,7 @@ password_ref = "wayland"`}</code>
                 tag: <Tag kind="experimental">實驗性</Tag>,
                 sub: "屬於 Lossless，建議使用有線連線：每個圖塊無論靜止或移動都無損，就像 Windows 主機在其 Lossless 原則下透過 RDP 繪製的那樣。",
                 rows: [
-                  ["連線", "區域網路：靜止的桌面不超過 PNG 位元組數的四分之一，播放視訊時達每秒數百 Mbit"],
+                  ["連線", "區域網路：靜止的桌面約為 PNG 位元組數的九分之一或更少，播放視訊時達每秒數百 Mbit"],
                   ["主機處理器", "有內容移動時比 Settles to lossless 負擔更多，以軟體編碼"],
                   ["文字", "無損"],
                   ["無損", <Mark value="yes">一律</Mark>],
