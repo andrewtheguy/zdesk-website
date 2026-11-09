@@ -53,6 +53,10 @@ const guide: GuideText = {
             first whose headless backend keeps the cursor on a plane of its own; 0.18 paints it into the capture. The
             sound, the camera and the microphone go through PipeWire, which the package depends on.
           </p>
+          <p>
+            wlshare does the most with sway, because every command sway takes can also be sent while it runs, over its IPC: a client's second virtual display, which the mainstream Wayland protocols give no easy way to, comes from sway with nothing more to install. What wlshare uses sway for, with examples:{" "}
+            <a href={wl("docs/sway.md")}>Sway</a>.
+          </p>
           <Still
             name="wlshare-sway"
             caption={

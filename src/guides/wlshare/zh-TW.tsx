@@ -51,6 +51,10 @@ const guide: GuideText = {
             wlroots 0.19，它是第一個讓無頭後端把游標放在獨立平面上的版本；0.18
             會把游標畫進擷取的畫面中。聲音、攝影機和麥克風透過 PipeWire 傳遞，套件相依於它。
           </p>
+          <p>
+            wlshare 在 sway 上能做的最多，因為 sway 接受的每個指令都能在執行時透過它的 IPC 傳送：用戶端的第二個虛擬顯示器主流 Wayland 協定沒有簡便的方法做到，在 sway 上不必再安裝任何東西就能取得。wlshare 用 sway 做什麼，以及範例，請見{" "}
+            <a href={wl("docs/sway.md")}>Sway（英文）</a>。
+          </p>
           <Still
             name="wlshare-sway"
             caption={

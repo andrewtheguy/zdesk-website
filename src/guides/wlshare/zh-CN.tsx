@@ -47,6 +47,10 @@ const guide: GuideText = {
           <p>
             指针从不出现在捕获的像素中：wlshare 按输出的密度单独发送它的图像，客户端移动指针时无需等待新的一帧。在无头输出上，这需要 wlroots 0.19，它是第一个让无头后端把光标放在独立平面上的版本；0.18 会把光标画进捕获的画面。声音、摄像头和麦克风都经由 PipeWire，软件包依赖它。
           </p>
+          <p>
+            wlshare 在 sway 上能做的最多，因为 sway 接受的每条命令都可以在运行时通过它的 IPC 发送：客户端的第二个虚拟显示器主流 Wayland 协议没有简便的办法实现，在 sway 上无需再安装任何东西即可获得。wlshare 用 sway 做什么，以及示例，见{" "}
+            <a href={wl("docs/sway.md")}>Sway（英文）</a>。
+          </p>
           <Still
             name="wlshare-sway"
             caption={
