@@ -446,13 +446,14 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             <code>[master]</code> 或主密碼。
           </p>
           <p>
-            獨立閘道的網頁登入也保存在同一個 <code>[master]</code> 之下，但因為閘道只需要驗證它，保存的是單向雜湊：
-            <code>[server].site_username</code> 指定唯一的使用者，<code>[server].site_passwd_hash</code> 保存{" "}
-            <code>password hash</code> 輸出的雜湊。沒有主密碼，持有設定的人也無法用它驗證猜測的密碼，因此獨立閘道的設定一定需要主密碼。
+            獨立閘道的網頁登入也保存在同一個 <code>[master]</code> 之下，但因為閘道只需要驗證它，保存的是 bcrypt 雜湊，與
+            htpasswd 檔案相同：<code>[server].site_username</code> 指定唯一的使用者，<code>[server].site_passwd_hash</code> 保存{" "}
+            <code>password hash</code> 輸出的加密雜湊。沒有主密碼，持有設定的人拿不到雜湊來驗證猜測的密碼；即使有主密碼，每次猜測仍要付出
+            bcrypt 的代價。因此獨立閘道的設定一定需要主密碼。
           </p>
           <h3>主密碼</h3>
           <p>
-            <code>[passwords]</code> 中的每個值都用 AES-256-GCM 加密，網頁登入的雜湊則用 HMAC-SHA256，金鑰都由你的
+            <code>[passwords]</code> 中的每個值和網頁登入的雜湊都用 AES-256-GCM 加密，金鑰由你的
             <strong>主密碼</strong>和設定自己的 salt 衍生。獨立閘道從 <code>[server].master_password_file</code> 指定的檔案讀取主密碼：可以是容器的
             secret、systemd 的 credential，或只有閘道帳號能讀取的檔案。該檔案只包含主密碼；結尾的換行會被忽略。
             <code>password master create</code> 寫入該檔案，只有其使用者能讀取；檔案已存在時拒絕取代，除非指定{" "}
