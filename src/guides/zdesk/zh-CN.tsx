@@ -378,11 +378,11 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             值也可以留空，<code>workstation = ""</code>，作为尚未设置的密码的占位符：在粘贴真实的值之前，目标使用空密码应答；名称全是占位符的本地实例配置不需要 <code>[master]</code> 或主密码。
           </p>
           <p>
-            独立网关的网页登录也保存在同一个 <code>[master]</code> 之下，但由于网关只需要校验它，保存的是单向哈希：<code>[server].site_username</code> 指定唯一的用户，<code>[server].site_passwd_hash</code> 保存 <code>password hash</code> 输出的哈希。没有主密码，持有配置的人也无法用它验证猜测的密码，因此独立网关的配置总是需要主密码。
+            独立网关的网页登录也保存在同一个 <code>[master]</code> 之下，但由于网关只需要校验它，保存的是 bcrypt 哈希，与 htpasswd 文件相同：<code>[server].site_username</code> 指定唯一的用户，<code>[server].site_passwd_hash</code> 保存 <code>password hash</code> 输出的加密哈希。没有主密码，持有配置的人拿不到哈希来验证猜测的密码；即使有主密码，每次猜测仍要付出 bcrypt 的代价。因此独立网关的配置总是需要主密码。
           </p>
           <h3>主密码</h3>
           <p>
-            <code>[passwords]</code> 中的每个值都用 AES-256-GCM 加密，网页登录的哈希则用 HMAC-SHA256，密钥都由你的<strong>主密码</strong>和配置自己的 salt 派生。独立网关从 <code>[server].master_password_file</code> 指定的文件读取主密码：可以是容器的 secret、systemd 的 credential，或只有网关账户能读的文件。该文件只包含主密码；末尾的换行会被忽略。<code>password master create</code> 写入该文件，只有其用户能读取；文件已存在时拒绝替换，除非给出 <code>--force</code>，替换后用旧主密码加密的每个值都无法再打开；<code>password master show</code> 输出已有主密码下的 <code>[master]</code> 块。TUI 把自己的主密码保存在钥匙串中（macOS 钥匙串、Windows 凭据管理器，或 Linux 桌面的 Secret Service：GNOME Keyring、KWallet），在 TUI 启动时读取一次，没有时在那时生成，因此你从不需要输入。除 TUI 外没有任何东西读取钥匙串。
+            <code>[passwords]</code> 中的每个值和网页登录的哈希都用 AES-256-GCM 加密，密钥由你的<strong>主密码</strong>和配置自己的 salt 派生。独立网关从 <code>[server].master_password_file</code> 指定的文件读取主密码：可以是容器的 secret、systemd 的 credential，或只有网关账户能读的文件。该文件只包含主密码；末尾的换行会被忽略。<code>password master create</code> 写入该文件，只有其用户能读取；文件已存在时拒绝替换，除非给出 <code>--force</code>，替换后用旧主密码加密的每个值都无法再打开；<code>password master show</code> 输出已有主密码下的 <code>[master]</code> 块。TUI 把自己的主密码保存在钥匙串中（macOS 钥匙串、Windows 凭据管理器，或 Linux 桌面的 Secret Service：GNOME Keyring、KWallet），在 TUI 启动时读取一次，没有时在那时生成，因此你从不需要输入。除 TUI 外没有任何东西读取钥匙串。
           </p>
           <Table
             head={["启动方式", "主密码来源"]}

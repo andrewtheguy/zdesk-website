@@ -466,15 +466,15 @@ workstation = "$ZD;1;AES-256-GCM;…"`}</code>
             config whose names are all placeholders needs no <code>[master]</code> or master password.
           </p>
           <p>
-            A served gateway's web login is kept under the same <code>[master]</code>, but as a one-way hash, since the
-            gateway only checks it. <code>[server].site_username</code> names the one user, and{" "}
-            <code>[server].site_passwd_hash</code> holds the hash <code>password hash</code> prints. Nobody holding the
-            config can test a guess against it without the master password, so a served config always needs its master
-            password.
+            A served gateway's web login is kept under the same <code>[master]</code>, but as a bcrypt hash, as an
+            htpasswd file keeps one, since the gateway only checks it. <code>[server].site_username</code> names the one
+            user, and <code>[server].site_passwd_hash</code> holds the encrypted hash <code>password hash</code> prints.
+            Nobody holding the config has the hash to test a guess against without the master password, and with it
+            every guess still pays bcrypt's cost, so a served config always needs its master password.
           </p>
           <h3>The master password</h3>
           <p>
-            Every <code>[passwords]</code> value is AES-256-GCM, and the web login's hash HMAC-SHA256, under a key
+            Every <code>[passwords]</code> value and the web login's hash is AES-256-GCM, under a key
             derived from your <strong>master password</strong> and the config's own salt. A served gateway reads it from a file named by{" "}
             <code>[server].master_password_file</code>: a container secret, a systemd credential, or a file only the
             gateway's account can read. The file holds the master password alone; a trailing newline is ignored.{" "}
