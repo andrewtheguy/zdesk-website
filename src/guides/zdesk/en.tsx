@@ -324,7 +324,8 @@ const guide: GuideText = {
             How an RDP host draws its pipeline, one of three. The two in H.264 are greyed in a browser whose{" "}
             <code>VideoDecoder</code> cannot decode the host's H.264. On a phone or tablet, choose{" "}
             <em>H.264 full screen</em>. See <a href="#a-lossless-picture">A lossless picture</a> for having the host draw
-            losslessly.
+            losslessly. zDesk does not support a Windows host whose policy{" "}
+            <em>Prioritize H.264/AVC 444 graphics mode for Remote Desktop Connections</em> is enabled.
           </p>
           <Compare
             items={[
@@ -342,6 +343,7 @@ const guide: GuideText = {
                 sub: "The whole desktop in H.264, rate-controlled to the browser's link, played as video by the browser's own decoder, with nothing composed in the page.",
                 rows: [
                   ["On a slow link", "Coarser on a slow link, finer on a fast one"],
+                  ["Text", "Softer than the other two: the host draws it in H.264 at 4:2:0"],
                   ["Memory", "The least of the three: recommended on a phone or tablet"],
                   ["Decoder failure", "Picks up again from the next keyframe"],
                 ],

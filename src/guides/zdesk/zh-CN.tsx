@@ -256,7 +256,8 @@ const guide: GuideText = {
             图形（Graphics）
           </Part>
           <p>
-            RDP 主机如何绘制其管道，三选一。在 <code>VideoDecoder</code> 无法解码主机 H.264 的浏览器中，两种 H.264 方式会被置灰。在手机或平板上，请选择 <em>H.264 full screen</em>。要让主机无损绘制，见<a href="#a-lossless-picture">无损画面</a>。
+            RDP 主机如何绘制其管道，三选一。在 <code>VideoDecoder</code> 无法解码主机 H.264 的浏览器中，两种 H.264 方式会被置灰。在手机或平板上，请选择 <em>H.264 full screen</em>。要让主机无损绘制，见<a href="#a-lossless-picture">无损画面</a>。zDesk 不支持启用了{" "}
+            <em>Prioritize H.264/AVC 444 graphics mode for Remote Desktop Connections</em> 策略的 Windows 主机。
           </p>
           <Compare
             items={[
@@ -274,6 +275,7 @@ const guide: GuideText = {
                 sub: "整个桌面使用 H.264，码率按浏览器的链路控制，由浏览器自己的解码器作为视频播放，页面中不合成任何内容。",
                 rows: [
                   ["慢速链路上", "慢速链路上更粗糙，快速链路上更精细"],
+                  ["文字", "比另外两种更柔和：主机以 4:2:0 的 H.264 绘制"],
                   ["内存", "三者中最少：推荐在手机或平板上使用"],
                   ["解码器出错", "从下一个关键帧自行恢复"],
                 ],
