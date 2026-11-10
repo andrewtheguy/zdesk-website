@@ -238,7 +238,7 @@ const guide: GuideText = {
           />
           <p>在 Combined Display（见下文）下 Apple's Adaptive 会被置灰，因为 Combined Display 同样是网关的图块。</p>
           <p>
-            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Lossless (requires high bandwidth)</em> 需要高带宽，建议使用有线连接，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
+            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Lossless (requires high bandwidth)</em> 需要高带宽，建议使用有线连接，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，<em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损，以及 <em>Fully lossless, median predictor (experimental)</em>，画面相同，但运动的部分用更少的字节编码：见 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -724,10 +724,21 @@ password_ref = "wayland"`}</code>
                   ["无损", <Mark value="yes">始终</Mark>],
                 ],
               },
+              {
+                title: "Fully lossless, median predictor",
+                tag: <Tag kind="experimental">实验性</Tag>,
+                sub: "即 Fully lossless，但运动的部分改用中值预测器编码，而不是 RDP 的 planar 编解码器：每个图块仍然无损，字节数更少。",
+                rows: [
+                  ["链路", "局域网：有内容运动时约为 Fully lossless 字节数的三分之二，静止的桌面则相同"],
+                  ["主机处理器", "与 Fully lossless 大致相同"],
+                  ["本浏览器的处理器", "解码运动的部分比 Fully lossless 多占用约五分之一"],
+                  ["无损", <Mark value="yes">始终</Mark>],
+                ],
+              },
             ]}
           />
           <p>
-            Adaptive 的 <em>Tiles</em> 是 RemoteFX Progressive：先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。<em>Settles to lossless</em> 会在每个运动区域停下后再以无损重发。<em>Fully lossless</em> 把每个变化的图块以 RDP 的 planar 编解码器无损发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码 Adaptive 的图块那样解码它们，并在那些图块置灰时同样置灰。
+            Adaptive 的 <em>Tiles</em> 是 RemoteFX Progressive：先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。<em>Settles to lossless</em> 会在每个运动区域停下后再以无损重发。<em>Fully lossless</em> 把每个变化的图块以 RDP 的 planar 编解码器无损发送，较慢的链路上发送得更少，而不会更粗糙；页面像解码 Adaptive 的图块那样解码它们，并在那些图块置灰时同样置灰。<em>Fully lossless, median predictor</em> 是同样的画面，但每个运动的图块在压缩之前先由相邻像素预测，就像 JPEG-LS 的预测那样：播放视频或拖动窗口时字节数约为三分之二，浏览器的处理器则多占用一点。
           </p>
           <h3>
             两个输出 <Tag kind="beta">beta</Tag>

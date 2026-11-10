@@ -285,8 +285,9 @@ const guide: GuideText = {
             依連線調整，永不無損，包括 <em>Video</em>（預設），即 wlshare 針對整個桌面編碼的 H.264，以及{" "}
             <em>Tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有 H.264 時那樣繪製；<em>Lossless (requires high bandwidth)</em>{" "}
             需要高頻寬，建議使用有線連線，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
-            自己的圖塊，靜止後無損，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
-            原則下那樣，每個圖塊都無損：請見 <a href="#wlshare">wlshare</a>。
+            自己的圖塊，靜止後無損，<em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
+            原則下那樣，每個圖塊都無損，以及 <em>Fully lossless, median predictor (experimental)</em>
+            ，畫面相同，但移動的部分以較少的位元組編碼：請見 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -884,6 +885,17 @@ password_ref = "wayland"`}</code>
                   ["無損", <Mark value="yes">一律</Mark>],
                 ],
               },
+              {
+                title: "Fully lossless, median predictor",
+                tag: <Tag kind="experimental">實驗性</Tag>,
+                sub: "即 Fully lossless，但移動的部分改以中位數預測器編碼，而不是 RDP 的 planar 編解碼器：每個圖塊仍然無損，位元組數較少。",
+                rows: [
+                  ["連線", "區域網路：有內容移動時約為 Fully lossless 位元組數的三分之二，靜止的桌面則相同"],
+                  ["主機處理器", "與 Fully lossless 大致相同"],
+                  ["本瀏覽器的處理器", "解碼移動的部分比 Fully lossless 多負擔約五分之一"],
+                  ["無損", <Mark value="yes">一律</Mark>],
+                ],
+              },
             ]}
           />
           <p>
@@ -891,7 +903,8 @@ password_ref = "wayland"`}</code>
             RDP
             主機的管線那樣，因此不需要視訊解碼器；在頁面無法合成管線時會變灰。<em>Settles to lossless</em>{" "}
             會在每個移動區域停下後，再以無損方式重送。<em>Fully lossless</em> 把每個變更的圖塊以
-            RDP 的 planar 編解碼器無損傳送，在較慢的連線上傳送得較少，而不會較粗糙；頁面像解碼 Adaptive 的圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。
+            RDP 的 planar 編解碼器無損傳送，在較慢的連線上傳送得較少，而不會較粗糙；頁面像解碼 Adaptive 的圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。<em>Fully lossless, median predictor</em>{" "}
+            是同樣的畫面，但每個移動的圖塊在壓縮之前先由相鄰像素預測，就像 JPEG-LS 的預測那樣：播放視訊或拖曳視窗時位元組數約為三分之二，瀏覽器的處理器則多負擔一些。
           </p>
           <h3>
             兩個輸出 <Tag kind="beta">beta</Tag>
