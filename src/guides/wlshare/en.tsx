@@ -621,7 +621,8 @@ layout = "swayvnc"`}</code>
             offers as its picker's Picture group (see{" "}
             <a href={`${zdeskGuide}#wlshare`}>wlshare in the zDesk guide</a>): its H.264 of the whole desktop, fitted
             to the link; RemoteFX Progressive tiles; lossless PNG tiles with a video stream for each region that
-            moves; or lossless planar tiles, still or moving.
+            moves; lossless planar tiles, still or moving; or those with what moves coded by a median predictor, in
+            fewer bytes.
           </p>
           <p>
             The H.264, of the whole desktop or of a moving region, is the host's hardware encoder where VA-API finds

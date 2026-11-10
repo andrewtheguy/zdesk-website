@@ -296,8 +296,10 @@ const guide: GuideText = {
             to the link and never lossless, is <em>Video</em>, the default, wlshare's H.264 of the whole desktop, or{" "}
             <em>Tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264;{" "}
             <em>Lossless (requires high bandwidth)</em>, best on a wired connection and not recommended on a phone or tablet, is <em>Settles to lossless</em>,
-            wlshare's own tiles, lossless once still, or <em>Fully lossless (experimental)</em>, every tile lossless as a
-            Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
+            wlshare's own tiles, lossless once still, <em>Fully lossless (experimental)</em>, every tile lossless as a
+            Windows host draws under its Lossless policy, or{" "}
+            <em>Fully lossless, median predictor (experimental)</em>, the same with what moves coded in fewer bytes: see{" "}
+            <a href="#wlshare">wlshare</a>.
           </p>
 
           <Part id="displays" icon="displays">
@@ -937,6 +939,17 @@ password_ref = "wayland"`}</code>
                   ["Lossless", <Mark value="yes">always</Mark>],
                 ],
               },
+              {
+                title: "Fully lossless, median predictor",
+                tag: <Tag kind="experimental">experimental</Tag>,
+                sub: "Fully lossless with what moves coded by a median predictor in place of RDP's planar codec: every tile still lossless, in fewer bytes.",
+                rows: [
+                  ["Link", "A LAN: about two thirds of Fully lossless's bytes while something moves, the same on a still desktop"],
+                  ["Host's processor", "About what Fully lossless takes"],
+                  ["This browser's processor", "About a fifth more than Fully lossless to decode what moves"],
+                  ["Lossless", <Mark value="yes">always</Mark>],
+                ],
+              },
             ]}
           />
           <p>
@@ -946,7 +959,9 @@ password_ref = "wayland"`}</code>
             <em>Settles to lossless</em> sends each region that moves lossless again once it stops.{" "}
             <em>Fully lossless</em> sends every tile that changes losslessly, in RDP's planar codec, and a slower link
             gets fewer of them, never coarser ones; the page decodes them as it does Adaptive's tiles, and they are
-            greyed where those are.
+            greyed where those are. <em>Fully lossless, median predictor</em> is the same picture, but each tile that
+            moves is predicted from its neighbours, as JPEG-LS predicts, before it is compressed: about two thirds of
+            the bytes of a video or a window dragged, for a little more of the browser's processor.
           </p>
           <h3>
             Two outputs <Tag kind="beta">beta</Tag>
