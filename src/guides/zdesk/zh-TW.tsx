@@ -311,9 +311,7 @@ const guide: GuideText = {
           <p>
             RDP 主機如何繪製其管線，三者擇一。在 <code>VideoDecoder</code> 無法解碼主機 H.264
             的瀏覽器中，兩種 H.264 方式會變灰。在手機或平板上，請選擇 <em>H.264 full screen</em>。要讓主機無損繪製，請見
-            <a href="#a-lossless-picture">無損畫面</a>。請讓 Windows 主機的{" "}
-            <em>Prioritize H.264/AVC 444 graphics mode for Remote Desktop Connections</em> 原則保持停用：它不會讓{" "}
-            <em>H.264 full screen</em> 下的文字更清晰，而在 <em>H.264 region</em> 下還會讓文字也改以 4:2:0 的 H.264 繪製。
+            <a href="#a-lossless-picture">無損畫面</a>。
           </p>
           <Compare
             items={[
@@ -342,7 +340,7 @@ const guide: GuideText = {
                 sub: "像影片那樣移動的部分用 H.264，其他部分用管線的其他編碼，由頁面在視訊解碼器之外一併合成。",
                 rows: [
                   ["在慢速連線上", "H.264 依位元速率調整，其餘部分在連線跟不上時先以較粗糙的方式傳送"],
-                  ["文字", "保持清晰，除非主機啟用了 AVC 444 原則"],
+                  ["文字", "保持清晰"],
                   ["記憶體", "三者中最多：不建議在手機或平板上使用"],
                 ],
               },
