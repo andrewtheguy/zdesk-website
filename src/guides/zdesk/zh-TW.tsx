@@ -311,7 +311,8 @@ const guide: GuideText = {
           <p>
             RDP 主機如何繪製其管線，三者擇一。在 <code>VideoDecoder</code> 無法解碼主機 H.264
             的瀏覽器中，兩種 H.264 方式會變灰。在手機或平板上，請選擇 <em>H.264 full screen</em>。要讓主機無損繪製，請見
-            <a href="#a-lossless-picture">無損畫面</a>。
+            <a href="#a-lossless-picture">無損畫面</a>。zDesk 不支援啟用了{" "}
+            <em>Prioritize H.264/AVC 444 graphics mode for Remote Desktop Connections</em> 原則的 Windows 主機。
           </p>
           <Compare
             items={[
@@ -329,6 +330,7 @@ const guide: GuideText = {
                 sub: "整個桌面使用 H.264，位元速率依瀏覽器的連線控制，由瀏覽器自己的解碼器以視訊播放，頁面中不合成任何內容。",
                 rows: [
                   ["在慢速連線上", "慢速連線較粗糙，快速連線較精細"],
+                  ["文字", "比另外兩種更柔和：主機以 4:2:0 的 H.264 繪製"],
                   ["記憶體", "三者中最少：建議在手機或平板上使用"],
                   ["解碼器出錯", "從下一個關鍵影格自行恢復"],
                 ],
