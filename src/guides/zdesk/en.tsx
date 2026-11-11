@@ -919,7 +919,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "Lossless, best on a wired connection: what is still as lossless PNG, and a video stream of its own for each region that moves.",
+                sub: "Lossless, best on a wired connection: what is still as lossless WebP, and a video stream of its own for each region that moves.",
                 rows: [
                   ["Link", "Room to spare: several times the video's bytes, tens of Mbit/s while something large moves"],
                   ["Moving regions", "H.264 from the host's hardware encoder or libx264"],

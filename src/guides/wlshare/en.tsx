@@ -620,7 +620,7 @@ layout = "swayvnc"`}</code>
             Beside the standard Raw and ZRLE, a client that asks is sent one of wlshare's own pictures, which zDesk
             offers as its picker's Picture group (see{" "}
             <a href={`${zdeskGuide}#wlshare`}>wlshare in the zDesk guide</a>): its H.264 of the whole desktop, fitted
-            to the link; RemoteFX Progressive tiles; lossless PNG tiles with a video stream for each region that
+            to the link; RemoteFX Progressive tiles; lossless WebP tiles with a video stream for each region that
             moves; or lossless tiles, still or moving, what moves coded by a median predictor.
           </p>
           <p>

@@ -594,7 +594,7 @@ layout = "swayvnc"`}</code>
           <p>
             除了標準的 Raw 和 ZRLE，有要求的用戶端會收到 wlshare 自己的其中一種畫面，zDesk
             把它們作為選擇器的 Picture 群組提供（請見<a href={`${zdeskGuide}#wlshare`}>zDesk 指南中的 wlshare</a>
-            ）：配合連線調整的整個桌面 H.264；RemoteFX Progressive 圖塊；每個移動區域各有一路視訊串流的無損 PNG
+            ）：配合連線調整的整個桌面 H.264；RemoteFX Progressive 圖塊；每個移動區域各有一路視訊串流的無損 WebP
             圖塊；或無論靜止或移動都無損的圖塊，移動的部分以中位數預測器編碼。
           </p>
           <p>

@@ -706,7 +706,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "属于 Lossless，建议使用有线连接：静止的部分为无损的 PNG，每个运动区域有自己的一路视频流。",
+                sub: "属于 Lossless，建议使用有线连接：静止的部分为无损的 WebP，每个运动区域有自己的一路视频流。",
                 rows: [
                   ["链路", "需要充裕的带宽：视频数倍的字节数，大面积运动时达每秒数十 Mbit"],
                   ["运动区域", "主机硬件编码器或 libx264 编码的 H.264"],

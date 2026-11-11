@@ -866,7 +866,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "屬於 Lossless，建議使用有線連線：靜止的部分為無損的 PNG，每個移動的區域有自己的一路視訊串流。",
+                sub: "屬於 Lossless，建議使用有線連線：靜止的部分為無損的 WebP，每個移動的區域有自己的一路視訊串流。",
                 rows: [
                   ["連線", "需要充裕的頻寬：位元組數是視訊的數倍，大面積移動時達每秒數十 Mbit"],
                   ["移動的區域", "由主機硬體編碼器或 libx264 編碼的 H.264"],
