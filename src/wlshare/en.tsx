@@ -46,9 +46,9 @@ const text: WlshareText = {
       title: "A picture for the link",
       body: (
         <>
-          H.264 of the whole desktop from the host's hardware encoder or libx264, fitted to the link; the same at
-          4:4:4, which keeps coloured text crisp (beta); lossless tiles with a video stream for each region that
-          moves; or lossless tiles throughout, for a LAN.
+          H.264 of the whole desktop from the host's hardware encoder or libx264, fitted to the link; RemoteFX
+          Progressive tiles; lossless tiles with a video stream for each region that moves; or lossless tiles
+          throughout, for a LAN.
         </>
       ),
     },
