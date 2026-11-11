@@ -536,10 +536,10 @@ layout = "swayvnc"`}</code>
           />
           <p>
             除了标准的 Raw 和 ZRLE，提出请求的客户端会收到 wlshare 自己的某种画面，zDesk 把它们作为选择器的 Picture 组提供（见
-            <a href={`${zdeskGuide}#wlshare`}>zDesk 指南中的 wlshare</a>）：按链路调整的整个桌面的 H.264；RemoteFX Progressive 图块；每个运动区域各有一路视频流的无损 PNG 图块；或者无论静止还是运动都无损的图块，运动的部分用中值预测器编码。
+            <a href={`${zdeskGuide}#wlshare`}>zDesk 指南中的 wlshare</a>）：按链路调整的整个桌面的 H.264；同样的视频采用 4:4:4，让彩色文字保持清晰（beta）；每个运动区域各有一路视频流的无损 PNG 图块；或者无论静止还是运动都无损的图块，运动的部分用中值预测器编码。
           </p>
           <p>
-            H.264，无论是整个桌面的还是运动区域的，在 VA-API 找到硬件编码器时由主机的硬件编码器编码，否则由 libx264 编码；<code>hardware_h264 = false</code> 跳过硬件。启动时的探测会先尝试 Intel 的低功耗编码器，它把 GPU 的执行单元留给桌面，并把找到的结果写入日志：
+            H.264，无论是整个桌面的还是运动区域的，在 VA-API 找到硬件编码器时由主机的硬件编码器编码，否则由 libx264 编码；<code>hardware_h264 = false</code> 跳过硬件。4:4:4 的视频在每台主机上都由 libx264 编码，因为 VA-API 没有对应的 H.264 编码器。启动时的探测会先尝试 Intel 的低功耗编码器，它把 GPU 的执行单元留给桌面，并把找到的结果写入日志：
           </p>
           <pre>
             <code>{`journalctl --user -b -u wlshare | grep h264

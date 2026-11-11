@@ -620,12 +620,14 @@ layout = "swayvnc"`}</code>
             Beside the standard Raw and ZRLE, a client that asks is sent one of wlshare's own pictures, which zDesk
             offers as its picker's Picture group (see{" "}
             <a href={`${zdeskGuide}#wlshare`}>wlshare in the zDesk guide</a>): its H.264 of the whole desktop, fitted
-            to the link; RemoteFX Progressive tiles; lossless PNG tiles with a video stream for each region that
-            moves; or lossless tiles, still or moving, what moves coded by a median predictor.
+            to the link; the same at 4:4:4, which keeps coloured text crisp (beta); lossless PNG tiles with a video
+            stream for each region that moves; or lossless tiles, still or moving, what moves coded by a median
+            predictor.
           </p>
           <p>
             The H.264, of the whole desktop or of a moving region, is the host's hardware encoder where VA-API finds
-            one, and libx264 otherwise; <code>hardware_h264 = false</code> skips the hardware.
+            one, and libx264 otherwise; <code>hardware_h264 = false</code> skips the hardware. The video at 4:4:4 is
+            libx264 on every host, since VA-API has no H.264 encoder for it.
             The startup probe tries Intel's low-power encoder first, which leaves the GPU's execution units to the
             desktop, and logs what it found:
           </p>
