@@ -48,7 +48,7 @@ const guide: GuideText = {
             ]}
           />
           <p>
-            <strong>WebCodecs</strong>，用于远程以视频形式发送的画面：<code>VideoDecoder</code> 用于 wlshare 的 H.264、高性能模式 Mac 的 HEVC 或 H.264，以及 RDP 主机的 H.264。没有它时，客户端仍然可以启动，网关的图块、标准模式 Mac 的 Adaptive 画面、wlshare 的渐进式图块以及不含 H.264 的 RDP 管道在任何浏览器中都能工作。
+            <strong>WebCodecs</strong>，用于远程以视频形式发送的画面：<code>VideoDecoder</code> 用于 wlshare 的 H.264、高性能模式 Mac 的 HEVC 或 H.264，以及 RDP 主机的 H.264。没有它时，客户端仍然可以启动，网关的图块、标准模式 Mac 的 Adaptive 画面、wlshare 的无损图块以及不含 H.264 的 RDP 管道在任何浏览器中都能工作。
           </p>
           <Groups
             groups={[
@@ -62,7 +62,7 @@ const guide: GuideText = {
               },
               {
                 title: "在任何浏览器中都能工作",
-                items: ["网关的图块", "标准模式 Mac 的 Adaptive 画面", "wlshare 的渐进式图块", "不含 H.264 的 RDP 管道"],
+                items: ["网关的图块", "标准模式 Mac 的 Adaptive 画面", "wlshare 的无损图块", "不含 H.264 的 RDP 管道"],
               },
               {
                 title: (
@@ -75,7 +75,7 @@ const guide: GuideText = {
             ]}
           />
           <p>
-            页面会事先询问浏览器的解码器能否解码 Mac 的 HEVC 和 RDP 主机的 H.264：解码器拒绝时，选择器将其置灰并说明原因。它也会询问 wlshare 的 H.264，即 wlshare 编码所用的 High profile：解码器拒绝它时，<code>wlshare</code> 目标的 <em>Video</em> 和 <em>Settles to lossless</em> 会被置灰，仍可使用它的图块，由页面自己解码。Mac 的 H.264 不事先询问：它提供给所有具备 <code>VideoDecoder</code> 的浏览器，没有 <code>VideoDecoder</code> 时置灰，解码器不接受它时会在会话中通过解码器的错误说明。<code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；没有它的浏览器（Safari 16.4 到 18）不播放声音，而更新的 Safari 的 <code>AudioDecoder</code> 无法解码 FLAC，可以播放 Opus 和 Mac 的声音。
+            页面会事先询问浏览器的解码器能否解码 Mac 的 HEVC 和 RDP 主机的 H.264：解码器拒绝时，选择器将其置灰并说明原因。它也会询问 wlshare 的 H.264，即 wlshare 编码所用的 High profile：解码器拒绝它时，<code>wlshare</code> 目标的 <em>Video</em> 和 <em>Settles to lossless</em> 会被置灰，仍可使用 <em>Fully lossless</em>，由页面自己解码。它还会单独询问 <em>Crisp video</em> 的 4:4:4 H.264，即 High 4:4:4 Predictive profile，能解码 High 的解码器也可能拒绝它：Chrome 的解码器可以解码，采用软件解码，Safari 和 Firefox 的则不能。Mac 的 H.264 不事先询问：它提供给所有具备 <code>VideoDecoder</code> 的浏览器，没有 <code>VideoDecoder</code> 时置灰，解码器不接受它时会在会话中通过解码器的错误说明。<code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；没有它的浏览器（Safari 16.4 到 18）不播放声音，而更新的 Safari 的 <code>AudioDecoder</code> 无法解码 FLAC，可以播放 Opus 和 Mac 的声音。
           </p>
 
           <h3>在桌面、手机或平板上</h3>
@@ -153,7 +153,7 @@ const guide: GuideText = {
                 </>,
                 <Mark value="yes">是</Mark>,
                 "关、Opus 或 FLAC",
-                "自适应：其视频或其图块（alpha）；或无损：逐渐无损或完全无损（实验性），始终直通",
+                "自适应：其视频或其清晰视频（beta）；或无损：逐渐无损或完全无损（实验性），始终直通",
                 <Mark value="none" />,
               ],
               [
@@ -238,7 +238,7 @@ const guide: GuideText = {
           />
           <p>在 Combined Display（见下文）下 Apple's Adaptive 会被置灰，因为 Combined Display 同样是网关的图块。</p>
           <p>
-            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Lossless (requires high bandwidth)</em> 需要高带宽，建议使用有线连接，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
+            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Crisp video (beta)</em>，即同样的视频采用 4:4:4，让彩色文字保持清晰；<em>Lossless (requires high bandwidth)</em> 需要高带宽，建议使用有线连接，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -687,20 +687,20 @@ password_ref = "wayland"`}</code>
                 title: "Video",
                 sub: "属于 Adaptive，默认。wlshare 对整个桌面编码的 H.264，4:2:0，质量由 wlshare 决定。",
                 rows: [
-                  ["较慢的链路上", "帧更少，而不是更粗糙"],
+                  ["较慢的链路上", "画面先变粗糙，然后帧变少；桌面静止后再变精细"],
                   ["主机处理器", "占用较少；主机有硬件编码器时由硬件编码"],
-                  ["文字", "可能不够清晰"],
+                  ["文字", "可能不够清晰，彩色文字尤其如此"],
                   ["无损", <Mark value="no">从不</Mark>],
                 ],
               },
               {
-                title: "Tiles",
-                tag: <Tag kind="alpha">alpha</Tag>,
-                sub: "属于 Adaptive，适用于带宽并非一直充裕的链路：每个图块都是 RemoteFX Progressive，就像 Windows 主机通过 RDP 在没有 H.264 时绘制的那样。",
+                title: "Crisp video",
+                tag: <Tag kind="beta">beta</Tag>,
+                sub: "属于 Adaptive。同样是整个桌面的 H.264，采用 4:4:4：每个像素保留自己的颜色，而 4:2:0 是四个像素共用一个。",
                 rows: [
-                  ["较慢的链路上", "首遍更粗糙，帧更少"],
-                  ["主机处理器", "比视频占用更多，由软件编码"],
-                  ["文字", "更清晰"],
+                  ["较慢的链路上", "与视频相同：画面先变粗糙，然后帧变少；桌面静止后再变精细"],
+                  ["主机处理器", "比视频占用更多：每台主机上都由 libx264 编码，有硬件编码器的主机也是如此"],
+                  ["文字", "清晰，彩色文字也是如此"],
                   ["无损", <Mark value="no">从不</Mark>],
                 ],
               },
@@ -728,7 +728,7 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            Adaptive 的 <em>Tiles</em> 是 RemoteFX Progressive：先发粗略的一遍，静止后就地细化，运动的部分以相对于页面所持内容的变化发送。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。<em>Settles to lossless</em> 会在每个运动区域停下后再以无损重发。<em>Fully lossless</em> 无损发送每个变化的图块，较慢的链路上发送得更少，而不会更粗糙：静止的部分使用 RDP 的 planar 编解码器，运动的部分在压缩之前先由相邻像素预测，就像 JPEG-LS 的预测那样。页面像解码 Adaptive 的图块那样解码它们，并在那些图块置灰时同样置灰。
+            <em>Crisp video</em> 是采用 H.264 High 4:4:4 Predictive profile 的同一路视频流，因此彩色文字和细的彩色线条保持锐利，而 4:2:0 会让它们变模糊。它不使用硬件编码器，并在视频解码器拒绝它的浏览器中置灰：Chrome 的解码器可以解码，采用软件解码，Safari 和 Firefox 的则不能。两种视频都会在桌面静止半秒后以更精细的质量重发一次。<em>Settles to lossless</em> 会在每个运动区域停下后再以无损重发。<em>Fully lossless</em> 无损发送每个变化的图块，较慢的链路上发送得更少，而不会更粗糙：静止的部分使用 RDP 的 planar 编解码器，运动的部分在压缩之前先由相邻像素预测，就像 JPEG-LS 的预测那样。页面自己解码它们，就像它合成 RDP 主机的管道那样，因此不需要视频解码器，在页面无法合成管道时会被置灰。
           </p>
           <h3>
             两个输出 <Tag kind="beta">beta</Tag>

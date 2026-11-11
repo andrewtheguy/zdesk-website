@@ -594,12 +594,12 @@ layout = "swayvnc"`}</code>
           <p>
             除了標準的 Raw 和 ZRLE，有要求的用戶端會收到 wlshare 自己的其中一種畫面，zDesk
             把它們作為選擇器的 Picture 群組提供（請見<a href={`${zdeskGuide}#wlshare`}>zDesk 指南中的 wlshare</a>
-            ）：配合連線調整的整個桌面 H.264；RemoteFX Progressive 圖塊；每個移動區域各有一路視訊串流的無損 PNG
+            ）：配合連線調整的整個桌面 H.264；同樣的視訊採用 4:4:4，讓彩色文字保持清晰（beta）；每個移動區域各有一路視訊串流的無損 PNG
             圖塊；或無論靜止或移動都無損的圖塊，移動的部分以中位數預測器編碼。
           </p>
           <p>
             無論是整個桌面還是移動區域的 H.264，只要 VA-API 找得到主機的硬體編碼器就由它編碼，否則由
-            libx264 編碼；<code>hardware_h264 = false</code> 會略過硬體。啟動時的探測會先嘗試 Intel
+            libx264 編碼；<code>hardware_h264 = false</code> 會略過硬體。4:4:4 的視訊在每台主機上都由 libx264 編碼，因為 VA-API 沒有對應的 H.264 編碼器。啟動時的探測會先嘗試 Intel
             的低功耗編碼器，讓 GPU 的執行單元留給桌面使用，並記錄它找到的結果：
           </p>
           <pre>
