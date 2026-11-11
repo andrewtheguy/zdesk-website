@@ -56,7 +56,7 @@ const guide: GuideText = {
           <p>
             <strong>WebCodecs</strong> for the pictures a remote sends as video: <code>VideoDecoder</code> for
             wlshare's H.264, a High Performance Mac's HEVC or H.264 and an RDP host's H.264. The client still starts
-            without it, and the gateway's tiles, a Standard Mac's Adaptive picture, wlshare's lossless tiles and an
+            without it, and the gateway's tiles, a Standard Mac's Adaptive picture, wlshare's progressive tiles and an
             RDP pipeline without H.264 work anywhere.
           </p>
           <Groups
@@ -74,7 +74,7 @@ const guide: GuideText = {
                 items: [
                   "The gateway's tiles",
                   "A Standard Mac's Adaptive picture",
-                  "wlshare's lossless tiles",
+                  "wlshare's progressive tiles",
                   "An RDP pipeline without H.264",
                 ],
               },
@@ -92,9 +92,7 @@ const guide: GuideText = {
             The page asks the browser's decoder beforehand about the Mac's HEVC and the RDP host's H.264: the picker
             greys them, with the reason, where the decoder refuses them. It asks about wlshare's H.264 too, at the High
             profile wlshare codes: where the decoder refuses it, a <code>wlshare</code> target's <em>Video</em> and{" "}
-            <em>Settles to lossless</em> are greyed, leaving <em>Fully lossless</em>, which the page decodes itself. It
-            asks apart about <em>Crisp video</em>'s H.264 at 4:4:4, the High 4:4:4 Predictive profile, which a decoder
-            that takes High may refuse: Chrome's takes it, in software, and Safari's and Firefox's do not. The Mac's
+            <em>Settles to lossless</em> are greyed, leaving its tiles, which the page decodes itself. The Mac's
             H.264 is not asked about: it is offered to every browser with <code>VideoDecoder</code> and greyed without
             one, and a decoder that refuses it says so in the session, by its error. <code>AudioDecoder</code> plays
             Opus, a Mac's AAC-ELD and FLAC; a browser without it (Safari 16.4 to 18) plays no sound, and a later Safari,
@@ -191,7 +189,7 @@ const guide: GuideText = {
                 </>,
                 <Mark value="yes">yes</Mark>,
                 "off, Opus or FLAC",
-                "adaptive, its video or its crisp video (beta), or lossless, settling or fully (experimental), always passed",
+                "adaptive, its video or its tiles (alpha), or lossless, settling or fully (experimental), always passed",
                 <Mark value="none" />,
               ],
               [
@@ -296,7 +294,7 @@ const guide: GuideText = {
             On a <code>wlshare</code> target every picture is wlshare's own and passed through, which the labels leave
             unsaid. The Picture group is chosen kind first, and then a picture under the kind: <em>Adaptive</em>, fitted
             to the link and never lossless, is <em>Video</em>, the default, wlshare's H.264 of the whole desktop, or{" "}
-            <em>Crisp video (beta)</em>, the same at 4:4:4, which keeps coloured text crisp;{" "}
+            <em>Tiles (alpha)</em>, its tiles fitted to the link as a Windows host draws without H.264;{" "}
             <em>Lossless (requires high bandwidth)</em>, best on a wired connection and not recommended on a phone or tablet, is <em>Settles to lossless</em>,
             wlshare's own tiles, lossless once still, or <em>Fully lossless (experimental)</em>, every tile lossless as a
             Windows host draws under its Lossless policy: see <a href="#wlshare">wlshare</a>.
@@ -904,18 +902,18 @@ password_ref = "wayland"`}</code>
                 rows: [
                   ["On a slower link", "A coarser picture first, then fewer frames; finer again once the desktop stops"],
                   ["Host's processor", "The lighter; the host's hardware encoder where it has one"],
-                  ["Text", "Can be less crisp, coloured text most"],
+                  ["Text", "Can be less crisp"],
                   ["Lossless", <Mark value="no">never</Mark>],
                 ],
               },
               {
-                title: "Crisp video",
-                tag: <Tag kind="beta">beta</Tag>,
-                sub: "Adaptive. The same H.264 of the whole desktop at 4:4:4: every pixel keeps its own colour, where 4:2:0 shares one between four.",
+                title: "Tiles",
+                tag: <Tag kind="alpha">alpha</Tag>,
+                sub: "Adaptive, for a link that is not always wide: every tile RemoteFX Progressive, as a Windows host draws over RDP without H.264.",
                 rows: [
-                  ["On a slower link", "As the video: a coarser picture first, then fewer frames; finer again once the desktop stops"],
-                  ["Host's processor", "More than the video: libx264 on every host, one with a hardware encoder too"],
-                  ["Text", "Crisp, coloured text too"],
+                  ["On a slower link", "Coarser first passes and fewer frames"],
+                  ["Host's processor", "More than the video, coded in software"],
+                  ["Text", "Crisper"],
                   ["Lossless", <Mark value="no">never</Mark>],
                 ],
               },
@@ -943,15 +941,14 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            <em>Crisp video</em> is the video's stream in H.264's High 4:4:4 Predictive profile, so coloured text and
-            thin coloured lines stay sharp where 4:2:0 blurs them. No hardware encoder is used for it, and it is
-            greyed in a browser whose video decoder refuses it: Chrome's takes it, in software, and Safari's and
-            Firefox's do not. Either video is sent again, finer, half a second after the desktop stops.{" "}
+            Adaptive's <em>Tiles</em> are RemoteFX Progressive: coarse first and refined in place once still, what moves
+            sent as the change from what the page holds. The page decodes them itself, as it composes an RDP host's
+            pipeline, so they need no video decoder, and are greyed where the page cannot compose one.{" "}
             <em>Settles to lossless</em> sends each region that moves lossless again once it stops.{" "}
             <em>Fully lossless</em> sends every tile that changes losslessly, and a slower link gets fewer of them, never
             coarser ones: what is still in RDP's planar codec, and what moves predicted from its neighbours, as JPEG-LS
-            predicts, before it is compressed. The page decodes them itself, as it composes an RDP host's pipeline, so
-            they need no video decoder, and are greyed where the page cannot compose one.
+            predicts, before it is compressed. The page decodes them as it does Adaptive's tiles, and they are greyed
+            where those are.
           </p>
           <h3>
             Two outputs <Tag kind="beta">beta</Tag>

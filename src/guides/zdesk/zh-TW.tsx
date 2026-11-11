@@ -56,7 +56,7 @@ const guide: GuideText = {
           <p>
             <strong>WebCodecs</strong>，用於遠端以視訊形式傳送的畫面：<code>VideoDecoder</code> 用於 wlshare 的
             H.264、高效能模式 Mac 的 HEVC 或 H.264，以及 RDP 主機的
-            H.264。沒有它時，用戶端仍然可以啟動，閘道的圖塊、標準模式 Mac 的 Adaptive 畫面、wlshare 的無損圖塊以及不含
+            H.264。沒有它時，用戶端仍然可以啟動，閘道的圖塊、標準模式 Mac 的 Adaptive 畫面、wlshare 的漸進式圖塊以及不含
             H.264 的 RDP 管線在任何瀏覽器中都能運作。
           </p>
           <Groups
@@ -71,7 +71,7 @@ const guide: GuideText = {
               },
               {
                 title: "在任何瀏覽器中都能運作",
-                items: ["閘道的圖塊", "標準模式 Mac 的 Adaptive 畫面", "wlshare 的無損圖塊", "不含 H.264 的 RDP 管線"],
+                items: ["閘道的圖塊", "標準模式 Mac 的 Adaptive 畫面", "wlshare 的漸進式圖塊", "不含 H.264 的 RDP 管線"],
               },
               {
                 title: (
@@ -87,9 +87,7 @@ const guide: GuideText = {
             頁面會事先詢問瀏覽器的解碼器能否解碼 Mac 的 HEVC 和 RDP 主機的
             H.264：解碼器拒絕時，選擇器會將其變灰並說明原因。它也會詢問 wlshare 的 H.264，即 wlshare
             編碼所用的 High 設定檔（profile）：解碼器拒絕它時，<code>wlshare</code> 目標的 <em>Video</em> 和{" "}
-            <em>Settles to lossless</em> 會變灰，只剩下由頁面自行解碼的 <em>Fully lossless</em>。它還會另外詢問{" "}
-            <em>Crisp video</em> 的 4:4:4 H.264，即 High 4:4:4 Predictive 設定檔，能解碼 High 的解碼器也可能拒絕它：Chrome
-            的解碼器可以解碼，以軟體解碼，Safari 和 Firefox 的則不行。Mac 的 H.264 不事先詢問：它提供給所有具備{" "}
+            <em>Settles to lossless</em> 會變灰，只剩下由頁面自行解碼的圖塊。Mac 的 H.264 不事先詢問：它提供給所有具備{" "}
             <code>VideoDecoder</code> 的瀏覽器，沒有時變灰；解碼器不接受它時，會在工作階段中以解碼器的錯誤說明。
             <code>AudioDecoder</code> 播放 Opus、Mac 的 AAC-ELD 和 FLAC；沒有它的瀏覽器（Safari 16.4 到
             18）不播放聲音，較新的 Safari 的 <code>AudioDecoder</code> 無法解碼 FLAC，但可以播放 Opus 和 Mac 的聲音。
@@ -184,7 +182,7 @@ const guide: GuideText = {
                 </>,
                 <Mark value="yes">是</Mark>,
                 "關閉、Opus 或 FLAC",
-                "自適應：其視訊或其清晰視訊（beta）；或無損：逐步無損或完全無損（實驗性），一律直通",
+                "自適應：其視訊或其圖塊（alpha）；或無損：逐步無損或完全無損（實驗性），一律直通",
                 <Mark value="none" />,
               ],
               [
@@ -285,7 +283,7 @@ const guide: GuideText = {
             在 <code>wlshare</code> 目標上，每種畫面都是 wlshare
             自己的，而且一律直通，因此標籤不再註明。Picture 群組先選類別，再選該類別下的畫面：<em>Adaptive</em>{" "}
             依連線調整，永不無損，包括 <em>Video</em>（預設），即 wlshare 針對整個桌面編碼的 H.264，以及{" "}
-            <em>Crisp video (beta)</em>，即同樣的視訊採用 4:4:4，讓彩色文字保持清晰；<em>Lossless (requires high bandwidth)</em>{" "}
+            <em>Tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有 H.264 時那樣繪製；<em>Lossless (requires high bandwidth)</em>{" "}
             需要高頻寬，建議使用有線連線，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
             自己的圖塊，靜止後無損，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
             原則下那樣，每個圖塊都無損：請見 <a href="#wlshare">wlshare</a>。
@@ -851,18 +849,18 @@ password_ref = "wayland"`}</code>
                 rows: [
                   ["在較慢的連線上", "畫面先變粗糙，接著影格變少；桌面靜止後再變精細"],
                   ["主機處理器", "負擔較輕；主機有硬體編碼器時由硬體編碼"],
-                  ["文字", "可能不夠清晰，彩色文字尤其如此"],
+                  ["文字", "可能不夠清晰"],
                   ["無損", <Mark value="no">永不</Mark>],
                 ],
               },
               {
-                title: "Crisp video",
-                tag: <Tag kind="beta">beta</Tag>,
-                sub: "屬於 Adaptive。同樣是整個桌面的 H.264，採用 4:4:4：每個像素保有自己的顏色，而 4:2:0 是四個像素共用一個。",
+                title: "Tiles",
+                tag: <Tag kind="alpha">alpha</Tag>,
+                sub: "屬於 Adaptive，適用於頻寬並非一直充裕的連線：每個圖塊都是 RemoteFX Progressive，就像 Windows 主機在沒有 H.264 時透過 RDP 繪製的那樣。",
                 rows: [
-                  ["在較慢的連線上", "與視訊相同：畫面先變粗糙，接著影格變少；桌面靜止後再變精細"],
-                  ["主機處理器", "比視訊多：每台主機上都由 libx264 編碼，有硬體編碼器的主機也一樣"],
-                  ["文字", "清晰，彩色文字也一樣"],
+                  ["在較慢的連線上", "首遍較粗糙，影格也較少"],
+                  ["主機處理器", "比視訊多，以軟體編碼"],
+                  ["文字", "較清晰"],
                   ["無損", <Mark value="no">永不</Mark>],
                 ],
               },
@@ -890,11 +888,11 @@ password_ref = "wayland"`}</code>
             ]}
           />
           <p>
-            <em>Crisp video</em> 是採用 H.264 High 4:4:4 Predictive 設定檔的同一路視訊串流，因此彩色文字和細的彩色線條保持銳利，而
-            4:2:0 會讓它們變模糊。它不使用硬體編碼器，並在視訊解碼器拒絕它的瀏覽器中變灰：Chrome
-            的解碼器可以解碼，以軟體解碼，Safari 和 Firefox 的則不行。兩種視訊都會在桌面靜止半秒後以更精細的品質重送一次。<em>Settles to lossless</em>{" "}
+            Adaptive 的 <em>Tiles</em> 是 RemoteFX Progressive：先送粗略的一遍，靜止後就地細化，移動的部分以相對於頁面所持內容的變更傳送。頁面自己解碼它們，就像它合成
+            RDP
+            主機的管線那樣，因此不需要視訊解碼器；在頁面無法合成管線時會變灰。<em>Settles to lossless</em>{" "}
             會在每個移動區域停下後，再以無損方式重送。<em>Fully lossless</em> 無損傳送每個變更的圖塊，在較慢的連線上傳送得較少，而不會較粗糙：靜止的部分以
-            RDP 的 planar 編解碼器編碼，移動的部分在壓縮之前先由相鄰像素預測，就像 JPEG-LS 的預測那樣。頁面自己解碼它們，就像它合成 RDP 主機的管線那樣，因此不需要視訊解碼器；在頁面無法合成管線時會變灰。
+            RDP 的 planar 編解碼器編碼，移動的部分在壓縮之前先由相鄰像素預測，就像 JPEG-LS 的預測那樣。頁面像解碼 Adaptive 的圖塊那樣解碼它們，並在那些圖塊變灰時同樣變灰。
           </p>
           <h3>
             兩個輸出 <Tag kind="beta">beta</Tag>
