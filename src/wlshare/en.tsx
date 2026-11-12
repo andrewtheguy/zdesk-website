@@ -47,8 +47,8 @@ const text: WlshareText = {
       body: (
         <>
           H.264 of the whole desktop from the host's hardware encoder or libx264, fitted to the link; RemoteFX
-          Progressive tiles; lossless tiles with a video stream for each region that moves; or lossless tiles
-          throughout, for a LAN.
+          Progressive tiles; lossless tiles with a video stream for each region that moves, for Wi-Fi or better; or
+          lossless tiles throughout, for a wired connection.
         </>
       ),
     },

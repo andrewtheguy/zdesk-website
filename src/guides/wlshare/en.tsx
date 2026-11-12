@@ -638,6 +638,14 @@ layout = "swayvnc"`}</code>
             the more of the host's processor that takes. <code>max_fps</code>, 30 by default, caps the frames
             captured; the zDesk page draws at most 30.
           </p>
+          <p>
+            The WebP tiles send as video only what would cost more as lossless stills, so a spinner, a progress bar
+            or a line of text that slides stays lossless while it moves. To see what is made a video,{" "}
+            <code>motion_debug = true</code> has the zDesk page outline what moves in every region: magenta where its
+            tiles kept changing, orange where one large change began it. The outline is drawn over the picture, around
+            the pixels that changed, and is no part of it: the picture is the same with it as without. It goes when
+            the region ends, a moment after it stops moving. Off by default.
+          </p>
         </>
       ),
     },

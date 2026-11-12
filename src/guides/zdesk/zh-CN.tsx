@@ -238,7 +238,7 @@ const guide: GuideText = {
           />
           <p>在 Combined Display（见下文）下 Apple's Adaptive 会被置灰，因为 Combined Display 同样是网关的图块。</p>
           <p>
-            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Lossless (requires high bandwidth)</em> 需要高带宽，建议使用有线连接，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损：见 <a href="#wlshare">wlshare</a>。
+            在 <code>wlshare</code> 目标上，每种画面都是 wlshare 自己的，并且都直通，标签对此不再注明。Picture 组先选类别，再选该类别下的画面：<em>Adaptive</em> 按链路调整，从不无损，包括 <em>Video</em>（默认），即 wlshare 对整个桌面编码的 H.264，以及 <em>Tiles (alpha)</em>，即像 Windows 主机在没有 H.264 时那样绘制、按链路调整的图块；<em>Lossless (requires high bandwidth)</em> 需要高带宽，不建议在手机或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare 自己的图块，静止后无损，建议使用 Wi-Fi 或更好的链路，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主机在其 Lossless 策略下那样，每个图块都无损，建议使用有线连接：见 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -679,7 +679,7 @@ password_ref = "wayland"`}</code>
           <Still name="wlshare-retina" caption={<>Sway 上的 wlshare，以 Mac 的 Retina 密度显示：<code>wlr-randr</code> 报告其无头输出的缩放为 2，浏览器进入沉浸式全屏后，尺寸从 3456×1802 变为 3456×2168。</>} />
           <h3>画面</h3>
           <p>
-            选择器的 Picture 组有四种画面，分为两类：<em>Adaptive</em> 按链路调整，从不无损；<em>Lossless (requires high bandwidth)</em> 需要高带宽，建议使用有线连接，不建议在手机或平板上使用。四种都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
+            选择器的 Picture 组有四种画面，分为两类：<em>Adaptive</em> 按链路调整，从不无损；<em>Lossless (requires high bandwidth)</em> 需要高带宽，不建议在手机或平板上使用：静止后无损的画面建议使用 Wi-Fi 或更好的链路，全程无损的画面建议使用有线连接。四种都是直通的，因此没有标签注明这一点，也没有配置键能调整其中任何一种：wlshare 对每一种都只有一种编码方式。
           </p>
           <Compare
             items={[
@@ -706,7 +706,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "属于 Lossless，建议使用有线连接：静止的部分为无损的 WebP，每个运动区域有自己的一路视频流。",
+                sub: "属于 Lossless，建议使用 Wi-Fi 或更好的链路：静止的部分为无损的 WebP，每个运动区域有自己的一路视频流。",
                 rows: [
                   ["链路", "需要充裕的带宽：视频数倍的字节数，大面积运动时达每秒数十 Mbit"],
                   ["运动区域", "主机硬件编码器或 libx264 编码的 H.264"],
