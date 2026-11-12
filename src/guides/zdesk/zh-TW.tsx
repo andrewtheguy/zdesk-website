@@ -284,9 +284,9 @@ const guide: GuideText = {
             自己的，而且一律直通，因此標籤不再註明。Picture 群組先選類別，再選該類別下的畫面：<em>Adaptive</em>{" "}
             依連線調整，永不無損，包括 <em>Video</em>（預設），即 wlshare 針對整個桌面編碼的 H.264，以及{" "}
             <em>Tiles (alpha)</em>，即依連線調整的圖塊，就像 Windows 主機在沒有 H.264 時那樣繪製；<em>Lossless (requires high bandwidth)</em>{" "}
-            需要高頻寬，建議使用有線連線，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
-            自己的圖塊，靜止後無損，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
-            原則下那樣，每個圖塊都無損：請見 <a href="#wlshare">wlshare</a>。
+            需要高頻寬，不建議在手機或平板上使用，包括 <em>Settles to lossless</em>，即 wlshare
+            自己的圖塊，靜止後無損，建議使用 Wi-Fi 或更好的連線，以及 <em>Fully lossless (experimental)</em>，即像 Windows 主機在其 Lossless
+            原則下那樣，每個圖塊都無損，建議使用有線連線：請見 <a href="#wlshare">wlshare</a>。
           </p>
 
           <Part id="displays" icon="displays">
@@ -838,7 +838,7 @@ password_ref = "wayland"`}</code>
           <h3>畫面</h3>
           <p>
             選擇器的 Picture 群組有四種，分為兩類：<em>Adaptive</em> 依連線調整，永不無損；<em>Lossless (requires high bandwidth)</em>{" "}
-            需要高頻寬，建議使用有線連線，不建議在手機或平板上使用。四種全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
+            需要高頻寬，不建議在手機或平板上使用：靜止後無損的畫面建議使用 Wi-Fi 或更好的連線，全程無損的畫面建議使用有線連線。四種全都直通，因此沒有標籤註明這一點，也沒有任何設定項能調整它們：wlshare
             對每一種都只有一種編碼方式。
           </p>
           <Compare
@@ -866,7 +866,7 @@ password_ref = "wayland"`}</code>
               },
               {
                 title: "Settles to lossless",
-                sub: "屬於 Lossless，建議使用有線連線：靜止的部分為無損的 WebP，每個移動的區域有自己的一路視訊串流。",
+                sub: "屬於 Lossless，建議使用 Wi-Fi 或更好的連線：靜止的部分為無損的 WebP，每個移動的區域有自己的一路視訊串流。",
                 rows: [
                   ["連線", "需要充裕的頻寬：位元組數是視訊的數倍，大面積移動時達每秒數十 Mbit"],
                   ["移動的區域", "由主機硬體編碼器或 libx264 編碼的 H.264"],
