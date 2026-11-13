@@ -626,12 +626,13 @@ layout = "swayvnc"`}</code>
           <p>
             The H.264, of the whole desktop or of a moving region, is the host's hardware encoder where VA-API finds
             one, and libx264 otherwise; <code>hardware_h264 = false</code> skips the hardware.
-            The startup probe tries Intel's low-power encoder first, which leaves the GPU's execution units to the
-            desktop, and logs what it found:
+            Where a driver has both of Intel's encoders, the startup probe tries the shader one ahead of the
+            low-power one, since it sends fewer bytes for a closer picture; it asks either for its highest quality
+            level, and logs what it found:
           </p>
           <pre>
             <code>{`journalctl --user -b -u wlshare | grep h264
-# hardware H.264: /dev/dri/renderD128 through VA-API, its low-power encoder`}</code>
+# hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder`}</code>
           </pre>
           <p>
             A VM without a video encoder, such as one on VirGL, codes every frame in software: the larger the output,

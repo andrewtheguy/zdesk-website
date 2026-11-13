@@ -539,11 +539,11 @@ layout = "swayvnc"`}</code>
             <a href={`${zdeskGuide}#wlshare`}>zDesk 指南中的 wlshare</a>）：按链路调整的整个桌面的 H.264；RemoteFX Progressive 图块；每个运动区域各有一路视频流的无损 WebP 图块；或者无论静止还是运动都无损的图块，运动的部分用中值预测器编码。
           </p>
           <p>
-            H.264，无论是整个桌面的还是运动区域的，在 VA-API 找到硬件编码器时由主机的硬件编码器编码，否则由 libx264 编码；<code>hardware_h264 = false</code> 跳过硬件。启动时的探测会先尝试 Intel 的低功耗编码器，它把 GPU 的执行单元留给桌面，并把找到的结果写入日志：
+            H.264，无论是整个桌面的还是运动区域的，在 VA-API 找到硬件编码器时由主机的硬件编码器编码，否则由 libx264 编码；<code>hardware_h264 = false</code> 跳过硬件。驱动同时提供 Intel 的两种编码器时，启动时的探测会先尝试着色器编码器，再尝试低功耗编码器，因为前者用更少的字节送出更接近原样的画面；无论用哪一种，都要求它的最高质量级别，并把找到的结果写入日志：
           </p>
           <pre>
             <code>{`journalctl --user -b -u wlshare | grep h264
-# hardware H.264: /dev/dri/renderD128 through VA-API, its low-power encoder`}</code>
+# hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder`}</code>
           </pre>
           <p>
             没有视频编码器的虚拟机（例如使用 VirGL 的虚拟机）以软件编码每一帧：输出越大，占用的主机处理器越多。<code>max_fps</code>（默认 30）限制捕获的帧数；zDesk 页面最多绘制 30 帧。
