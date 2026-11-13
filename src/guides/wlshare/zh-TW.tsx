@@ -599,12 +599,12 @@ layout = "swayvnc"`}</code>
           </p>
           <p>
             無論是整個桌面還是移動區域的 H.264，只要 VA-API 找得到主機的硬體編碼器就由它編碼，否則由
-            libx264 編碼；<code>hardware_h264 = false</code> 會略過硬體。啟動時的探測會先嘗試 Intel
-            的低功耗編碼器，讓 GPU 的執行單元留給桌面使用，並記錄它找到的結果：
+            libx264 編碼；<code>hardware_h264 = false</code> 會略過硬體。驅動程式同時提供 Intel
+            的兩種編碼器時，啟動時的探測會先嘗試著色器編碼器，再嘗試低功耗編碼器，因為前者以較少的位元組送出更接近原貌的畫面；無論用哪一種，都會要求它的最高品質等級，並記錄它找到的結果：
           </p>
           <pre>
             <code>{`journalctl --user -b -u wlshare | grep h264
-# hardware H.264: /dev/dri/renderD128 through VA-API, its low-power encoder`}</code>
+# hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder`}</code>
           </pre>
           <p>
             沒有視訊編碼器的虛擬機器（例如使用 VirGL 的虛擬機器）會以軟體編碼每個影格：輸出越大，佔用主機處理器越多。
