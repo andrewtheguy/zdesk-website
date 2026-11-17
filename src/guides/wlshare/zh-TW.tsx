@@ -607,12 +607,187 @@ layout = "swayvnc"`}</code>
 # hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder`}</code>
           </pre>
           <p>
-            沒有視訊編碼器的虛擬機器（例如使用 VirGL 的虛擬機器）會以軟體編碼每個影格：輸出越大，佔用主機處理器越多。
-            <code>max_fps</code>（預設 30）限制擷取的影格數；zDesk 頁面最多繪製 30 個影格。
+            沒有視訊編碼器的虛擬機器（例如使用 VirGL 的虛擬機器）會以軟體編碼每個影格：輸出越大，佔用主機處理器越多。作為實驗性功能，它可以改為借用宿主機的硬體編碼器：請見
+            <a href="#encoding-agent">借用另一台機器的編碼器</a>。<code>max_fps</code>（預設 30）限制擷取的影格數；zDesk 頁面最多繪製 30 個影格。
           </p>
           <p>
             WebP 圖塊只把以無損靜態圖塊傳送代價較高的部分當成視訊傳送，因此轉圈指示器、進度列或橫向滑動的一行文字在移動時仍維持無損。若要查看哪些部分被當成視訊，可設定
             <code>motion_debug = true</code>，讓 zDesk 頁面描出每個區域中移動部分的外框：因圖塊持續變化而成為視訊者為洋紅色，由一次大幅變化引起者為橘色。外框畫在畫面之上，圍繞發生變化的像素，並不屬於畫面本身：無論是否開啟，畫面完全相同。區域結束時，也就是停止移動片刻之後，外框隨即消失。預設為關閉。
+          </p>
+        </>
+      ),
+    },
+    {
+      id: "encoding-agent",
+      title: "借用另一台機器的編碼器",
+      body: (
+        <>
+          <p>
+            <Tag kind="experimental">實驗性</Tag> 沒有 GPU 的機器上的 wlshare 以 libx264 在處理器上編碼
+            H.264。它也可以改由另一台機器的硬體編碼器編碼，那台機器執行編碼代理程式{" "}
+            <code>wlshare-enc-agent</code>。這是為非常快的有線連線而設計的，最主要的情況是虛擬機器借用其宿主機的編碼器：畫面只經過同一台機器內部的橋接器，不受任何網路卡速度的限制。另一種情況是快於
+            Gigabit 的區域網路上兩台有線連接的機器。它不適用於 Wi-Fi、跨據點的連線或網際網路。
+          </p>
+          <Flow
+            stages={[
+              {
+                icon: ICON.monitor,
+                title: "虛擬機器",
+                body: <p>wlshare，沒有 GPU：把每個畫面中有變化的部分未經壓縮地傳給代理程式</p>,
+              },
+              {
+                icon: ICON.graphics,
+                title: "宿主機",
+                body: (
+                  <p>
+                    <code>wlshare-enc-agent</code>：透過 VA-API 在 GPU 上編碼，並把影格傳回
+                  </p>
+                ),
+              },
+            ]}
+            hops={["兩者之間的橋接器"]}
+          />
+          <p>
+            連線需要多快，取決於畫面中移動的內容。傳送的只有畫面中有變化的部分，因此靜止的桌面什麼也不傳送，輸入一個字母只有幾千位元組；而佔滿螢幕的視訊每個影格都是整個畫面。在
+            1920×1080 下每個影格是 3 MB，每秒 30 個影格時約 750 Mbit/s，3840×2160 則是它的四倍。選用之前請先知道：
+          </p>
+          <ul>
+            <li>
+              <strong>沒有備援。</strong>設定了代理程式的 wlshare 沒有其他的 H.264 編碼器。代理程式不在時，需要 H.264
+              的工作階段會結束，下一個工作階段再嘗試代理程式。
+            </li>
+            <li>
+              <strong>一個代理程式對應一個 wlshare。</strong>一個代理程式同一時間只為一個 wlshare 編碼：請為每個 wlshare
+              各準備一個。
+            </li>
+            <li>
+              <strong>不加密。</strong>兩端共用的金鑰只用來向對方證明自己，不加密任何內容，因此兩者之間的連線必須是你信任的。
+            </li>
+            <li>
+              <strong>兩端使用同一個發行版本。</strong>代理程式和 wlshare 的連結版本不同時會互相拒絕：兩者請一起升級。
+            </li>
+          </ul>
+          <h3 id="encoding-agent-vm">虛擬機器與它的宿主機</h3>
+          <p>
+            wlshare 在虛擬機器中執行，代理程式在宿主機上執行。容器與虛擬機器相同；旁邊另一個直通了宿主機 GPU
+            的虛擬機器或容器，也可以代替宿主機執行代理程式。兩者透過虛擬化軟體分給虛擬機器的橋接器互相連線，因此兩個位址都是這個橋接器上的位址：這裡宿主機在橋接器上是{" "}
+            <code>192.168.1.20</code>，虛擬機器是 <code>192.168.1.10</code>。請以 DHCP
+            保留或靜態位址給虛擬機器一個固定的位址，因為要把它告訴代理程式。
+          </p>
+          <p>
+            <strong>在宿主機上</strong>，GPU 需要有 VA-API 的 H.264 編碼器及其驅動程式：Intel 的（
+            <code>intel-media-va-driver</code>，部分晶片需要 <code>intel-media-va-driver-non-free</code>）或 AMD 所用的
+            Mesa 驅動程式（<code>mesa-va-drivers</code>）。H.264 設定檔旁邊帶有 <code>VAEntrypointEncSlice</code> 或{" "}
+            <code>VAEntrypointEncSliceLP</code> 的那一行，就是代理程式可以使用的編碼器：
+          </p>
+          <pre>
+            <code>{`sudo apt install vainfo
+vainfo --display drm --device /dev/dri/renderD128 | grep H264`}</code>
+          </pre>
+          <p>
+            從 0.0.133 起，代理程式是 wlshare <a href={RELEASES}>發行版清單</a>中一個獨立的套件，支援的發行版和架構與 wlshare
+            的套件相同；它為之編碼的 wlshare 也必須是 0.0.133 或更新的版本。它只相依於 libva，不帶 wlshare 的其他任何東西，安裝它不會啟動任何服務：
+          </p>
+          <pre>
+            <code>{`curl -fsSLO ${RELEASES}/download/v0.0.x/wlshare-enc-agent-trixie-amd64.deb
+sudo apt install ./wlshare-enc-agent-trixie-amd64.deb`}</code>
+          </pre>
+          <p>
+            它的單元從 <code>/etc/default/wlshare-enc-agent</code> 讀取兩個值，兩者都必須設定：<code>LISTEN</code>
+            ，即宿主機在橋接器上的位址和你選定的連接埠；<code>ALLOW</code>，即 wlshare 從哪裡連線過來，以 CIDR
+            區塊表示。請填虛擬機器自己的位址，也就是一個 <code>/32</code>，而不是它所在的網路：來自其他任何地方的連線，代理程式不作回應就直接關閉。
+          </p>
+          <pre>
+            <code>{`# /etc/default/wlshare-enc-agent
+LISTEN=192.168.1.20:5990
+ALLOW=192.168.1.10/32`}</code>
+          </pre>
+          <pre>
+            <code>{`sudo systemctl enable --now wlshare-enc-agent
+journalctl -u wlshare-enc-agent
+# hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder
+# encoding agent on 192.168.1.20:5990, for a daemon at 192.168.1.10/32: experimental, the pictures in the clear
+sudo cat /var/lib/wlshare-enc-agent/enc_agent.key`}</code>
+          </pre>
+          <p>
+            最後一行會印出代理程式首次啟動時產生的金鑰，虛擬機器需要它。監聽橋接器上的位址而不是{" "}
+            <code>0.0.0.0</code>，可讓這個連接埠不出現在宿主機的其他網路上；如果宿主機有防火牆，請在橋接器上對虛擬機器的位址開放這個連接埠。
+          </p>
+          <p>
+            <strong>在虛擬機器中</strong>，以執行 wlshare 的帳戶把金鑰存放在設定檔旁邊，並在 <code>config.toml</code>{" "}
+            中指明代理程式。<code>address</code> 是代理程式自己的位址，也就是它的 <code>LISTEN</code>；
+            <code>hardware_h264</code> 必須開啟，而它預設就是開啟的：
+          </p>
+          <pre>
+            <code>{`install -m 600 /dev/stdin ~/.config/wlshare/enc_agent.key   # 貼上，然後按 Ctrl-D`}</code>
+          </pre>
+          <pre>
+            <code>{`[enc_agent]
+address = "192.168.1.20:5990"`}</code>
+          </pre>
+          <pre>
+            <code>{`systemctl --user restart wlshare
+journalctl --user -b -u wlshare | grep h264
+# hardware H.264: the agent at 192.168.1.20:5990, experimental`}</code>
+          </pre>
+          <p>
+            代理程式沒有回應時，wlshare 仍會啟動，並在記錄中寫下說明原因的警告。升級代理程式的套件會重新啟動執行中的代理程式，它正在為之編碼的工作階段也隨之結束；移除套件會停止代理程式，
+            <code>apt purge</code> 還會刪除金鑰。
+          </p>
+          <h3 id="encoding-agent-lan">兩台有線連接的機器</h3>
+          <p>
+            步驟相同，<code>LISTEN</code>、<code>ALLOW</code> 和 <code>address</code>{" "}
+            改用兩台機器的區域網路位址，並且要在快於 Gigabit 的有線區域網路上：2.5 Gbit/s 或更快。
+          </p>
+          <h3 id="encoding-agent-trouble">無法運作時</h3>
+          <Table
+            head={["記錄內容", "代表的意思"]}
+            rows={[
+              [
+                <>
+                  代理程式：<code>this machine has no hardware H.264 encoder to lend</code>
+                </>,
+                <>
+                  找不到 VA-API 的 H.264 編碼器，或代理程式的帳戶無法開啟算繪節點。請檢查 <code>vainfo</code>{" "}
+                  和驅動程式。
+                </>,
+              ],
+              [
+                <>
+                  代理程式：<code>closed unanswered, being from nowhere this agent allows</code>
+                </>,
+                <>
+                  連線來自 <code>ALLOW</code> 未包含的位址。這一行的開頭就是代理程式看到的位址，把它加入允許範圍即可。
+                </>,
+              ],
+              [
+                <>
+                  代理程式：<code>its key is not this agent's</code>，或 wlshare：
+                  <code>its key is not this daemon's</code>
+                </>,
+                "兩個金鑰檔案不一致。請重新複製代理程式的金鑰。",
+              ],
+              [
+                <>
+                  wlshare：<code>connecting: Connection refused</code>，或逾時
+                </>,
+                <>
+                  <code>address</code> 上沒有程式在監聽：代理程式沒有執行、<code>LISTEN</code>{" "}
+                  是別的位址或連接埠，或是被防火牆擋住了。
+                </>,
+              ],
+              [
+                <>
+                  wlshare：<code>not done within 5s</code>
+                </>,
+                "代理程式在編碼途中不再回應，或是連線太慢，傳不了這些畫面。工作階段結束。",
+              ],
+            ]}
+          />
+          <p>
+            其餘內容，包括不透過套件執行代理程式，請見
+            <a href={wl("docs/enc-agent.md")}>Setting up the encoding agent（英文）</a>；連結的運作方式請見{" "}
+            <a href={wl("docs/architecture.md#the-encoding-agent")}>Architecture</a>。
           </p>
         </>
       ),

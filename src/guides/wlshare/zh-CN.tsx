@@ -546,10 +546,166 @@ layout = "swayvnc"`}</code>
 # hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder`}</code>
           </pre>
           <p>
-            没有视频编码器的虚拟机（例如使用 VirGL 的虚拟机）以软件编码每一帧：输出越大，占用的主机处理器越多。<code>max_fps</code>（默认 30）限制捕获的帧数；zDesk 页面最多绘制 30 帧。
+            没有视频编码器的虚拟机（例如使用 VirGL 的虚拟机）以软件编码每一帧：输出越大，占用的主机处理器越多。作为实验性功能，它可以改为借用宿主机的硬件编码器：见<a href="#encoding-agent">借用另一台机器的编码器</a>。<code>max_fps</code>（默认 30）限制捕获的帧数；zDesk 页面最多绘制 30 帧。
           </p>
           <p>
             WebP 图块只把以无损静态图块发送代价更高的部分作为视频发送，因此转圈指示器、进度条或横向滑动的一行文字在运动时仍保持无损。要查看哪些部分被当作视频，可设置 <code>motion_debug = true</code>，让 zDesk 页面描出每个区域中运动部分的轮廓：因图块持续变化而成为视频的为洋红色，由一次大幅变化引起的为橙色。轮廓画在画面之上，围绕发生变化的像素，不属于画面本身：开启与否，画面完全相同。区域结束时，也就是停止运动片刻之后，轮廓随之消失。默认关闭。
+          </p>
+        </>
+      ),
+    },
+    {
+      id: "encoding-agent",
+      title: "借用另一台机器的编码器",
+      body: (
+        <>
+          <p>
+            <Tag kind="experimental">实验性</Tag> 没有 GPU 的机器上的 wlshare 用 libx264 在处理器上编码 H.264。它也可以改由另一台机器的硬件编码器来编码，那台机器运行编码代理{" "}
+            <code>wlshare-enc-agent</code>。这适用于非常快的有线链路，首先是虚拟机借用它所在宿主机的编码器：画面只经过同一台机器内部的网桥，不受任何网卡速度的限制。另一种情况是快于千兆的局域网上两台有线连接的机器。它不适用于 Wi-Fi、跨站点的链路或互联网。
+          </p>
+          <Flow
+            stages={[
+              {
+                icon: ICON.monitor,
+                title: "虚拟机",
+                body: <p>wlshare，没有 GPU：把每幅画面中变化的部分不经压缩发给代理</p>,
+              },
+              {
+                icon: ICON.graphics,
+                title: "宿主机",
+                body: (
+                  <p>
+                    <code>wlshare-enc-agent</code>：通过 VA-API 在 GPU 上编码，并把帧发回
+                  </p>
+                ),
+              },
+            ]}
+            hops={["两者之间的网桥"]}
+          />
+          <p>
+            链路需要多快，取决于画面中运动的内容。发送的只是画面中变化的部分，所以静止的桌面什么也不发送，输入一个字母只有几千字节；而铺满屏幕的视频每一帧都是整幅画面。在 1920×1080 下每帧是 3 MB，每秒 30 帧时约 750 Mbit/s，3840×2160 则是它的四倍。选用之前要知道：
+          </p>
+          <ul>
+            <li>
+              <strong>没有后备。</strong>设置了代理的 wlshare 没有别的 H.264 编码器。代理不在时，需要 H.264 的会话会结束，下一个会话再去尝试代理。
+            </li>
+            <li>
+              <strong>一个代理对应一个 wlshare。</strong>一个代理同一时间只为一个 wlshare 编码：给每个 wlshare 各配一个。
+            </li>
+            <li>
+              <strong>明文传输。</strong>两端共用的密钥只用来向对方证明自己，不加密任何内容，所以两者之间的链路必须是你信任的。
+            </li>
+            <li>
+              <strong>两端使用同一个发布版本。</strong>代理和 wlshare 的链路版本不同时会互相拒绝：两者要一起升级。
+            </li>
+          </ul>
+          <h3 id="encoding-agent-vm">虚拟机与它的宿主机</h3>
+          <p>
+            wlshare 运行在虚拟机里，代理运行在宿主机上。容器与虚拟机相同；旁边另一个直通了宿主机 GPU 的虚拟机或容器，也可以代替宿主机运行代理。两者通过虚拟化软件分给虚拟机的网桥互相连接，所以两个地址都是这个网桥上的地址：这里宿主机在网桥上是{" "}
+            <code>192.168.1.20</code>，虚拟机是 <code>192.168.1.10</code>。用 DHCP 保留或静态地址给虚拟机一个固定的地址，因为要把它告诉代理。
+          </p>
+          <p>
+            <strong>在宿主机上</strong>，GPU 需要有 VA-API 的 H.264 编码器及其驱动：Intel 的（
+            <code>intel-media-va-driver</code>，某些芯片需要 <code>intel-media-va-driver-non-free</code>）或 AMD 所用的 Mesa 驱动（
+            <code>mesa-va-drivers</code>）。H.264 配置旁边带有 <code>VAEntrypointEncSlice</code> 或{" "}
+            <code>VAEntrypointEncSliceLP</code> 的一行，就是代理可以使用的编码器：
+          </p>
+          <pre>
+            <code>{`sudo apt install vainfo
+vainfo --display drm --device /dev/dri/renderD128 | grep H264`}</code>
+          </pre>
+          <p>
+            从 0.0.133 起，代理是 wlshare <a href={RELEASES}>发布页面</a>上一个独立的软件包，支持的发行版和架构与 wlshare 的软件包相同；它为之编码的 wlshare 也要是 0.0.133 或更新的版本。它只依赖 libva，不带 wlshare 的其他任何东西，安装它不会启动任何服务：
+          </p>
+          <pre>
+            <code>{`curl -fsSLO ${RELEASES}/download/v0.0.x/wlshare-enc-agent-trixie-amd64.deb
+sudo apt install ./wlshare-enc-agent-trixie-amd64.deb`}</code>
+          </pre>
+          <p>
+            它的单元从 <code>/etc/default/wlshare-enc-agent</code> 读取两个值，两者都必须设置：<code>LISTEN</code>，即宿主机在网桥上的地址和你选定的端口；<code>ALLOW</code>，即 wlshare 从哪里连接过来，写成 CIDR 网段。写虚拟机自己的地址，即一个 <code>/32</code>，而不是它所在的网络：来自其他任何地方的连接，代理不作回应就直接关闭。
+          </p>
+          <pre>
+            <code>{`# /etc/default/wlshare-enc-agent
+LISTEN=192.168.1.20:5990
+ALLOW=192.168.1.10/32`}</code>
+          </pre>
+          <pre>
+            <code>{`sudo systemctl enable --now wlshare-enc-agent
+journalctl -u wlshare-enc-agent
+# hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder
+# encoding agent on 192.168.1.20:5990, for a daemon at 192.168.1.10/32: experimental, the pictures in the clear
+sudo cat /var/lib/wlshare-enc-agent/enc_agent.key`}</code>
+          </pre>
+          <p>
+            最后一行打印出代理首次启动时生成的密钥，虚拟机需要它。监听网桥上的地址而不是 <code>0.0.0.0</code>，可以让这个端口不出现在宿主机的其他网络上；如果宿主机运行着防火墙，就在网桥上对虚拟机的地址开放这个端口。
+          </p>
+          <p>
+            <strong>在虚拟机里</strong>，以运行 wlshare 的账户把密钥保存在配置文件旁边，并在 <code>config.toml</code> 中指明代理。<code>address</code> 是代理自己的地址，也就是它的 <code>LISTEN</code>；<code>hardware_h264</code> 必须开启，它默认就是开启的：
+          </p>
+          <pre>
+            <code>{`install -m 600 /dev/stdin ~/.config/wlshare/enc_agent.key   # 粘贴，然后按 Ctrl-D`}</code>
+          </pre>
+          <pre>
+            <code>{`[enc_agent]
+address = "192.168.1.20:5990"`}</code>
+          </pre>
+          <pre>
+            <code>{`systemctl --user restart wlshare
+journalctl --user -b -u wlshare | grep h264
+# hardware H.264: the agent at 192.168.1.20:5990, experimental`}</code>
+          </pre>
+          <p>
+            代理没有回应时，wlshare 照样启动，并在日志中写下说明原因的警告。升级代理的软件包会重启正在运行的代理，它正在为之编码的会话随之结束；卸载软件包会停止代理，<code>apt purge</code> 还会删除密钥。
+          </p>
+          <h3 id="encoding-agent-lan">两台有线连接的机器</h3>
+          <p>
+            步骤相同，<code>LISTEN</code>、<code>ALLOW</code> 和 <code>address</code> 换成两台机器的局域网地址，并且要在快于千兆的有线局域网上：2.5 Gbit/s 或更快。
+          </p>
+          <h3 id="encoding-agent-trouble">不工作时</h3>
+          <Table
+            head={["日志内容", "含义"]}
+            rows={[
+              [
+                <>
+                  代理：<code>this machine has no hardware H.264 encoder to lend</code>
+                </>,
+                <>
+                  没有找到 VA-API 的 H.264 编码器，或者代理的账户打不开渲染节点。检查 <code>vainfo</code> 和驱动。
+                </>,
+              ],
+              [
+                <>
+                  代理：<code>closed unanswered, being from nowhere this agent allows</code>
+                </>,
+                <>
+                  连接来自 <code>ALLOW</code> 没有包含的地址。这一行开头就是代理看到的地址，把它加入允许范围即可。
+                </>,
+              ],
+              [
+                <>
+                  代理：<code>its key is not this agent's</code>，或 wlshare：<code>its key is not this daemon's</code>
+                </>,
+                "两个密钥文件不一致。重新复制代理的密钥。",
+              ],
+              [
+                <>
+                  wlshare：<code>connecting: Connection refused</code>，或者超时
+                </>,
+                <>
+                  <code>address</code> 上没有程序在监听：代理没有运行，<code>LISTEN</code> 是别的地址或端口，或者被防火墙挡住了。
+                </>,
+              ],
+              [
+                <>
+                  wlshare：<code>not done within 5s</code>
+                </>,
+                "代理在编码途中不再回应，或者链路太慢，传不了这些画面。会话结束。",
+              ],
+            ]}
+          />
+          <p>
+            其余内容，包括不用软件包运行代理，见<a href={wl("docs/enc-agent.md")}>设置编码代理</a>（英文）；链路的工作原理见{" "}
+            <a href={wl("docs/architecture.md#the-encoding-agent")}>架构</a>。
           </p>
         </>
       ),
