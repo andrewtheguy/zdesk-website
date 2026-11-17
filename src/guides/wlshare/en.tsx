@@ -636,7 +636,8 @@ layout = "swayvnc"`}</code>
           </pre>
           <p>
             A VM without a video encoder, such as one on VirGL, codes every frame in software: the larger the output,
-            the more of the host's processor that takes. <code>max_fps</code>, 30 by default, caps the frames
+            the more of the host's processor that takes. Experimentally, it can borrow its host's hardware encoder
+            instead: see <a href="#encoding-agent">Borrowing another machine's encoder</a>. <code>max_fps</code>, 30 by default, caps the frames
             captured; the zDesk page draws at most 30.
           </p>
           <p>
@@ -646,6 +647,195 @@ layout = "swayvnc"`}</code>
             tiles kept changing, orange where one large change began it. The outline is drawn over the picture, around
             the pixels that changed, and is no part of it: the picture is the same with it as without. It goes when
             the region ends, a moment after it stops moving. Off by default.
+          </p>
+        </>
+      ),
+    },
+    {
+      id: "encoding-agent",
+      title: "Borrowing another machine's encoder",
+      body: (
+        <>
+          <p>
+            <Tag kind="experimental">experimental</Tag> A wlshare on a machine with no GPU codes its H.264 with
+            libx264, on its processor. It can have the hardware encoder of another machine code it instead, which
+            runs the encoding agent, <code>wlshare-enc-agent</code>. This is for a wired link that is very fast, and
+            above all for a virtual machine borrowing the encoder of the host it runs on: the pictures cross a bridge
+            inside the one machine, which no network card's speed holds back. Two wired machines on a LAN faster than
+            gigabit are the other case. It is not for Wi-Fi, a link between sites or the internet.
+          </p>
+          <Flow
+            stages={[
+              {
+                icon: ICON.monitor,
+                title: "The guest",
+                body: (
+                  <p>
+                    wlshare, with no GPU: sends the agent what changed of each picture, uncompressed
+                  </p>
+                ),
+              },
+              {
+                icon: ICON.graphics,
+                title: "The host",
+                body: (
+                  <p>
+                    <code>wlshare-enc-agent</code>: codes it on the GPU through VA-API and sends the frame back
+                  </p>
+                ),
+              },
+            ]}
+            hops={["the bridge between them"]}
+          />
+          <p>
+            How fast the link has to be depends on what moves. Only what changed of a picture is sent, so a still
+            desktop sends nothing and a typed letter a few kilobytes; a video filling the screen is the whole picture
+            every frame. At 1920×1080 that is 3 MB a frame, about 750 Mbit/s at 30 frames a second, and at 3840×2160
+            four times that. Before choosing it:
+          </p>
+          <ul>
+            <li>
+              <strong>No fallback.</strong> A wlshare set to an agent has no other H.264 encoder. With the agent away,
+              a session that needs H.264 ends, and the next one tries the agent again.
+            </li>
+            <li>
+              <strong>One wlshare an agent.</strong> An agent codes for one wlshare at a time: give each its own.
+            </li>
+            <li>
+              <strong>In the clear.</strong> The key the two share proves each to the other and encrypts nothing, so
+              the link between them is one you trust.
+            </li>
+            <li>
+              <strong>The same release at both ends.</strong> An agent and a wlshare of different versions of their
+              link refuse each other: upgrade the two together.
+            </li>
+          </ul>
+          <h3 id="encoding-agent-vm">A virtual machine and its host</h3>
+          <p>
+            wlshare runs in the guest and the agent on the host. A container is the same as a guest, and a guest or
+            container beside it that has the host's GPU passed in does for the host. The two reach each other over
+            the bridge the hypervisor gave the guest, so both addresses are that bridge's: here the host is{" "}
+            <code>192.168.1.20</code> on it and the guest <code>192.168.1.10</code>. Give the guest an address that
+            stays, by a DHCP reservation or a static address, since the agent is told it.
+          </p>
+          <p>
+            <strong>On the host</strong>, the GPU needs a VA-API H.264 encoder and its driver: Intel's (
+            <code>intel-media-va-driver</code>, or <code>intel-media-va-driver-non-free</code> for some chips) or
+            Mesa's for AMD (<code>mesa-va-drivers</code>). A line with <code>VAEntrypointEncSlice</code> or{" "}
+            <code>VAEntrypointEncSliceLP</code> beside an H.264 profile is an encoder the agent can use:
+          </p>
+          <pre>
+            <code>{`sudo apt install vainfo
+vainfo --display drm --device /dev/dri/renderD128 | grep H264`}</code>
+          </pre>
+          <p>
+            The agent is a package of its own on wlshare's <a href={RELEASES}>releases</a> from 0.0.133 on, for the
+            same suites and architectures as wlshare's, and the wlshare it codes for is 0.0.133 or later too. It depends on libva alone and brings nothing else of wlshare's, and
+            installing it starts nothing:
+          </p>
+          <pre>
+            <code>{`curl -fsSLO ${RELEASES}/download/v0.0.x/wlshare-enc-agent-trixie-amd64.deb
+sudo apt install ./wlshare-enc-agent-trixie-amd64.deb`}</code>
+          </pre>
+          <p>
+            Its unit reads two values from <code>/etc/default/wlshare-enc-agent</code>, both required:{" "}
+            <code>LISTEN</code>, the host's address on the bridge and a port of your choosing, and <code>ALLOW</code>,
+            where wlshare connects from, as CIDR blocks. Name the guest's own address, a <code>/32</code>, and not its
+            network: the agent closes a connection from anywhere else without answering.
+          </p>
+          <pre>
+            <code>{`# /etc/default/wlshare-enc-agent
+LISTEN=192.168.1.20:5990
+ALLOW=192.168.1.10/32`}</code>
+          </pre>
+          <pre>
+            <code>{`sudo systemctl enable --now wlshare-enc-agent
+journalctl -u wlshare-enc-agent
+# hardware H.264: /dev/dri/renderD128 through VA-API, its shader encoder
+# encoding agent on 192.168.1.20:5990, for a daemon at 192.168.1.10/32: experimental, the pictures in the clear
+sudo cat /var/lib/wlshare-enc-agent/enc_agent.key`}</code>
+          </pre>
+          <p>
+            The last line prints the key the agent generated on its first start, which the guest needs. Listening on
+            the bridge's address, and not on <code>0.0.0.0</code>, keeps the port off the host's other networks; if
+            the host runs a firewall, open the port on the bridge to the guest's address.
+          </p>
+          <p>
+            <strong>In the guest</strong>, as the account wlshare runs as, save the key beside the configuration and
+            name the agent in <code>config.toml</code>. <code>address</code> is the agent's own, what its{" "}
+            <code>LISTEN</code> says, and <code>hardware_h264</code> has to be on, which it is by default:
+          </p>
+          <pre>
+            <code>{`install -m 600 /dev/stdin ~/.config/wlshare/enc_agent.key   # paste, then Ctrl-D`}</code>
+          </pre>
+          <pre>
+            <code>{`[enc_agent]
+address = "192.168.1.20:5990"`}</code>
+          </pre>
+          <pre>
+            <code>{`systemctl --user restart wlshare
+journalctl --user -b -u wlshare | grep h264
+# hardware H.264: the agent at 192.168.1.20:5990, experimental`}</code>
+          </pre>
+          <p>
+            With the agent not answering, wlshare starts all the same and logs a warning that says why. Upgrading the
+            agent's package restarts a running agent, which ends the sessions it was coding for; removing it stops
+            the agent, and <code>apt purge</code> removes the key as well.
+          </p>
+          <h3 id="encoding-agent-lan">Two wired machines</h3>
+          <p>
+            The same steps, with the two machines' LAN addresses for <code>LISTEN</code>, <code>ALLOW</code> and{" "}
+            <code>address</code>, on a wired LAN faster than gigabit: 2.5 Gbit/s or more.
+          </p>
+          <h3 id="encoding-agent-trouble">When it does not work</h3>
+          <Table
+            head={["The log says", "What it means"]}
+            rows={[
+              [
+                <>
+                  agent: <code>this machine has no hardware H.264 encoder to lend</code>
+                </>,
+                <>
+                  No VA-API H.264 encoder was found, or the agent's account cannot open the render node. Check{" "}
+                  <code>vainfo</code> and the driver.
+                </>,
+              ],
+              [
+                <>
+                  agent: <code>closed unanswered, being from nowhere this agent allows</code>
+                </>,
+                <>
+                  The connection came from an address <code>ALLOW</code> does not hold. The line starts with the
+                  address the agent saw, which is the one to allow.
+                </>,
+              ],
+              [
+                <>
+                  agent: <code>its key is not this agent's</code>, or wlshare: <code>its key is not this daemon's</code>
+                </>,
+                "The two key files differ. Copy the agent's again.",
+              ],
+              [
+                <>
+                  wlshare: <code>connecting: Connection refused</code>, or a timeout
+                </>,
+                <>
+                  Nothing listens at <code>address</code>: the agent is not running, <code>LISTEN</code> is another
+                  address or port, or a firewall is in the way.
+                </>,
+              ],
+              [
+                <>
+                  wlshare: <code>not done within 5s</code>
+                </>,
+                "The agent stopped answering mid-stream, or the link is too slow for the pictures. The session ends.",
+              ],
+            ]}
+          />
+          <p>
+            The rest, running the agent without its package among it, is in{" "}
+            <a href={wl("docs/enc-agent.md")}>Setting up the encoding agent</a>, and how the link works in{" "}
+            <a href={wl("docs/architecture.md#the-encoding-agent")}>Architecture</a>.
           </p>
         </>
       ),
