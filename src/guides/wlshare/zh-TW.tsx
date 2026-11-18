@@ -737,7 +737,7 @@ journalctl --user -b -u wlshare | grep h264
           <h3 id="encoding-agent-shared-memory">與虛擬機器共用記憶體</h3>
           <p>
             從 0.0.135 起，QEMU 虛擬機器（包括 Proxmox 的）可以與主機上、或主機上某個容器裡的代理程式共用記憶體，完全不必把畫面傳給它：wlshare
-            把每幅畫面變動的部分寫進代理程式也對應著的記憶體，主機為每一格畫面花費的處理器時間因此少了約 40%。這塊記憶體是 QEMU 的{" "}
+            把每幅畫面變動的部分寫進代理程式也對應著的記憶體，主機為每一格畫面花費的處理器時間因此少了約一半。這塊記憶體是 QEMU 的{" "}
             <code>ivshmem-plain</code> 裝置：<code>[enc_agent]</code> 表中的 <code>shared_memory</code>{" "}
             指出它在虛擬機器裡的記憶體，代理程式的 <code>SHARED_MEMORY</code> 指出主機上它背後的檔案。虛擬機器要關閉安全開機（Secure
             Boot）才能開機，而讓別人看不到畫面的，是這個檔案的權限。詳細步驟（包括 Proxmox 的）見{" "}

@@ -660,7 +660,7 @@ journalctl --user -b -u wlshare | grep h264
           <h3 id="encoding-agent-shared-memory">与虚拟机共享内存</h3>
           <p>
             从 0.0.135 起，QEMU 虚拟机（包括 Proxmox 的）可以与宿主机上、或宿主机上某个容器里的代理共享内存，完全不必把画面发给它：wlshare
-            把每幅画面变化的部分写进代理也映射着的内存，主机为每一帧花费的处理器时间因此少了约 40%。这块内存是 QEMU 的{" "}
+            把每幅画面变化的部分写进代理也映射着的内存，主机为每一帧花费的处理器时间因此少了约一半。这块内存是 QEMU 的{" "}
             <code>ivshmem-plain</code> 设备：<code>[enc_agent]</code> 表中的 <code>shared_memory</code>{" "}
             指明它在虚拟机里的内存，代理的 <code>SHARED_MEMORY</code> 指明宿主机上它背后的文件。虚拟机要关闭安全启动（Secure
             Boot）才能启动，而让别人看不到画面的，是这个文件的权限。具体步骤（包括 Proxmox 的）见{" "}
