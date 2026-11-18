@@ -782,6 +782,19 @@ journalctl --user -b -u wlshare | grep h264
             agent's package restarts a running agent, which ends the sessions it was coding for; removing it stops
             the agent, and <code>apt purge</code> removes the key as well.
           </p>
+          <h3 id="encoding-agent-shared-memory">Shared memory with the guest</h3>
+          <p>
+            From 0.0.135 on, a QEMU guest, Proxmox's among them, can share memory with an agent on its host, or in a
+            container there, and not send it the pictures at all: wlshare writes what changed of each picture into
+            memory the agent maps too, which takes a little over a third off the processor time a frame costs the
+            host, the conversion of each picture included. The memory is QEMU's{" "}
+            <code>ivshmem-plain</code> device: <code>shared_memory</code> in the <code>[enc_agent]</code> table names
+            its memory in the guest, and the agent's <code>SHARED_MEMORY</code> the file behind it on the host. The
+            guest boots without Secure Boot, and the file's permissions are what keep anyone else out of the
+            pictures.{" "}
+            <a href={wl("docs/enc-agent.md#shared-memory-with-the-guest")}>Shared memory with the guest</a> has the
+            steps, Proxmox's included.
+          </p>
           <h3 id="encoding-agent-lan">Two wired machines</h3>
           <p>
             The same steps, with the two machines' LAN addresses for <code>LISTEN</code>, <code>ALLOW</code> and{" "}

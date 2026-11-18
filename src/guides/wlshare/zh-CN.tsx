@@ -657,6 +657,15 @@ journalctl --user -b -u wlshare | grep h264
           <p>
             代理没有回应时，wlshare 照样启动，并在日志中写下说明原因的警告。升级代理的软件包会重启正在运行的代理，它正在为之编码的会话随之结束；卸载软件包会停止代理，<code>apt purge</code> 还会删除密钥。
           </p>
+          <h3 id="encoding-agent-shared-memory">与虚拟机共享内存</h3>
+          <p>
+            从 0.0.135 起，QEMU 虚拟机（包括 Proxmox 的）可以与宿主机上、或宿主机上某个容器里的代理共享内存，完全不必把画面发给它：wlshare
+            把每幅画面变化的部分写进代理也映射着的内存，主机为每一帧花费的处理器时间（连同画面的转换）因此少了三分之一多一点。这块内存是 QEMU 的{" "}
+            <code>ivshmem-plain</code> 设备：<code>[enc_agent]</code> 表中的 <code>shared_memory</code>{" "}
+            指明它在虚拟机里的内存，代理的 <code>SHARED_MEMORY</code> 指明宿主机上它背后的文件。虚拟机要关闭安全启动（Secure
+            Boot）才能启动，而让别人看不到画面的，是这个文件的权限。具体步骤（包括 Proxmox 的）见{" "}
+            <a href={wl("docs/enc-agent.md#shared-memory-with-the-guest")}>与虚拟机共享内存</a>（英文）。
+          </p>
           <h3 id="encoding-agent-lan">两台有线连接的机器</h3>
           <p>
             步骤相同，<code>LISTEN</code>、<code>ALLOW</code> 和 <code>address</code> 换成两台机器的局域网地址，并且要在快于千兆的有线局域网上：2.5 Gbit/s 或更快。
