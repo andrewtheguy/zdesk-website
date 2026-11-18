@@ -786,7 +786,8 @@ journalctl --user -b -u wlshare | grep h264
           <p>
             From 0.0.135 on, a QEMU guest, Proxmox's among them, can share memory with an agent on its host, or in a
             container there, and not send it the pictures at all: wlshare writes what changed of each picture into
-            memory the agent maps too, which takes about half off what a frame costs the host. The memory is QEMU's{" "}
+            memory the agent maps too, which takes a little over a third off the processor time a frame costs the
+            host, the conversion of each picture included. The memory is QEMU's{" "}
             <code>ivshmem-plain</code> device: <code>shared_memory</code> in the <code>[enc_agent]</code> table names
             its memory in the guest, and the agent's <code>SHARED_MEMORY</code> the file behind it on the host. The
             guest boots without Secure Boot, and the file's permissions are what keep anyone else out of the
